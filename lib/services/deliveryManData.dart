@@ -1,5 +1,5 @@
-class UserData {
-  UserData(
+class DeliveryManData {
+  DeliveryManData(
       {this.name,
         this.surname,
         this.mail,

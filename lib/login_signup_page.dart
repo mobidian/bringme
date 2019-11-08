@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:bringme/authentification/auth.dart';
 import 'package:bringme/services/crud.dart';
 import 'package:bringme/services/userData.dart';
+import 'package:bringme/services/deliveryManData.dart';
 import 'primary_button.dart';
 
 class LoginSignupPage extends StatefulWidget {
@@ -70,7 +71,19 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
             mail: _email,
             phone: _phone,
           );
+
           crudObj.createOrUpdateUserData(userData.getDataMap());
+        }
+
+        if (_formType == FormType.registerAsPro) {
+          DeliveryManData deliveryManData = new DeliveryManData(
+            name: _name,
+            surname: _surname,
+            mail: _email,
+            phone: _phone,
+          );
+
+          crudObj.createOrUpdateDeliveryManData(deliveryManData.getDataMap());
         }
 
       } catch (e) {
@@ -235,6 +248,31 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
   }
 
 
+  Widget _buildPhoneField() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 0.0),
+      child: TextFormField(
+        keyboardType: TextInputType.phone,
+        maxLines: 1,
+        key: new Key('phonefield'),
+        decoration: InputDecoration(
+          labelText: 'Téléphone',
+          icon: new Icon(
+            Icons.phone,
+            color: Colors.grey,
+          ),
+        ),
+        validator: (String value) {
+          if (value.isEmpty || value.length < 10) {
+            return 'numéro invalide';
+          }
+        },
+        onSaved: (value) => _phone = value.trim(),
+      ),
+    );
+  }
+
+
   Widget submitWidgets() {
     switch (_formType) {
       case FormType.login:
@@ -375,6 +413,12 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
                   : Container(),
               _formType == FormType.registerAsPro
                   ? _buildSurnameField()
+                  : Container(),
+              _formType == FormType.register
+                  ? _buildPhoneField()
+                  : Container(),
+              _formType == FormType.registerAsPro
+                  ? _buildPhoneField()
                   : Container(),
               _buildPasswordField(),
               _formType == FormType.register

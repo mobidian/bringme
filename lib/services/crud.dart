@@ -34,6 +34,11 @@ class CrudMethods {
     return await Firestore.instance.collection('user').document(user.uid).get();
   }
 
+  getDataFromDeliveryManFromDocument() async{
+    FirebaseUser user = await FirebaseAuth.instance.currentUser();
+    return await Firestore.instance.collection('deliveryman').document(user.uid).get();
+  }
+
   getDataFromUserFromDocumentWithID(userID) async{
     return await Firestore.instance.collection('user').document(userID).get();
   }
@@ -50,6 +55,14 @@ class CrudMethods {
     FirebaseUser user = await FirebaseAuth.instance.currentUser();
     return await Firestore.instance
         .collection('user')
+        .document(user.uid)
+        .snapshots();
+  }
+
+  getDataFromDeliveryMan() async {
+    FirebaseUser user = await FirebaseAuth.instance.currentUser();
+    return await Firestore.instance
+        .collection('deliveryman')
         .document(user.uid)
         .snapshots();
   }
@@ -80,13 +93,19 @@ class CrudMethods {
 
   }
 
-//  deleteData(collection, docId) {
-//    Firestore.instance
-//        .collection(collection)
-//        .document(docId)
-//        .delete()
-//        .catchError((e) {
-//      print(e);
-//    });
-//  }
+
+  createOrUpdateDeliveryManData(Map<String, dynamic> deliveryManDataMap) async{
+    FirebaseUser user = await FirebaseAuth.instance.currentUser();
+//    print('USERID ' + user.uid);
+    DocumentReference ref = Firestore.instance.collection('deliveryman').document(user.uid);
+    return ref.setData(deliveryManDataMap, merge: true);
+
+  }
+
+  updateDeliveryManDataWithID(devivelryManID, Map<String, dynamic> deliveryManDataMap) async{
+    DocumentReference ref = Firestore.instance.collection('deliveryman').document(devivelryManID);
+    return ref.setData(deliveryManDataMap, merge: true);
+
+  }
+
 }
