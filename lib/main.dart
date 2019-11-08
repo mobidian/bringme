@@ -1,29 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:bringme/root_page.dart';
+import 'package:bringme/authentification/auth.dart';
 
-void main(){
-  //  debugPaintSizeEnabled = true;
-  runApp(MyApp());
-}
+void main() => runApp(new MyApp());
 
-class MyApp extends StatefulWidget{
-  @override
-  State<StatefulWidget> createState() {
-    // TODO: implement createState
-    return _MyAppState();
-  }
-}
+class MyApp extends StatelessWidget {
 
-class _MyAppState extends State<MyApp>{
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    return MaterialApp(
-      home: Scaffold(
-        body: Text("hello"),
-        appBar: AppBar(
-          title: Text('Bring me'),
+    return new MaterialApp(
+        title: 'Flutter Login Demo',
+        theme: new ThemeData(
+          primarySwatch: Colors.blue,
         ),
-      ),
-    );
+        home: new RootPage(auth: new Auth()));
   }
 }
