@@ -4,14 +4,27 @@ import 'package:bringme/authentification/auth.dart';
 
 void main() => runApp(new MyApp());
 
-class MyApp extends StatelessWidget {
+
+
+class MyApp extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return _MyAppState();
+  }
+}
+
+
+class _MyAppState extends State<MyApp>{
 
   @override
   Widget build(BuildContext context) {
+
+
+
     return new MaterialApp(
-        title: 'Flutter Login Demo',
+        title: 'Bring Me beta 0.1',
         theme: new ThemeData(
-          primarySwatch: Colors.blue,
+          primaryColor: Colors.black,
         ),
         home: new RootPage(auth: new Auth()));
   }

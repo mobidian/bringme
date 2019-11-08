@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:bringme/authentification/auth.dart';
+import 'package:bringme/services/crud.dart';
+import 'package:bringme/services/userData.dart';
+import 'primary_button.dart';
 
 class LoginSignupPage extends StatefulWidget {
   LoginSignupPage({this.auth, this.loginCallback});
@@ -11,14 +14,23 @@ class LoginSignupPage extends StatefulWidget {
   State<StatefulWidget> createState() => new _LoginSignupPageState();
 }
 
+enum FormType {login, register, registerAsPro}
+
 class _LoginSignupPageState extends State<LoginSignupPage> {
   final _formKey = new GlobalKey<FormState>();
+  final TextEditingController _passwordTextController = TextEditingController();
+
+  CrudMethods crudObj = new CrudMethods();
 
   String _email;
   String _password;
+  String _name;
+  String _surname;
+  String _phone;
   String _errorMessage;
 
-  bool _isLoginForm;
+  FormType _formType = FormType.login;
+
   bool _isLoading;
 
   // Check if form is valid before perform login or signup
@@ -33,35 +45,39 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
 
   // Perform login or signup
   void validateAndSubmit() async {
-    setState(() {
-      _errorMessage = "";
-      _isLoading = true;
-    });
     if (validateAndSave()) {
-      String userId = "";
+      setState(() {
+        _errorMessage = "";
+        _isLoading = true;
+      });
       try {
-        if (_isLoginForm) {
-          userId = await widget.auth.signIn(_email, _password);
-          print('Signed in: $userId');
-        } else {
-          userId = await widget.auth.createUser(_email, _password);
-          //widget.auth.sendEmailVerification();
-          //_showVerifyEmailSentDialog();
-          print('Signed up user: $userId');
-        }
+
+        String userId = _formType == FormType.login
+            ? await widget.auth.signIn(_email, _password)
+            : await widget.auth.createUser(_email, _password);
         setState(() {
           _isLoading = false;
         });
 
-        if (userId.length > 0 && userId != null && _isLoginForm) {
+        if (userId.length > 0 && userId != null) {
           widget.loginCallback();
         }
+
+        if (_formType == FormType.register) {
+          UserData userData = new UserData(
+            name: _name,
+            surname: _surname,
+            mail: _email,
+            phone: _phone,
+          );
+          crudObj.createOrUpdateUserData(userData.getDataMap());
+        }
+
       } catch (e) {
         print('Error: $e');
         setState(() {
           _isLoading = false;
           _errorMessage = e.message;
-          _formKey.currentState.reset();
         });
       }
     }
@@ -71,43 +87,206 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
   void initState() {
     _errorMessage = "";
     _isLoading = false;
-    _isLoginForm = true;
+    _formType = FormType.login;
     super.initState();
   }
 
-  void resetForm() {
-    _formKey.currentState.reset();
-    _errorMessage = "";
-  }
 
-  void toggleFormMode() {
-    resetForm();
+  void moveToRegister() {
+    _formKey.currentState.reset();
     setState(() {
-      _isLoginForm = !_isLoginForm;
+      _formType = FormType.register;
+      _errorMessage = '';
     });
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return new Scaffold(
-        appBar: new AppBar(
-          title: new Text('Flutter login demo'),
+  void moveToRegisterAsPro() {
+    _formKey.currentState.reset();
+    setState(() {
+      _formType = FormType.registerAsPro;
+      _errorMessage = '';
+    });
+  }
+
+  void moveToLogin() {
+    _formKey.currentState.reset();
+    setState(() {
+      _formType = FormType.login;
+      _errorMessage = '';
+    });
+  }
+
+  Widget _buildEmailField() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(0.0, 50.0, 0.0, 0.0),
+      child: TextFormField(
+        maxLines: 1,
+        key: new Key('email'),
+        decoration: InputDecoration(
+          labelText: 'Email',
+          icon: new Icon(
+            Icons.mail,
+            color: Colors.grey,
+          ),
         ),
-        body: Stack(
+        keyboardType: TextInputType.emailAddress,
+        validator: (String value) {
+          if (value.isEmpty ||
+              !RegExp(r"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")
+                  .hasMatch(value)) {
+            return 'Saisissez un e-mail valide';
+          }
+        },
+        onSaved: (value) => _email = value.trim(),
+      ),
+    );
+  }
+
+
+  Widget _buildNameField() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 0.0),
+      child: TextFormField(
+        maxLines: 1,
+        key: new Key('namefield'),
+        decoration: InputDecoration(
+          labelText: 'Prénom',
+          icon: new Icon(
+            Icons.perm_identity,
+            color: Colors.grey,
+          ),
+        ),
+        validator: (String value) {
+          if (value.isEmpty) {
+            return 'Saisissez un prénom';
+          }
+        },
+        onSaved: (value) => _name = value.trim(),
+      ),
+    );
+  }
+
+  Widget _buildSurnameField() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 0.0),
+      child: TextFormField(
+        maxLines: 1,
+        key: new Key('surnamefield'),
+        decoration: InputDecoration(
+          labelText: 'Nom',
+          icon: new Icon(
+            Icons.perm_identity,
+            color: Colors.grey,
+          ),
+        ),
+        validator: (String value) {
+          if (value.isEmpty) {
+            return 'Saisissez un nom';
+          }
+        },
+        onSaved: (value) => _surname = value.trim(),
+      ),
+    );
+  }
+
+  Widget _buildPasswordField() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 0.0),
+      child: TextFormField(
+        maxLines: 1,
+        key: new Key('password'),
+        decoration: InputDecoration(
+            labelText: 'Mot de passe',
+            icon: new Icon(
+              Icons.lock,
+              color: Colors.grey,
+            )),
+        controller: _passwordTextController,
+        obscureText: true,
+        validator: (String value) {
+          if (value.isEmpty || value.length < 6) {
+            return '6 caractères minimum sont requis';
+          }
+        },
+        onSaved: (value) => _password = value.trim(),
+      ),
+    );
+  }
+
+
+  Widget _builConfirmPasswordTextField() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 0.0),
+      child: TextFormField(
+        decoration: InputDecoration(
+            labelText: 'Confirmez le mot de passe',
+            icon: new Icon(
+              Icons.lock,
+              color: Colors.grey,
+            )),
+        obscureText: true,
+        validator: (String value) {
+          if (_passwordTextController.text != value) {
+            return 'Le mot de passe ne correspond pas';
+          }
+        },
+      ),
+    );
+  }
+
+
+  Widget submitWidgets() {
+    switch (_formType) {
+      case FormType.login:
+        return ListView(
+          shrinkWrap: true,
           children: <Widget>[
-            _showForm(),
-            _showCircularProgress(),
+            PrimaryButton(
+              key: new Key('login'),
+              text: 'Connexion',
+              height: 44.0,
+              onPressed: validateAndSubmit,
+            ),
+            FlatButton(
+                key: new Key('need-account'),
+                child: Text("Créer un compte"),
+                onPressed: moveToRegister),
           ],
-        ));
+        );
+      default:
+        return ListView(
+          shrinkWrap: true,
+          children: <Widget>[
+            PrimaryButton(
+                key: new Key('register'),
+                text: 'Créer',
+                height: 44.0,
+                onPressed: validateAndSubmit
+            ),
+            FlatButton(
+                key: new Key('need-login'),
+                child: Text("Déjà un compte ? Se connecter"),
+                onPressed: moveToLogin),
+          ],
+        );
+    }
+
   }
 
   Widget _showCircularProgress() {
-    if (_isLoading) {
-      return Center(child: CircularProgressIndicator());
-    }
     return Container(
-      height: 0.0,
-      width: 0.0,
+      padding: const EdgeInsets.all(20.0),
+      child: Center(child: CircularProgressIndicator()),
+    );
+  }
+
+  Widget comptePro() {
+    return Align(
+      alignment: Alignment.bottomCenter,
+      child: FlatButton(
+        onPressed: moveToRegisterAsPro,
+        child: Text('Créer un compte Pro'),
+      ),
     );
   }
 
@@ -134,33 +313,19 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
 //    );
 //  }
 
-  Widget _showForm() {
-    return new Container(
-        padding: EdgeInsets.all(16.0),
-        child: new Form(
-          key: _formKey,
-          child: new ListView(
-            shrinkWrap: true,
-            children: <Widget>[
-              showEmailInput(),
-              showPasswordInput(),
-              showPrimaryButton(),
-              showSecondaryButton(),
-              showErrorMessage(),
-            ],
-          ),
-        ));
-  }
 
   Widget showErrorMessage() {
     if (_errorMessage.length > 0 && _errorMessage != null) {
-      return new Text(
-        _errorMessage,
-        style: TextStyle(
-            fontSize: 13.0,
-            color: Colors.red,
-            height: 1.0,
-            fontWeight: FontWeight.w300),
+      return Padding(
+        padding: const EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 0.0),
+        child: new Text(
+          _errorMessage,
+          style: TextStyle(
+              fontSize: 13.0,
+              color: Colors.red,
+              height: 1.0,
+              fontWeight: FontWeight.w300),
+        ),
       );
     } else {
       return new Container(
@@ -189,47 +354,59 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
     );
   }
 
-  Widget showPasswordInput() {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 0.0),
-      child: new TextFormField(
-        maxLines: 1,
-        obscureText: true,
-        autofocus: false,
-        decoration: new InputDecoration(
-            hintText: 'Password',
-            icon: new Icon(
-              Icons.lock,
-              color: Colors.grey,
-            )),
-        validator: (value) => value.isEmpty ? 'Password can\'t be empty' : null,
-        onSaved: (value) => _password = value.trim(),
-      ),
-    );
-  }
 
-  Widget showSecondaryButton() {
-    return new FlatButton(
-        child: new Text(
-            _isLoginForm ? 'Create an account' : 'Have an account? Sign in',
-            style: new TextStyle(fontSize: 18.0, fontWeight: FontWeight.w300)),
-        onPressed: toggleFormMode);
-  }
-
-  Widget showPrimaryButton() {
-    return new Padding(
-        padding: EdgeInsets.fromLTRB(0.0, 45.0, 0.0, 0.0),
-        child: SizedBox(
-          height: 40.0,
-          child: new RaisedButton(
-            elevation: 5.0,
-            shape: new RoundedRectangleBorder(
-                borderRadius: new BorderRadius.circular(30.0)),
-            color: Colors.blue,
-            child: new Text(_isLoginForm ? 'Login' : 'Create account',
-                style: new TextStyle(fontSize: 20.0, color: Colors.white)),
-            onPressed: validateAndSubmit,
+  Widget _buildForm() {
+    return new Container(
+        padding: EdgeInsets.all(16.0),
+        child: new Form(
+          key: _formKey,
+          child: new ListView(
+            shrinkWrap: true,
+            children: <Widget>[
+              _buildEmailField(),
+              _formType == FormType.register
+                  ? _buildNameField()
+                  : Container(),
+              _formType == FormType.registerAsPro
+                  ? _buildNameField()
+                  : Container(),
+              _formType == FormType.register
+                  ? _buildSurnameField()
+                  : Container(),
+              _formType == FormType.registerAsPro
+                  ? _buildSurnameField()
+                  : Container(),
+              _buildPasswordField(),
+              _formType == FormType.register
+                  ? _builConfirmPasswordTextField()
+                  : Container(),
+              _formType == FormType.registerAsPro
+                  ? _builConfirmPasswordTextField()
+                  : Container(),
+              _isLoading == false ? submitWidgets() : _showCircularProgress(),
+            showErrorMessage(),
+            ],
           ),
         ));
+  }
+
+
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(
+        appBar: new AppBar(
+          title: new Text('Bring Me beta'),
+        ),
+        body: SingleChildScrollView(
+          child: Container(
+            child: Column(
+              children: <Widget>[
+                _buildForm(),
+                _formType == FormType.registerAsPro ? Container() : comptePro(),
+              ],
+            ),
+          ),
+        )
+    );
   }
 }
