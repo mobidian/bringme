@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:bringme/authentification/auth.dart';
 import 'package:bringme/login_signup_page.dart';
 import 'home_page.dart';
+import 'package:bringme/services/crud.dart';
+import 'home_page_delivery.dart';
 
 
 
@@ -23,6 +25,9 @@ class RootPage extends StatefulWidget {
 class _RootPageState extends State<RootPage> {
   AuthStatus authStatus = AuthStatus.NOT_DETERMINED;
   String _userId = "";
+  bool pro = false;
+
+  CrudMethods crudObj = new CrudMethods();
 
   @override
   void initState() {
@@ -32,8 +37,10 @@ class _RootPageState extends State<RootPage> {
         if (user != null) {
           _userId = user?.uid;
         }
-        authStatus = user?.uid == null ? AuthStatus.NOT_LOGGED_IN : AuthStatus.LOGGED_IN;
       });
+
+      authStatus = user?.uid == null ? AuthStatus.NOT_LOGGED_IN : AuthStatus.LOGGED_IN;
+
     });
   }
 
@@ -44,7 +51,21 @@ class _RootPageState extends State<RootPage> {
       });
     });
     setState(() {
-      authStatus = AuthStatus.LOGGED_IN;
+      crudObj.getDataFromUserFromDocument().then((value){
+        print(value.data);
+        if(value.data == null) {
+          setState(() {
+            pro = true;
+            authStatus = AuthStatus.LOGGED_IN;
+          });
+        }else{
+          setState(() {
+            pro = false;
+            authStatus = AuthStatus.LOGGED_IN;
+          });
+        }
+      });
+//      authStatus = AuthStatus.LOGGED_IN;
     });
   }
 
@@ -64,6 +85,7 @@ class _RootPageState extends State<RootPage> {
     );
   }
 
+
   @override
   Widget build(BuildContext context) {
     switch (authStatus) {
@@ -77,13 +99,21 @@ class _RootPageState extends State<RootPage> {
         );
         break;
       case AuthStatus.LOGGED_IN:
-        if (_userId.length > 0 && _userId != null) {
+        if (_userId.length > 0 && _userId != null && pro == false) {
           return new HomePage(
             userId: _userId,
             auth: widget.auth,
             logoutCallback: logoutCallback,
           );
-        } else
+        }
+        else if(_userId.length > 0 && _userId != null && pro == true){
+          return new HomePageDelivery(
+            userId: _userId,
+            auth: widget.auth,
+            logoutCallback: logoutCallback,
+          );
+        }
+        else
           return buildWaitingScreen();
         break;
       default:

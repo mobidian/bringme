@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:bringme/authentification/auth.dart';
 
-class HomePage extends StatefulWidget {
-  HomePage({Key key, this.auth, this.userId, this.logoutCallback})
+class HomePageDelivery extends StatefulWidget {
+  HomePageDelivery({Key key, this.auth, this.userId, this.logoutCallback})
       : super(key: key);
 
   final BaseAuth auth;
@@ -15,7 +15,7 @@ class HomePage extends StatefulWidget {
   }
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePageDelivery> {
   signOut() async {
     try {
       await widget.auth.signOut();
@@ -29,7 +29,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text("bringme logged in page"),
+        title: new Text("bringme logged in page DELIVERY"),
         actions: <Widget>[
           FlatButton(
               child: new Text('Logout',
@@ -38,7 +38,7 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       body: new Container(
-        child: new Text("homeeee page"),
+        child: new Text("home page for delivery"),
       ),
     );
   }
