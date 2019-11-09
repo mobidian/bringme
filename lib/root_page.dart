@@ -50,6 +50,10 @@ class _RootPageState extends State<RootPage> {
         _userId = user.uid.toString();
       });
     });
+    //permet de simplifier la gestion de la connaissance du role de l'utilisateur
+    //si on trouve des data dans la collection user alors c'est un user
+    //sinon il s'agit d'un livreur
+    //ensuite on root vers la bonne page
     setState(() {
       crudObj.getDataFromUserFromDocument().then((value){
         print(value.data);
