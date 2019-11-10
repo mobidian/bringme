@@ -4,6 +4,7 @@ import 'package:bringme/services/crud.dart';
 import 'package:bringme/services/requestData.dart';
 import 'primary_button.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:bringme/slider.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key key, this.auth, this.userId, this.logoutCallback})
@@ -293,6 +294,7 @@ class _HomePageState extends State<HomePage> {
           ]),
         ),
       ),
+      drawer:  CustomSlider(activePage: '/home_page'),
     );
   }
 }
