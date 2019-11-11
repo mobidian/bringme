@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-
 class CustomSlider extends StatefulWidget {
   final String activePage;
+
   CustomSlider({this.activePage});
 
   @override
@@ -12,7 +12,6 @@ class CustomSlider extends StatefulWidget {
 }
 
 class _CustomSliderState extends State<CustomSlider> {
-
   Widget _createHeader() {
     return DrawerHeader(
         margin: EdgeInsets.zero,
@@ -27,10 +26,7 @@ class _CustomSliderState extends State<CustomSlider> {
                       fontSize: 30.0,
                       fontWeight: FontWeight.w500))),
         ]));
-    
   }
-
-  
 
   Widget _createDrawerItem(
       {IconData icon, String text, GestureTapCallback onTap}) {
@@ -55,7 +51,11 @@ class _CustomSliderState extends State<CustomSlider> {
         padding: EdgeInsets.zero,
         children: <Widget>[
           _createHeader(),
-          _createDrawerItem(icon: Icons.contacts,text: "Accueil",onTap: ()=> Navigator.pushReplacementNamed(context, "/home_page")),
+          _createDrawerItem(
+              icon: Icons.contacts,
+              text: "Accueil",
+              onTap: () =>
+                  Navigator.pushReplacementNamed(context, "/home_page")),
         ],
       ),
     );

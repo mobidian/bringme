@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:bringme/root_page.dart';
 import 'package:bringme/authentification/auth.dart';
-import 'package:bringme/home_page.dart';
+import 'userProposition.dart';
 
 void main() => runApp(new MyApp());
 
@@ -26,9 +26,10 @@ class _MyAppState extends State<MyApp>{
           primaryColor: Colors.black,
         ),
         routes:{
-          '/home_page': (BuildContext context) => HomePage(),
-        },
-        home: new RootPage(auth: new Auth()));
+          '/': (BuildContext context) => new RootPage(auth: new Auth()),
+          '/userProposition': (BuildContext context) => UserProposition(),
+        });
+//        home: new RootPage(auth: new Auth()));
 
   }
 }

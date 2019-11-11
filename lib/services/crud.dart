@@ -43,6 +43,16 @@ class CrudMethods {
     return await Firestore.instance.collection('user').document(userID).get();
   }
 
+  getDataFromUserDemand(userID,demandID) async{
+    return await Firestore.instance.collection('user').document(userID).collection('demand').document(demandID).get();
+  }
+
+  updateDemandData(userID, demandID, demandDataMap) async{
+    DocumentReference ref = Firestore.instance.collection('user').document(userID).collection('demand').document(demandID);
+    return ref.setData(demandDataMap, merge: true);
+
+  }
+
   getDataFromDeliveryManFromDocumentWithID(userID) async{
     return await Firestore.instance.collection('deliveryman').document(userID).get();
   }
