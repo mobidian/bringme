@@ -1,57 +1,104 @@
 import 'package:flutter/material.dart';
+import 'package:bringme/services/crud.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-
-class PropositionFromDemand extends StatefulWidget{
-
-  PropositionFromDemand({@required this.demandId, @required this.listProposition});
+class PropositionFromDemand extends StatefulWidget {
+  PropositionFromDemand(
+      {@required this.demandId,
+      @required this.listProposition,
+      @required this.userId});
 
   final String demandId;
   final List<dynamic> listProposition;
+  final String userId;
 
   @override
   State<StatefulWidget> createState() {
     return _PropositionFromDemandState();
   }
-
 }
 
+class _PropositionFromDemandState extends State<PropositionFromDemand> {
+  CrudMethods crudObj = new CrudMethods();
+  bool _isLoading = false;
 
-class _PropositionFromDemandState extends State<PropositionFromDemand>{
+  _acceptProposition(deliveryManId) async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    Map<String, dynamic> test = {
+      'deliveryManId': deliveryManId,
+      'userId': widget.userId
+    };
+
+    DocumentReference docRef = await Firestore.instance
+        .collection('user')
+        .document(widget.userId)
+        .collection('course')
+        .add(test);
+
+    Firestore.instance
+        .collection('deliveryman')
+        .document(deliveryManId)
+        .collection('course')
+        .document(docRef.documentID)
+        .setData(test);
+
+    //faire super gaffe avec ca pcq on peut carrement supprimer toute une collection
+    //--------------------------
+    Firestore.instance
+        .collection('request')
+        .document(widget.demandId)
+        .delete().catchError((e){
+          print(e.toString());
+    });
+
+    //--------------------------
+
+    setState(() {
+      _isLoading = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("propositionfromdemand"),
-      ),
-      body: Column(
-        children: <Widget>[
-          Text(widget.demandId),
-          Expanded(
-            child: _buildListOfProposition(),
-          ),
-        ],
-      )
-    );
+        appBar: AppBar(
+          title: Text("propositionfromdemand"),
+        ),
+        body: Column(
+          children: <Widget>[
+            Text(widget.demandId),
+            Expanded(
+              child: _buildListOfProposition(),
+            ),
+          ],
+        ));
   }
 
-  _buildListOfProposition(){
-
+  _buildListOfProposition() {
+    //pour le moment seul l'id du livreur est montré mais l'idéal
+    //serait d'avoir ses infos à montrer
+    //sur la meme page parce que sinon beaucoup trop de page dans des pages
+    //c'est lourd et chiant à naviguer
     return ListView.builder(
       itemCount: widget.listProposition.length,
-      itemBuilder: (context, index){
+      itemBuilder: (context, index) {
+        String deliveryManId = widget.listProposition[index]['deliveryManId'];
         return Container(
           child: ListTile(
-            title: Text(widget.listProposition[index]['deliveryManId']),
+            title: Text(deliveryManId),
             subtitle: Text(widget.listProposition[index]['price'].toString()),
             trailing: FlatButton(
               child: Icon(Icons.check_circle_outline),
-              onPressed: (){},
+              onPressed: () {
+                _acceptProposition(deliveryManId);
+              },
             ),
           ),
         );
       },
     );
   }
-
 }

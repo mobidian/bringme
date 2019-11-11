@@ -79,7 +79,7 @@ class _UserPropositionState extends State<UserProposition> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (BuildContext context) => PropositionFromDemand(demandId: demandId, listProposition: listProposition,),
+                    builder: (BuildContext context) => PropositionFromDemand(demandId: demandId, listProposition: listProposition, userId : userId),
                   ));
             },
           ),
