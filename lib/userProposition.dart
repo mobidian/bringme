@@ -18,7 +18,7 @@ class _UserPropositionState extends State<UserProposition> {
       body: Center(
         child: Text("hello proposition"),
       ),
-      drawer: MyDrawer("About"),
+      drawer: MyDrawer("proposition"),
     );
   }
 }

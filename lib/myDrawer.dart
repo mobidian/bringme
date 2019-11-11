@@ -33,7 +33,7 @@ class MyDrawer extends StatelessWidget {
           _createHeader(),
           ListTile(
             title: Text(
-              "Home",
+              "Accueil",
               style: currentDrawer == 0
                   ? TextStyle(fontWeight: FontWeight.bold)
                   : TextStyle(fontWeight: FontWeight.normal),
@@ -41,7 +41,7 @@ class MyDrawer extends StatelessWidget {
             trailing: Icon(Icons.arrow_forward),
             onTap: () {
               Navigator.of(context).pop();
-              if (this.currentPage == "Home") return;
+              if (this.currentPage == "home") return;
 
               Provider.of<DrawerStateInfo>(context).setCurrentDrawer(0);
 
@@ -50,7 +50,7 @@ class MyDrawer extends StatelessWidget {
           ),
           ListTile(
             title: Text(
-              "About",
+              "Proposition",
               style: currentDrawer == 1
                   ? TextStyle(fontWeight: FontWeight.bold)
                   : TextStyle(fontWeight: FontWeight.normal),
@@ -58,7 +58,7 @@ class MyDrawer extends StatelessWidget {
             trailing: Icon(Icons.arrow_forward),
             onTap: () {
               Navigator.of(context).pop();
-              if (this.currentPage == "About") return;
+              if (this.currentPage == "proposition") return;
 
               Provider.of<DrawerStateInfo>(context).setCurrentDrawer(1);
 

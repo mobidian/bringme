@@ -294,7 +294,7 @@ class _HomePageState extends State<HomePage> {
           ]),
         ),
       ),
-      drawer:  MyDrawer("Home"),
+      drawer:  MyDrawer("home"),
     );
   }
 }
