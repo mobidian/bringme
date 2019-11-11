@@ -6,11 +6,13 @@ class PropositionFromDemand extends StatefulWidget {
   PropositionFromDemand(
       {@required this.demandId,
       @required this.listProposition,
-      @required this.userId});
+      @required this.userId,
+      @required this.demandData});
 
   final String demandId;
   final List<dynamic> listProposition;
   final String userId;
+  final DocumentSnapshot demandData;
 
   @override
   State<StatefulWidget> createState() {
@@ -27,31 +29,49 @@ class _PropositionFromDemandState extends State<PropositionFromDemand> {
       _isLoading = true;
     });
 
-    Map<String, dynamic> test = {
+    Map<String, dynamic> courseData = {
+      'deliveryTime': widget.demandData['deliveryTime'],
+      'depart': widget.demandData['depart'],
+      'destination': widget.demandData['destination'],
+      'retraitTime': widget.demandData['retraitTime'],
+      'typeOfMarchandise': widget.demandData['typeOfMarchandise'],
+      'typeOfRemorque': widget.demandData['typeOfRemorque'],
+      'userId': widget.userId,
       'deliveryManId': deliveryManId,
-      'userId': widget.userId
+      'completed': false,
     };
 
     DocumentReference docRef = await Firestore.instance
         .collection('user')
         .document(widget.userId)
         .collection('course')
-        .add(test);
+        .add(courseData);
 
     Firestore.instance
         .collection('deliveryman')
         .document(deliveryManId)
         .collection('course')
         .document(docRef.documentID)
-        .setData(test);
+        .setData(courseData);
 
     //faire super gaffe avec ca pcq on peut carrement supprimer toute une collection
     //--------------------------
     Firestore.instance
         .collection('request')
         .document(widget.demandId)
-        .delete().catchError((e){
-          print(e.toString());
+        .delete()
+        .catchError((e) {
+      print(e.toString());
+    });
+
+    Firestore.instance
+        .collection('user')
+        .document(widget.userId)
+        .collection('demand')
+        .document(widget.demandId)
+        .delete()
+        .catchError((e) {
+      print(e.toString());
     });
 
     //--------------------------
