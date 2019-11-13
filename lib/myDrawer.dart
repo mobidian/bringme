@@ -16,7 +16,7 @@ class MyDrawer extends StatelessWidget {
           Positioned(
               bottom: 12.0,
               left: 16.0,
-              child: Text("Salut mec",
+              child: Text("Bienvenu !",
                   style: TextStyle(
                       color: Colors.black,
                       fontSize: 30.0,
@@ -63,6 +63,23 @@ class MyDrawer extends StatelessWidget {
               Provider.of<DrawerStateInfo>(context).setCurrentDrawer(1);
 
               Navigator.pushReplacementNamed(context, "/userProposition");
+            },
+          ),
+          ListTile(
+            title: Text(
+              "Courses",
+              style: currentDrawer == 2
+                  ? TextStyle(fontWeight: FontWeight.bold)
+                  : TextStyle(fontWeight: FontWeight.normal),
+            ),
+            trailing: Icon(Icons.arrow_forward),
+            onTap: () {
+              Navigator.of(context).pop();
+              if (this.currentPage == "courses") return;
+
+              Provider.of<DrawerStateInfo>(context).setCurrentDrawer(2);
+
+              Navigator.pushReplacementNamed(context, "/userCourses");
             },
           ),
         ],

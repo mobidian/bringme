@@ -3,6 +3,7 @@ import 'package:bringme/root_page.dart';
 import 'package:bringme/authentification/auth.dart';
 import 'userProposition.dart';
 import 'package:provider/provider.dart';
+import 'userCourses.dart';
 
 void main() => runApp(new MyApp());
 
@@ -31,6 +32,7 @@ class _MyAppState extends State<MyApp>{
           routes:{
             '/': (BuildContext context) => new RootPage(auth: new Auth()),
             '/userProposition': (BuildContext context) => UserProposition(),
+            '/userCourses': (BuildContext context) => UserCourses(),
           },
       ),
       providers: <SingleChildCloneableWidget>[

@@ -54,6 +54,8 @@ class _RootPageState extends State<RootPage> {
     //si on trouve des data dans la collection user alors c'est un user
     //sinon il s'agit d'un livreur
     //ensuite on root vers la bonne page
+    //peut etre mieux de partir sur l'option avec le documentreference et choper la collection parent
+    //pour savoir si il s'agit d'un livreur ou un user
     setState(() {
       crudObj.getDataFromUserFromDocument().then((value){
         print(value.data);
