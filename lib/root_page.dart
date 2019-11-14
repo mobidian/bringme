@@ -25,7 +25,7 @@ class RootPage extends StatefulWidget {
 class _RootPageState extends State<RootPage> {
   AuthStatus authStatus = AuthStatus.NOT_DETERMINED;
   String _userId = "";
-  bool pro = false;
+  bool pro;
 
   CrudMethods crudObj = new CrudMethods();
 
@@ -39,12 +39,28 @@ class _RootPageState extends State<RootPage> {
         }
       });
 
+      setState(() {
+        crudObj.getDataFromUserFromDocument().then((value){
+          print(value.data);
+          if(value.data == null) {
+            setState(() {
+              pro = true;
+            });
+          }else{
+            setState(() {
+              pro = false;
+            });
+          }
+        });
+      });
+
       authStatus = user?.uid == null ? AuthStatus.NOT_LOGGED_IN : AuthStatus.LOGGED_IN;
 
     });
   }
 
   void loginCallback() {
+    print("EXEC LOGINCALLBACK");
     widget.auth.getCurrentUser().then((user) {
       setState(() {
         _userId = user.uid.toString();
@@ -59,6 +75,7 @@ class _RootPageState extends State<RootPage> {
     setState(() {
       crudObj.getDataFromUserFromDocument().then((value){
         print(value.data);
+        print("EXEC INIT TO KNOW TYPE OF USER");
         if(value.data == null) {
           setState(() {
             pro = true;
@@ -76,6 +93,7 @@ class _RootPageState extends State<RootPage> {
   }
 
   void logoutCallback() {
+    print("EXEC LOG OUT CALL BACK");
     setState(() {
       authStatus = AuthStatus.NOT_LOGGED_IN;
       _userId = "";

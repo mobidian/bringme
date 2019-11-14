@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:bringme/authentification/auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:bringme/services/crud.dart';
+import 'drawerDelivery.dart';
 
 
 class HomePageDelivery extends StatefulWidget {
@@ -73,6 +74,7 @@ class _HomePageState extends State<HomePageDelivery> {
               onPressed: signOut)
         ],
       ),
+      drawer: DrawerDelivery('homeDelivery'),
       body: StreamBuilder(
         stream: Firestore.instance.collection('request').snapshots(),
         builder: (context, snapshot){
