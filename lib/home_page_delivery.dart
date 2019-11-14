@@ -74,7 +74,7 @@ class _HomePageState extends State<HomePageDelivery> {
               onPressed: signOut)
         ],
       ),
-      drawer: DrawerDelivery('homeDelivery'),
+      drawer: DrawerDelivery(currentPage: 'homeDelivery', userId: widget.userId,),
       body: StreamBuilder(
         stream: Firestore.instance.collection('request').snapshots(),
         builder: (context, snapshot){

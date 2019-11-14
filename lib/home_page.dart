@@ -294,7 +294,7 @@ class _HomePageState extends State<HomePage> {
           ]),
         ),
       ),
-      drawer:  MyDrawer("home"),
+      drawer:  MyDrawer(currentPage: "home", userId: widget.userId,),
     );
   }
 }

@@ -65,8 +65,9 @@ class _UserCoursesState extends State<UserCourses> {
       appBar: AppBar(
         title: Text("Courses"),
       ),
-      drawer: MyDrawer("courses"),
+      drawer: MyDrawer(currentPage: "courses", userId: userId,),
       body: SmartRefresher(
+        header: BezierCircleHeader(),
         enablePullDown: true,
         enablePullUp: false,
         controller: _refreshController,

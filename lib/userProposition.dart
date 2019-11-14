@@ -32,7 +32,7 @@ class _UserPropositionState extends State<UserProposition> {
       appBar: AppBar(
         title: Text("Proposition"),
       ),
-      drawer: MyDrawer("proposition"),
+      drawer: MyDrawer(currentPage: "proposition", userId: userId,),
       body: userId == null ? _showProgressIndicator() : _streamBuilder(),
     );
   }

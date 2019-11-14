@@ -71,8 +71,9 @@ class _DeliveryCoursesState extends State<DeliveryCourses>{
       appBar: AppBar(
         title: Text("livreur courses"),
       ),
-      drawer: DrawerDelivery('deliveryCourses'),
+      drawer: DrawerDelivery(currentPage: 'deliveryCourses', userId: userId,),
       body: SmartRefresher(
+        header: BezierCircleHeader(),
           enablePullDown: true,
           enablePullUp: false,
           controller: _refreshController,
