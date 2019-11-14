@@ -127,6 +127,11 @@ class CrudMethods {
     return await Firestore.instance.collection('user').document(user.uid).collection('course').getDocuments();
   }
 
+  getDeliveryManCourses() async{
+    FirebaseUser user = await FirebaseAuth.instance.currentUser();
+    return await Firestore.instance.collection('deliveryman').document(user.uid).collection('course').getDocuments();
+  }
+
 //  deleteData(collection, docId) {
 //    Firestore.instance
 //        .collection(collection)

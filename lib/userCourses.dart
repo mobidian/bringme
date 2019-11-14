@@ -5,7 +5,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:bringme/services/crud.dart';
 
 class UserCourses extends StatefulWidget {
-  BaseAuth auth = new Auth();
+  final BaseAuth auth = new Auth();
 
   @override
   State<StatefulWidget> createState() {
@@ -29,11 +29,7 @@ class _UserCoursesState extends State<UserCourses> {
         userId = id;
       });
     });
-//    crudObj.getUserCourses().then((value){
-//      setState(() {
-//        _courseList = value.documents;
-//      });
-//    });
+
   }
 
   Future<dynamic> _refresh() {
