@@ -7,12 +7,14 @@ class PropositionFromDemand extends StatefulWidget {
       {@required this.demandId,
       @required this.listProposition,
       @required this.userId,
-      @required this.demandData});
+      @required this.demandData,
+      @required this.title});
 
   final String demandId;
   final List<dynamic> listProposition;
   final String userId;
   final DocumentSnapshot demandData;
+  final String title;
 
   @override
   State<StatefulWidget> createState() {
@@ -22,7 +24,36 @@ class PropositionFromDemand extends StatefulWidget {
 
 class _PropositionFromDemandState extends State<PropositionFromDemand> {
   CrudMethods crudObj = new CrudMethods();
+
+  List<dynamic> deliveryManData = [];
+
   bool _isLoading = false;
+  bool _loadingData = false;
+
+
+  @override
+  void initState(){
+    super.initState();
+
+    setState(() {
+      _loadingData = true;
+    });
+    for(int i = 0; i < widget.listProposition.length; i++){
+      crudObj.getDataFromDeliveryManFromDocumentWithID(widget.listProposition[i]['deliveryManId']).then((value){
+        Map<String, dynamic> map = value.data;
+        map['deliveryManId'] = widget.listProposition[i]['deliveryManId'];
+        map['price'] = widget.listProposition[i]['price'];
+        setState(() {
+          deliveryManData.add(value.data);
+        });
+      });
+    }
+    setState(() {
+      _loadingData = false;
+    });
+
+  }
+
 
   _acceptProposition(deliveryManId) async {
     setState(() {
@@ -83,9 +114,10 @@ class _PropositionFromDemandState extends State<PropositionFromDemand> {
 
   @override
   Widget build(BuildContext context) {
+    print(deliveryManData);
     return Scaffold(
         appBar: AppBar(
-          title: Text("propositionfromdemand"),
+          title: Text(widget.title),
         ),
         body: Column(
           children: <Widget>[
@@ -97,28 +129,72 @@ class _PropositionFromDemandState extends State<PropositionFromDemand> {
         ));
   }
 
+
+  void _showDialog(deliveryManId, name, price, phone){
+    showDialog(
+      context: context,
+      builder: (BuildContext context){
+        return AlertDialog(
+          title: Text("Information livreur"),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Text("Prénom : " + name),
+              Text("Téléphone : " + phone),
+              Text("Prix proposé : " + price),
+              Text("Heure de livraison : - à ajouter -"),
+            ],
+          ),
+          actions: <Widget>[
+            FlatButton(
+              child: Text("fermer"),
+              onPressed: (){
+                Navigator.of(context).pop();
+              },
+            ),
+
+            FlatButton(
+              child: Text("Accepter"),
+              onPressed: (){
+                _acceptProposition(deliveryManId);
+
+              },
+            ),
+          ],
+        );
+      }
+    );
+  }
+
   _buildListOfProposition() {
     //pour le moment seul l'id du livreur est montré mais l'idéal
     //serait d'avoir ses infos à montrer
     //sur la meme page parce que sinon beaucoup trop de page dans des pages
     //c'est lourd et chiant à naviguer
-    return ListView.builder(
-      itemCount: widget.listProposition.length,
-      itemBuilder: (context, index) {
-        String deliveryManId = widget.listProposition[index]['deliveryManId'];
-        return Container(
-          child: ListTile(
-            title: Text(deliveryManId),
-            subtitle: Text(widget.listProposition[index]['price'].toString()),
-            trailing: FlatButton(
-              child: Icon(Icons.check_circle_outline),
-              onPressed: () {
-                _acceptProposition(deliveryManId);
-              },
+
+    if(_loadingData || deliveryManData.isEmpty){
+      return CircularProgressIndicator();
+    }else {
+      return ListView.builder(
+        itemCount: widget.listProposition.length,
+        itemBuilder: (context, index) {
+          String deliveryManName = deliveryManData[index]['name'];
+          String price = deliveryManData[index]['price'].toString();
+          String phone = deliveryManData[index]['phone'].toString();
+          return Container(
+            child: ListTile(
+              title: Text(deliveryManName),
+              subtitle: Text(price),
+              trailing: FlatButton(
+                child: Icon(Icons.check_circle_outline),
+                onPressed: () {
+                  _showDialog(deliveryManData[index]['deliveryManId'], deliveryManName, price, phone);
+                },
+              ),
             ),
-          ),
-        );
-      },
-    );
+          );
+        },
+      );
+    }
   }
 }
