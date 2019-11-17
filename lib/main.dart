@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:bringme/root_page.dart';
 import 'package:bringme/authentification/auth.dart';
-import 'userProposition.dart';
+import 'package:bringme/user/userProposition.dart';
 import 'package:provider/provider.dart';
-import 'userCourses.dart';
-import 'deliveryCourses.dart';
+import 'package:bringme/user/userCourses.dart';
+import 'package:bringme/delivery/deliveryCourses.dart';
 
 void main() => runApp(new MyApp());
 

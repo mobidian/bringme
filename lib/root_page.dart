@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:bringme/authentification/auth.dart';
 import 'package:bringme/login_signup_page.dart';
-import 'home_page.dart';
+import 'package:bringme/user/home_page.dart';
 import 'package:bringme/services/crud.dart';
-import 'home_page_delivery.dart';
+import 'package:bringme/delivery/home_page_delivery.dart';
 
 
 
