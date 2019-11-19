@@ -29,7 +29,6 @@ class _UserCoursesState extends State<UserCourses> {
         userId = id;
       });
     });
-
   }
 
   Future<dynamic> _refresh() {
@@ -50,12 +49,18 @@ class _UserCoursesState extends State<UserCourses> {
     });
   }
 
-
-  listConstruct(index){
+  listConstruct(index) {
     return ListTile(
-      title: Text(_courseList[index]['destination']),
-      subtitle: Text(_courseList[index]['deliveryManId']),
-      trailing: Text(_courseList[index]['deliveryTime']),
+      title: Text(_courseList[index]['typeOfMarchandise']),
+      subtitle:
+          Text("heure de livraison " + _courseList[index]['deliveryTime']),
+      trailing: FlatButton(
+        child: Text(
+          "détails",
+          style: TextStyle(fontWeight: FontWeight.w600),
+        ),
+        onPressed: () {},
+      ),
     );
   }
 
@@ -65,21 +70,23 @@ class _UserCoursesState extends State<UserCourses> {
       appBar: AppBar(
         title: Text("Courses"),
       ),
-      drawer: MyDrawer(currentPage: "courses", userId: userId,),
-      body: SmartRefresher(
-        header: BezierCircleHeader(),
-        enablePullDown: true,
-        enablePullUp: false,
-        controller: _refreshController,
-        onLoading: _onLoading,
-        onRefresh: _refresh,
-        child: ListView.builder(
-          itemCount: _courseList.length,
-          itemBuilder: (context, index){
-            return listConstruct(index);
-          },
-        )
+      drawer: MyDrawer(
+        currentPage: "courses",
+        userId: userId,
       ),
+      body: SmartRefresher(
+          header: BezierCircleHeader(),
+          enablePullDown: true,
+          enablePullUp: false,
+          controller: _refreshController,
+          onLoading: _onLoading,
+          onRefresh: _refresh,
+          child: ListView.builder(
+            itemCount: _courseList.length,
+            itemBuilder: (context, index) {
+              return listConstruct(index);
+            },
+          )),
     );
   }
 }
