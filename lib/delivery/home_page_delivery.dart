@@ -114,7 +114,7 @@ class _HomePageState extends State<HomePageDelivery> {
         propositionTemp.add({
           "deliveryManId": widget.userId,
           "price": _price,
-          "suggestHour": _suggestTime
+          "suggestTime": _suggestTime
         });
 
         Map<String, dynamic> updatedProposition = {

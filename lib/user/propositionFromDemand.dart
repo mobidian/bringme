@@ -46,6 +46,7 @@ class _PropositionFromDemandState extends State<PropositionFromDemand> {
         Map<String, dynamic> map = value.data;
         map['deliveryManId'] = widget.listProposition[i]['deliveryManId'];
         map['price'] = widget.listProposition[i]['price'];
+        map['suggestTime'] = widget.listProposition[i]['suggestTime'];
         setState(() {
           deliveryManData.add(value.data);
         });
@@ -56,13 +57,13 @@ class _PropositionFromDemandState extends State<PropositionFromDemand> {
     });
   }
 
-  _acceptProposition(deliveryManId) async {
+  _acceptProposition(deliveryManId, suggestTime) async {
     setState(() {
       _isLoading = true;
     });
 
     Map<String, dynamic> courseData = {
-      'deliveryTime': widget.demandData['deliveryTime'],
+      'deliveryTime': suggestTime,
       'depart': widget.demandData['depart'],
       'destination': widget.demandData['destination'],
       'retraitTime': widget.demandData['retraitTime'],
@@ -129,7 +130,7 @@ class _PropositionFromDemandState extends State<PropositionFromDemand> {
         ));
   }
 
-  void _showDialog(deliveryManId, name, price, phone) {
+  void _showDialog(deliveryManId, name, price, phone, suggestTime) {
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -141,7 +142,7 @@ class _PropositionFromDemandState extends State<PropositionFromDemand> {
                 Text("Prénom : " + name),
                 Text("Téléphone : " + phone),
                 Text("Prix proposé : " + price + "€"),
-                Text("Heure de livraison : - à ajouter -"),
+                Text("Heure de livraison : " + suggestTime),
               ],
             ),
             actions: <Widget>[
@@ -154,7 +155,7 @@ class _PropositionFromDemandState extends State<PropositionFromDemand> {
               FlatButton(
                 child: Text("Accepter"),
                 onPressed: () {
-                  _acceptProposition(deliveryManId);
+                  _acceptProposition(deliveryManId, suggestTime);
                   Navigator.pushReplacementNamed(context, "/");
                 },
               ),
@@ -178,10 +179,12 @@ class _PropositionFromDemandState extends State<PropositionFromDemand> {
           String deliveryManName = deliveryManData[index]['name'];
           String price = deliveryManData[index]['price'].toString();
           String phone = deliveryManData[index]['phone'].toString();
+          String suggestTime = deliveryManData[index]['suggestTime'].toString();
           return Container(
             child: ListTile(
               title: Text(deliveryManName),
-              subtitle: Text(price + "€"),
+              subtitle: Text(suggestTime),
+              leading: Text(price + "€"),
               trailing: FlatButton(
                 child: Text(
                   "Voir",
@@ -189,7 +192,7 @@ class _PropositionFromDemandState extends State<PropositionFromDemand> {
                 ),
                 onPressed: () {
                   _showDialog(deliveryManData[index]['deliveryManId'],
-                      deliveryManName, price, phone);
+                      deliveryManName, price, phone, suggestTime);
                 },
               ),
             ),
