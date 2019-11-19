@@ -25,6 +25,7 @@ dependencies:
   pull_to_refresh: ^1.5.7
   shimmer: ^1.0.1
   url_launcher: ^5.2.5
+  font_awesome_flutter: ^8.5.0
 
 
   flutter:

@@ -3,6 +3,7 @@ import 'package:bringme/authentification/auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:bringme/services/crud.dart';
 import 'package:bringme/delivery/drawerDelivery.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 
 class HomePageDelivery extends StatefulWidget {
@@ -69,8 +70,7 @@ class _HomePageState extends State<HomePageDelivery> {
         title: new Text("Page DELIVERY"),
         actions: <Widget>[
           FlatButton(
-              child: new Text('Logout',
-                  style: new TextStyle(fontSize: 17.0, color: Colors.white)),
+              child: Icon(FontAwesomeIcons.signOutAlt, color: Colors.white,),
               onPressed: signOut)
         ],
       ),

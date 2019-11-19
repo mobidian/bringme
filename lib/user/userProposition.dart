@@ -80,7 +80,7 @@ class _UserPropositionState extends State<UserProposition> {
                   context,
                   MaterialPageRoute(
                     builder: (BuildContext context) => PropositionFromDemand(
-                      title: currentData['depart'] + ' ' + currentData['deliveryTime'],
+                      title: currentData['typeOfMarchandise'] + ' à ' + currentData['deliveryTime'],
                       demandId: demandId,
                       listProposition: listProposition,
                       userId: userId,

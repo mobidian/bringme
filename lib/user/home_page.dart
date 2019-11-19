@@ -5,6 +5,7 @@ import 'package:bringme/services/requestData.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:bringme/primary_button.dart';
 import 'myDrawer.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key key, this.auth, this.userId, this.logoutCallback})
@@ -270,13 +271,15 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+    double font = MediaQuery.of(context).textScaleFactor;
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text("USER page"),
+        title: new Text("Accueil"),
         actions: <Widget>[
           FlatButton(
-              child: new Text('Logout',
-                  style: new TextStyle(fontSize: 17.0, color: Colors.white)),
+              child: Icon(FontAwesomeIcons.signOutAlt,color: Colors.white,),
               onPressed: signOut)
         ],
       ),
@@ -285,7 +288,7 @@ class _HomePageState extends State<HomePage> {
           padding: const EdgeInsets.all(16.0),
           child: Column(children: <Widget>[
             Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
-              Text(widget.userId),
+              Text("Faire une demande de livraison", style: TextStyle(fontSize: font*15),),
               Container(
                 padding: const EdgeInsets.all(16.0),
                 child: buildForm(),

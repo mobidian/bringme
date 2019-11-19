@@ -122,7 +122,6 @@ class _PropositionFromDemandState extends State<PropositionFromDemand> {
         ),
         body: Column(
           children: <Widget>[
-            Text(widget.demandId),
             Expanded(
               child: _buildListOfProposition(),
             ),
