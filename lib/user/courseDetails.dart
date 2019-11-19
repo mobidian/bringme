@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:bringme/services/crud.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/widgets.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class CourseDetails extends StatefulWidget {
   CourseDetails(
@@ -44,6 +45,15 @@ class _CourseDetailsState extends State<CourseDetails> {
     });
   }
 
+  _launchURL(phone) async {
+    String url = 'tel:' + phone;
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
   Widget _deliveryManInfo() {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
@@ -81,6 +91,12 @@ class _CourseDetailsState extends State<CourseDetails> {
                   child: ListTile(
                     title: Text("Numéro"),
                     subtitle: Text(_deliveryManData['phone']),
+                    trailing: FlatButton(
+                      child: Icon(Icons.phone),
+                      onPressed: (){
+                        _launchURL(_deliveryManData['phone']);
+                      },
+                    ),
                   ),
                 ),
               ],

@@ -24,6 +24,7 @@ dependencies:
   provider: ^3.1.0+1
   pull_to_refresh: ^1.5.7
   shimmer: ^1.0.1
+  url_launcher: ^5.2.5
 
 
   flutter:
