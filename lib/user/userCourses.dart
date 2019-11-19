@@ -3,6 +3,7 @@ import 'package:bringme/user/myDrawer.dart';
 import 'package:bringme/authentification/auth.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:bringme/services/crud.dart';
+import 'courseDetails.dart';
 
 class UserCourses extends StatefulWidget {
   final BaseAuth auth = new Auth();
@@ -59,7 +60,17 @@ class _UserCoursesState extends State<UserCourses> {
           "détails",
           style: TextStyle(fontWeight: FontWeight.w600),
         ),
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (BuildContext context) => CourseDetails(
+                  type: _courseList[index]['typeOfMarchandise'],
+                  time: _courseList[index]['deliveryTime'],
+                  coursedata: _courseList[index],
+                ),
+              ));
+        },
       ),
     );
   }
