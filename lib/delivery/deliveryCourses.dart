@@ -3,6 +3,7 @@ import 'drawerDelivery.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:bringme/authentification/auth.dart';
 import 'package:bringme/services/crud.dart';
+import 'courseDetailsDelivery.dart';
 
 
 class DeliveryCourses extends StatefulWidget{
@@ -60,8 +61,24 @@ class _DeliveryCoursesState extends State<DeliveryCourses>{
   listConstruct(index){
     return ListTile(
       title: Text(_courseList[index]['destination']),
-      subtitle: Text(_courseList[index]['userId']),
-      trailing: Text(_courseList[index]['deliveryTime']),
+      subtitle: Text(_courseList[index]['deliveryTime']),
+      trailing: FlatButton(
+        child: Text(
+          "détails",
+          style: TextStyle(fontWeight: FontWeight.w600),
+        ),
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (BuildContext context) => CourseDetailsDelivery(
+                  type: _courseList[index]['typeOfMarchandise'],
+                  time: _courseList[index]['deliveryTime'],
+                  coursedata: _courseList[index],
+                ),
+              ));
+        },
+      ),
     );
   }
   
