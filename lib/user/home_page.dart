@@ -47,6 +47,12 @@ class _HomePageState extends State<HomePage> {
   bool utilitaire_20_plateau_chargement = false;
   bool vehicule_isotherme_frigorifique = false;
 
+  //type de marchandise
+  bool _fragile = false;
+  bool _leger = false;
+  bool _lourd = false;
+  bool _dangereux = false;
+
   signOut() async {
     try {
       await widget.auth.signOut();
@@ -228,6 +234,83 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  Widget _showSelectTypeOfMarchandise() {
+    return IconButton(
+      icon: Icon(Icons.arrow_forward),
+      onPressed: () {
+        showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                ),
+                content: StatefulBuilder(
+                    builder: (BuildContext context, StateSetter setState) {
+                  return Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Row(
+                        children: <Widget>[
+                          Checkbox(
+                            value: _fragile,
+                            onChanged: (bool value) {
+                              setState(() {
+                                _fragile = value;
+                              });
+                            },
+                          ),
+                          Text("Fragile"),
+                        ],
+                      ),
+                      Row(
+                        children: <Widget>[
+                          Checkbox(
+                            value: _leger,
+                            onChanged: (bool value) {
+                              setState(() {
+                                _leger = value;
+                              });
+                            },
+                          ),
+                          Text("Léger"),
+                        ],
+                      ),
+                      Row(
+                        children: <Widget>[
+                          Checkbox(
+                            value: _lourd,
+                            onChanged: (bool value) {
+                              setState(() {
+                                _lourd = value;
+                              });
+                            },
+                          ),
+                          Text("Lourd"),
+                        ],
+                      ),
+                      Row(
+                        children: <Widget>[
+                          Checkbox(
+                            value: _dangereux,
+                            onChanged: (bool value) {
+                              setState(() {
+                                _dangereux = value;
+                              });
+                            },
+                          ),
+                          Text("Dangereux"),
+                        ],
+                      ),
+                    ],
+                  );
+                }),
+              );
+            });
+      },
+    );
+  }
+
   Widget _showSelectTypeOfRemorque() {
     return IconButton(
       icon: Icon(Icons.arrow_forward),
@@ -235,7 +318,6 @@ class _HomePageState extends State<HomePage> {
         showDialog(
             context: context,
             builder: (BuildContext context) {
-              print(voiture_citadine_compact);
               return AlertDialog(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(20.0)),
@@ -499,6 +581,7 @@ class _HomePageState extends State<HomePage> {
                 _selectRetraitTime(),
                 _selectDeliveryTime(),
                 _selectTypeOfMarchandise(),
+              _showSelectTypeOfMarchandise(),
                 _selectTypeOfRemorque(),
                 _showSelectTypeOfRemorque(),
               ],
