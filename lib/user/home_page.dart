@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:bringme/primary_button.dart';
 import 'myDrawer.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'typeOfRemorqueCheckbox.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key key, this.auth, this.userId, this.logoutCallback})
@@ -33,6 +34,18 @@ class _HomePageState extends State<HomePage> {
   String _deliveryTime;
   String _typeOfMarchandise;
   String _typeOfRemorque;
+
+  //type de remorque
+  bool voiture_citadine_compact = false;
+  bool voiture_berline_break = false;
+  bool utilitaire_3 = false;
+  bool utilitaire_6 = false;
+  bool utilitaire_9 = false;
+  bool utilitaire_12 = false;
+  bool utilitaire_14 = false;
+  bool utilitaire_20 = false;
+  bool utilitaire_20_plateau_chargement = false;
+  bool vehicule_isotherme_frigorifique = false;
 
   signOut() async {
     try {
@@ -215,6 +228,233 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  Widget _showSelectTypeOfRemorque() {
+    return IconButton(
+      icon: Icon(Icons.arrow_forward),
+      onPressed: () {
+        showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              print(voiture_citadine_compact);
+              return AlertDialog(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                ),
+                content: StatefulBuilder(
+                  builder: (BuildContext context, StateSetter setState) {
+                    return Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Row(
+                          children: <Widget>[
+                            Checkbox(
+                              value: voiture_citadine_compact,
+                              onChanged: (bool value) {
+                                setState(() {
+                                  voiture_citadine_compact = value;
+                                });
+                              },
+                            ),
+                            Flexible(
+                              child: Container(
+                                child: Text(
+                                  "Voiture citadine & compact",
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: <Widget>[
+                            Checkbox(
+                              value: voiture_berline_break,
+                              onChanged: (bool value) {
+                                setState(() {
+                                  voiture_berline_break = value;
+                                });
+                              },
+                            ),
+                            Flexible(
+                              child: Container(
+                                child: Text(
+                                  "Voiture berline & break",
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: <Widget>[
+                            Checkbox(
+                              value: utilitaire_3,
+                              onChanged: (bool value) {
+                                setState(() {
+                                  utilitaire_3 = value;
+                                });
+                              },
+                            ),
+                            Flexible(
+                              child: Container(
+                                child: Text(
+                                  "Utilitaire 3 m3",
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: <Widget>[
+                            Checkbox(
+                              value: utilitaire_6,
+                              onChanged: (bool value) {
+                                setState(() {
+                                  utilitaire_6 = value;
+                                });
+                              },
+                            ),
+                            Flexible(
+                              child: Container(
+                                child: Text(
+                                  "Utilitaire 6 m3",
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: <Widget>[
+                            Checkbox(
+                              value: utilitaire_9,
+                              onChanged: (bool value) {
+                                setState(() {
+                                  utilitaire_9 = value;
+                                });
+                              },
+                            ),
+                            Flexible(
+                              child: Container(
+                                child: Text(
+                                  "Utilitaire 9 m3",
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: <Widget>[
+                            Checkbox(
+                              value: utilitaire_12,
+                              onChanged: (bool value) {
+                                setState(() {
+                                  utilitaire_12 = value;
+                                });
+                              },
+                            ),
+                            Flexible(
+                              child: Container(
+                                child: Text(
+                                  "Utilitaire 12 m3",
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: <Widget>[
+                            Checkbox(
+                              value: utilitaire_14,
+                              onChanged: (bool value) {
+                                setState(() {
+                                  utilitaire_14 = value;
+                                });
+                              },
+                            ),
+                            Flexible(
+                              child: Container(
+                                child: Text(
+                                  "Utilitaire 14 m3",
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: <Widget>[
+                            Checkbox(
+                              value: utilitaire_20,
+                              onChanged: (bool value) {
+                                setState(() {
+                                  utilitaire_20 = value;
+                                });
+                              },
+                            ),
+                            Flexible(
+                              child: Container(
+                                child: Text(
+                                  "Utilitaire 20 m3",
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: <Widget>[
+                            Checkbox(
+                              value: utilitaire_20_plateau_chargement,
+                              onChanged: (bool value) {
+                                setState(() {
+                                  utilitaire_20_plateau_chargement = value;
+                                });
+                              },
+                            ),
+                            Flexible(
+                              child: Container(
+                                child: Text(
+                                  "Utilitaire 20 m3 avec plateau de chargement",
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: <Widget>[
+                            Checkbox(
+                              value: vehicule_isotherme_frigorifique,
+                              onChanged: (bool value) {
+                                setState(() {
+                                  vehicule_isotherme_frigorifique = value;
+                                });
+                              },
+                            ),
+                            Flexible(
+                              child: Container(
+                                child: Text(
+                                  "Véhicule isotherme ou frigorifique",
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    );
+                  },
+                ),
+              );
+            });
+      },
+    );
+  }
+
   Widget _selectTypeOfRemorque() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(5.0, 20.0, 10.0, 0.0),
@@ -260,6 +500,7 @@ class _HomePageState extends State<HomePage> {
                 _selectDeliveryTime(),
                 _selectTypeOfMarchandise(),
                 _selectTypeOfRemorque(),
+                _showSelectTypeOfRemorque(),
               ],
             ),
           ),
@@ -279,7 +520,10 @@ class _HomePageState extends State<HomePage> {
         title: new Text("Accueil"),
         actions: <Widget>[
           FlatButton(
-              child: Icon(FontAwesomeIcons.signOutAlt,color: Colors.white,),
+              child: Icon(
+                FontAwesomeIcons.signOutAlt,
+                color: Colors.white,
+              ),
               onPressed: signOut)
         ],
       ),
@@ -288,7 +532,10 @@ class _HomePageState extends State<HomePage> {
           padding: const EdgeInsets.all(16.0),
           child: Column(children: <Widget>[
             Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
-              Text("Faire une demande de livraison", style: TextStyle(fontSize: font*15),),
+              Text(
+                "Faire une demande de livraison",
+                style: TextStyle(fontSize: font * 15),
+              ),
               Container(
                 padding: const EdgeInsets.all(16.0),
                 child: buildForm(),
@@ -297,7 +544,10 @@ class _HomePageState extends State<HomePage> {
           ]),
         ),
       ),
-      drawer:  MyDrawer(currentPage: "home", userId: widget.userId,),
+      drawer: MyDrawer(
+        currentPage: "home",
+        userId: widget.userId,
+      ),
     );
   }
 }

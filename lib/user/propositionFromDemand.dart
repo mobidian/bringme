@@ -135,6 +135,9 @@ class _PropositionFromDemandState extends State<PropositionFromDemand> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(20.0)),
+            ),
             title: Text("Information livreur"),
             content: Column(
               mainAxisSize: MainAxisSize.min,

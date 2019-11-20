@@ -142,6 +142,9 @@ class _HomePageState extends State<HomePageDelivery> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(20.0)),
+            ),
             title: Text("Accepter la livraison"),
             content: Column(
               mainAxisSize: MainAxisSize.min,
