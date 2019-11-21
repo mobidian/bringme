@@ -172,11 +172,7 @@ class _HomePageState extends State<HomePageDelivery> {
                 child: Text("Envoyer"),
                 onPressed: (){
                   sendProposition(userId, requestId);
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext context) => DeliveryCourses()
-                      ));
+                  Navigator.pop(context);
                 },
               ),
             ],
@@ -236,11 +232,17 @@ class _HomePageState extends State<HomePageDelivery> {
       itemCount: data.length,
       itemBuilder: (context, index) {
         var currentData = data[index];
+        String remorque = '';
+        currentData['typeOfRemorque'].forEach((k,v){
+          if(v == true){
+            remorque += '/ ' + k.toString();
+          }
+        });
         var requestId = data[index].documentID;
         return Container(
           child: ListTile(
             title: Text(currentData['destination'] + ' à ' + currentData['deliveryTime']),
-            subtitle: Text(currentData['typeOfRemorque']),
+            subtitle: Text(remorque),
             trailing: FlatButton(
               child: Icon(FontAwesomeIcons.arrowRight, color: Colors.green,),
               onPressed: () {

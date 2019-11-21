@@ -108,6 +108,16 @@ class _CourseDetailsState extends State<CourseDetails> {
   }
 
   Widget _deliveryInfo() {
+
+    String _typeRemorque = '';
+
+    widget.coursedata['typeOfRemorque'].forEach((k,v){
+      if(v == true){
+        _typeRemorque += k.toString() + ' ';
+      }
+    });
+
+
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     double font = MediaQuery.of(context).textScaleFactor;
@@ -146,13 +156,13 @@ class _CourseDetailsState extends State<CourseDetails> {
           Card(
             child: ListTile(
               title: Text("Type de marchandise"),
-              subtitle: Text(widget.coursedata['typeOfMarchandise']),
+              subtitle: Text(widget.type),
             ),
           ),
           Card(
             child: ListTile(
               title: Text("Type de remorque"),
-              subtitle: Text(widget.coursedata['typeOfRemorque']),
+              subtitle: Text(_typeRemorque),
             ),
           ),
         ],

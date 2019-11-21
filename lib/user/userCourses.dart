@@ -51,8 +51,16 @@ class _UserCoursesState extends State<UserCourses> {
   }
 
   listConstruct(index) {
+    String marchandise = '';
+
+    _courseList[index]['typeOfMarchandise'].forEach((k,v){
+      if(v == true){
+        marchandise += k.toString() + ' ';
+      }
+    });
+
     return ListTile(
-      title: Text(_courseList[index]['typeOfMarchandise']),
+      title: Text(marchandise),
       subtitle:
           Text("heure de livraison " + _courseList[index]['deliveryTime']),
       trailing: FlatButton(
@@ -65,7 +73,7 @@ class _UserCoursesState extends State<UserCourses> {
               context,
               MaterialPageRoute(
                 builder: (BuildContext context) => CourseDetails(
-                  type: _courseList[index]['typeOfMarchandise'],
+                  type: marchandise,
                   time: _courseList[index]['deliveryTime'],
                   coursedata: _courseList[index],
                 ),

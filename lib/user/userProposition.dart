@@ -67,6 +67,12 @@ class _UserPropositionState extends State<UserProposition> {
         var currentData = data[index];
         var listProposition = currentData["proposition"];
         var demandId = data[index].documentID;
+        String marchandise = '';
+        currentData['typeOfMarchandise'].forEach((k,v){
+          if(v == true){
+            marchandise += k.toString() +' - ';
+          }
+        });
         return Container(
           child: ListTile(
             title: Text(currentData['depart']),
@@ -80,7 +86,7 @@ class _UserPropositionState extends State<UserProposition> {
                   context,
                   MaterialPageRoute(
                     builder: (BuildContext context) => PropositionFromDemand(
-                      title: currentData['typeOfMarchandise'] + ' à ' + currentData['deliveryTime'],
+                      title: marchandise +' à ' + currentData['deliveryTime'],
                       demandId: demandId,
                       listProposition: listProposition,
                       userId: userId,

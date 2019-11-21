@@ -63,7 +63,7 @@ class _CourseDetailsDeliveryState extends State<CourseDetailsDelivery> {
       child: Column(
         children: <Widget>[
           Text(
-            "Information sur le livreur",
+            "Information sur l'utilisateur",
             style: TextStyle(fontSize: font * 20),
           ),
           Container(
@@ -108,6 +108,15 @@ class _CourseDetailsDeliveryState extends State<CourseDetailsDelivery> {
   }
 
   Widget _deliveryInfo() {
+
+    String _typeRemorque = '';
+
+    widget.coursedata['typeOfRemorque'].forEach((k,v){
+      if(v == true){
+        _typeRemorque += k.toString() + ' ';
+      }
+    });
+
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     double font = MediaQuery.of(context).textScaleFactor;
@@ -146,13 +155,13 @@ class _CourseDetailsDeliveryState extends State<CourseDetailsDelivery> {
           Card(
             child: ListTile(
               title: Text("Type de marchandise"),
-              subtitle: Text(widget.coursedata['typeOfMarchandise']),
+              subtitle: Text(widget.type),
             ),
           ),
           Card(
             child: ListTile(
               title: Text("Type de remorque"),
-              subtitle: Text(widget.coursedata['typeOfRemorque']),
+              subtitle: Text(_typeRemorque),
             ),
           ),
         ],
@@ -187,7 +196,7 @@ class _CourseDetailsDeliveryState extends State<CourseDetailsDelivery> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.type + " à " + widget.time),
+        title: Text("A livrer pour " + widget.time),
       ),
       body: _isLoading ? _showCircularProgress() : _pageConstruct(),
     );

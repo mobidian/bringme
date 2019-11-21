@@ -6,7 +6,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:bringme/primary_button.dart';
 import 'myDrawer.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'typeOfRemorqueCheckbox.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key key, this.auth, this.userId, this.logoutCallback})
