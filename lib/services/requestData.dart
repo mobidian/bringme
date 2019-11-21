@@ -18,8 +18,8 @@ class RequestData{
  final String destination;
  final String retraitTime;
  final String deliveryTime;
- final String typeOfMarchandise;
- final String typeOfRemorque;
+ final Map<String, dynamic> typeOfMarchandise;
+ final Map<String, dynamic> typeOfRemorque;
  final String userId;
 
  //champs pour les demandes sotckées chez le user et non pas display à tout le monde

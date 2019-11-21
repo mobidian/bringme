@@ -32,26 +32,30 @@ class _HomePageState extends State<HomePage> {
   String _destination;
   String _retraitTime;
   String _deliveryTime;
-  String _typeOfMarchandise;
-  String _typeOfRemorque;
 
   //type de remorque
-  bool voiture_citadine_compact = false;
-  bool voiture_berline_break = false;
-  bool utilitaire_3 = false;
-  bool utilitaire_6 = false;
-  bool utilitaire_9 = false;
-  bool utilitaire_12 = false;
-  bool utilitaire_14 = false;
-  bool utilitaire_20 = false;
-  bool utilitaire_20_plateau_chargement = false;
-  bool vehicule_isotherme_frigorifique = false;
+  Map<String, dynamic> mapRemorque = {
+    'vcc': false,
+    'vbb' : false,
+    'u3': false,
+    'u6': false,
+    'u9' : false,
+    'u12': false,
+    'u14' : false,
+    'u20' : false,
+    'u20pc' : false,
+    'vif' : false
+  };
 
   //type de marchandise
-  bool _fragile = false;
-  bool _leger = false;
-  bool _lourd = false;
-  bool _dangereux = false;
+  Map<String, dynamic> mapMarchandise = {
+    'fragile' : false,
+    'leger' : false,
+    'lourd' : false,
+    'dangereux' : false,
+  };
+
+
 
   signOut() async {
     try {
@@ -83,8 +87,8 @@ class _HomePageState extends State<HomePage> {
         destination: _destination,
         retraitTime: _retraitTime,
         deliveryTime: _deliveryTime,
-        typeOfMarchandise: _typeOfMarchandise,
-        typeOfRemorque: _typeOfRemorque,
+        typeOfMarchandise: mapMarchandise,
+        typeOfRemorque: mapRemorque,
         userId: widget.userId,
         completed: false,
         accepted: false,
@@ -211,28 +215,28 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _selectTypeOfMarchandise() {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(5.0, 20.0, 10.0, 0.0),
-      child: TextFormField(
-        key: new Key('selectTypeOfMarchandise'),
-        decoration: InputDecoration(
-          labelText: 'selectionnez le type de marchandise',
-          icon: new Icon(
-            Icons.arrow_forward_ios,
-            size: 24,
-            color: Theme.of(context).primaryColor,
-          ),
-        ),
-        validator: (String value) {
-          if (value.isEmpty) {
-            return 'Saisissez un type de marchandise';
-          }
-        },
-        onSaved: (value) => _typeOfMarchandise = value,
-      ),
-    );
-  }
+//  Widget _selectTypeOfMarchandise() {
+//    return Padding(
+//      padding: const EdgeInsets.fromLTRB(5.0, 20.0, 10.0, 0.0),
+//      child: TextFormField(
+//        key: new Key('selectTypeOfMarchandise'),
+//        decoration: InputDecoration(
+//          labelText: 'selectionnez le type de marchandise',
+//          icon: new Icon(
+//            Icons.arrow_forward_ios,
+//            size: 24,
+//            color: Theme.of(context).primaryColor,
+//          ),
+//        ),
+//        validator: (String value) {
+//          if (value.isEmpty) {
+//            return 'Saisissez un type de marchandise';
+//          }
+//        },
+//        onSaved: (value) => _typeOfMarchandise = value,
+//      ),
+//    );
+//  }
 
   Widget _showSelectTypeOfMarchandise() {
     return IconButton(
@@ -253,10 +257,10 @@ class _HomePageState extends State<HomePage> {
                       Row(
                         children: <Widget>[
                           Checkbox(
-                            value: _fragile,
+                            value: mapMarchandise['fragile'],
                             onChanged: (bool value) {
                               setState(() {
-                                _fragile = value;
+                                mapMarchandise['fragile'] = value;
                               });
                             },
                           ),
@@ -266,10 +270,10 @@ class _HomePageState extends State<HomePage> {
                       Row(
                         children: <Widget>[
                           Checkbox(
-                            value: _leger,
+                            value: mapMarchandise['leger'],
                             onChanged: (bool value) {
                               setState(() {
-                                _leger = value;
+                                mapMarchandise['leger'] = value;
                               });
                             },
                           ),
@@ -279,10 +283,10 @@ class _HomePageState extends State<HomePage> {
                       Row(
                         children: <Widget>[
                           Checkbox(
-                            value: _lourd,
+                            value: mapMarchandise['lourd'],
                             onChanged: (bool value) {
                               setState(() {
-                                _lourd = value;
+                                mapMarchandise['lourd'] = value;
                               });
                             },
                           ),
@@ -292,16 +296,29 @@ class _HomePageState extends State<HomePage> {
                       Row(
                         children: <Widget>[
                           Checkbox(
-                            value: _dangereux,
+                            value: mapMarchandise['dangereux'],
                             onChanged: (bool value) {
                               setState(() {
-                                _dangereux = value;
+                                mapMarchandise['dangereux'] = value;
                               });
                             },
                           ),
                           Text("Dangereux"),
                         ],
                       ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: RaisedButton(
+                          color: Theme.of(context).accentColor,
+                          shape: RoundedRectangleBorder(
+                              borderRadius:
+                              BorderRadius.all(Radius.circular(20.0))),
+                          child: Text("Ok", style: TextStyle(color: Colors.white),),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                      )
                     ],
                   );
                 }),
@@ -330,10 +347,10 @@ class _HomePageState extends State<HomePage> {
                         Row(
                           children: <Widget>[
                             Checkbox(
-                              value: voiture_citadine_compact,
+                              value: mapRemorque['vcc'],
                               onChanged: (bool value) {
                                 setState(() {
-                                  voiture_citadine_compact = value;
+                                  mapRemorque['vcc'] = value;
                                 });
                               },
                             ),
@@ -350,10 +367,10 @@ class _HomePageState extends State<HomePage> {
                         Row(
                           children: <Widget>[
                             Checkbox(
-                              value: voiture_berline_break,
+                              value: mapRemorque['vbb'],
                               onChanged: (bool value) {
                                 setState(() {
-                                  voiture_berline_break = value;
+                                  mapRemorque['vbb'] = value;
                                 });
                               },
                             ),
@@ -370,10 +387,10 @@ class _HomePageState extends State<HomePage> {
                         Row(
                           children: <Widget>[
                             Checkbox(
-                              value: utilitaire_3,
+                              value: mapRemorque['u3'],
                               onChanged: (bool value) {
                                 setState(() {
-                                  utilitaire_3 = value;
+                                  mapRemorque['u3'] = value;
                                 });
                               },
                             ),
@@ -390,10 +407,10 @@ class _HomePageState extends State<HomePage> {
                         Row(
                           children: <Widget>[
                             Checkbox(
-                              value: utilitaire_6,
+                              value: mapRemorque['u6'],
                               onChanged: (bool value) {
                                 setState(() {
-                                  utilitaire_6 = value;
+                                  mapRemorque['u6'] = value;
                                 });
                               },
                             ),
@@ -410,10 +427,10 @@ class _HomePageState extends State<HomePage> {
                         Row(
                           children: <Widget>[
                             Checkbox(
-                              value: utilitaire_9,
+                              value: mapRemorque['u9'],
                               onChanged: (bool value) {
                                 setState(() {
-                                  utilitaire_9 = value;
+                                  mapRemorque['u9'] = value;
                                 });
                               },
                             ),
@@ -430,10 +447,10 @@ class _HomePageState extends State<HomePage> {
                         Row(
                           children: <Widget>[
                             Checkbox(
-                              value: utilitaire_12,
+                              value: mapRemorque['u12'],
                               onChanged: (bool value) {
                                 setState(() {
-                                  utilitaire_12 = value;
+                                  mapRemorque['u12'] = value;
                                 });
                               },
                             ),
@@ -450,10 +467,10 @@ class _HomePageState extends State<HomePage> {
                         Row(
                           children: <Widget>[
                             Checkbox(
-                              value: utilitaire_14,
+                              value: mapRemorque['u14'],
                               onChanged: (bool value) {
                                 setState(() {
-                                  utilitaire_14 = value;
+                                  mapRemorque['u14'] = value;
                                 });
                               },
                             ),
@@ -470,10 +487,10 @@ class _HomePageState extends State<HomePage> {
                         Row(
                           children: <Widget>[
                             Checkbox(
-                              value: utilitaire_20,
+                              value: mapRemorque['u20'],
                               onChanged: (bool value) {
                                 setState(() {
-                                  utilitaire_20 = value;
+                                  mapRemorque['u20'] = value;
                                 });
                               },
                             ),
@@ -490,10 +507,10 @@ class _HomePageState extends State<HomePage> {
                         Row(
                           children: <Widget>[
                             Checkbox(
-                              value: utilitaire_20_plateau_chargement,
+                              value: mapRemorque['u20pc'],
                               onChanged: (bool value) {
                                 setState(() {
-                                  utilitaire_20_plateau_chargement = value;
+                                  mapRemorque['u20pc'] = value;
                                 });
                               },
                             ),
@@ -510,10 +527,10 @@ class _HomePageState extends State<HomePage> {
                         Row(
                           children: <Widget>[
                             Checkbox(
-                              value: vehicule_isotherme_frigorifique,
+                              value: mapRemorque['vif'],
                               onChanged: (bool value) {
                                 setState(() {
-                                  vehicule_isotherme_frigorifique = value;
+                                  mapRemorque['vif'] = value;
                                 });
                               },
                             ),
@@ -527,6 +544,19 @@ class _HomePageState extends State<HomePage> {
                             ),
                           ],
                         ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: RaisedButton(
+                            color: Theme.of(context).accentColor,
+                            shape: RoundedRectangleBorder(
+                                borderRadius:
+                                BorderRadius.all(Radius.circular(20.0))),
+                            child: Text("Ok", style: TextStyle(color: Colors.white),),
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                          ),
+                        )
                       ],
                     );
                   },
@@ -537,25 +567,36 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _selectTypeOfRemorque() {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(5.0, 20.0, 10.0, 0.0),
-      child: TextFormField(
-        key: new Key('selectTypeOfRemorque'),
-        decoration: InputDecoration(
-          labelText: 'selectionnez un type de remorque',
-          icon: new Icon(
-            Icons.arrow_forward_ios,
-            size: 24,
-            color: Theme.of(context).primaryColor,
+
+  Widget _showTypeOfMarchandise(){
+    return Container(
+      padding: EdgeInsets.only(top: 20.0),
+      child: Column(
+        children: <Widget>[
+          Row(
+            children: <Widget>[
+              Text("selectionnez le type de marchandise"),
+              _showSelectTypeOfMarchandise(),
+            ],
           ),
-        ),
-        validator: (String value) {
-          if (value.isEmpty) {
-            return 'Saisissez un type de remorque';
-          }
-        },
-        onSaved: (value) => _typeOfRemorque = value,
+        ],
+      ),
+    );
+  }
+
+
+  Widget _showTypeOfRemorque(){
+    return Container(
+      padding: EdgeInsets.only(top: 20.0),
+      child: Column(
+        children: <Widget>[
+          Row(
+            children: <Widget>[
+              Text('Selectionnez le type de remorque'),
+              _showSelectTypeOfRemorque(),
+            ],
+          ),
+        ],
       ),
     );
   }
@@ -580,10 +621,8 @@ class _HomePageState extends State<HomePage> {
                 _selectDestination(),
                 _selectRetraitTime(),
                 _selectDeliveryTime(),
-                _selectTypeOfMarchandise(),
-              _showSelectTypeOfMarchandise(),
-                _selectTypeOfRemorque(),
-                _showSelectTypeOfRemorque(),
+                _showTypeOfMarchandise(),
+                _showTypeOfRemorque(),
               ],
             ),
           ),
