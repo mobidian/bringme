@@ -36,26 +36,24 @@ class _HomePageState extends State<HomePage> {
   //type de remorque
   Map<String, dynamic> mapRemorque = {
     'vcc': false,
-    'vbb' : false,
+    'vbb': false,
     'u3': false,
     'u6': false,
-    'u9' : false,
+    'u9': false,
     'u12': false,
-    'u14' : false,
-    'u20' : false,
-    'u20pc' : false,
-    'vif' : false
+    'u14': false,
+    'u20': false,
+    'u20pc': false,
+    'vif': false
   };
 
   //type de marchandise
   Map<String, dynamic> mapMarchandise = {
-    'fragile' : false,
-    'leger' : false,
-    'lourd' : false,
-    'dangereux' : false,
+    'fragile': false,
+    'leger': false,
+    'lourd': false,
+    'dangereux': false,
   };
-
-
 
   signOut() async {
     try {
@@ -215,32 +213,16 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-//  Widget _selectTypeOfMarchandise() {
-//    return Padding(
-//      padding: const EdgeInsets.fromLTRB(5.0, 20.0, 10.0, 0.0),
-//      child: TextFormField(
-//        key: new Key('selectTypeOfMarchandise'),
-//        decoration: InputDecoration(
-//          labelText: 'selectionnez le type de marchandise',
-//          icon: new Icon(
-//            Icons.arrow_forward_ios,
-//            size: 24,
-//            color: Theme.of(context).primaryColor,
-//          ),
-//        ),
-//        validator: (String value) {
-//          if (value.isEmpty) {
-//            return 'Saisissez un type de marchandise';
-//          }
-//        },
-//        onSaved: (value) => _typeOfMarchandise = value,
-//      ),
-//    );
-//  }
-
   Widget _showSelectTypeOfMarchandise() {
-    return IconButton(
-      icon: Icon(Icons.arrow_forward),
+    return RaisedButton(
+      color: Colors.grey[500],
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(20.0)),
+      ),
+      child: Icon(
+        Icons.arrow_forward,
+        color: Colors.white,
+      ),
       onPressed: () {
         showDialog(
             context: context,
@@ -312,8 +294,11 @@ class _HomePageState extends State<HomePage> {
                           color: Theme.of(context).accentColor,
                           shape: RoundedRectangleBorder(
                               borderRadius:
-                              BorderRadius.all(Radius.circular(20.0))),
-                          child: Text("Ok", style: TextStyle(color: Colors.white),),
+                                  BorderRadius.all(Radius.circular(20.0))),
+                          child: Text(
+                            "Ok",
+                            style: TextStyle(color: Colors.white),
+                          ),
                           onPressed: () {
                             Navigator.pop(context);
                           },
@@ -329,8 +314,15 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _showSelectTypeOfRemorque() {
-    return IconButton(
-      icon: Icon(Icons.arrow_forward),
+    return RaisedButton(
+      color: Colors.grey[500],
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(20.0)),
+      ),
+      child: Icon(
+        Icons.arrow_forward,
+        color: Colors.white,
+      ),
       onPressed: () {
         showDialog(
             context: context,
@@ -550,8 +542,11 @@ class _HomePageState extends State<HomePage> {
                             color: Theme.of(context).accentColor,
                             shape: RoundedRectangleBorder(
                                 borderRadius:
-                                BorderRadius.all(Radius.circular(20.0))),
-                            child: Text("Ok", style: TextStyle(color: Colors.white),),
+                                    BorderRadius.all(Radius.circular(20.0))),
+                            child: Text(
+                              "Ok",
+                              style: TextStyle(color: Colors.white),
+                            ),
                             onPressed: () {
                               Navigator.pop(context);
                             },
@@ -567,35 +562,25 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-
-  Widget _showTypeOfMarchandise(){
+  Widget _showTypeOfMarchandise() {
     return Container(
-      padding: EdgeInsets.only(top: 20.0),
+      padding: EdgeInsets.only(top: 25.0),
       child: Column(
         children: <Widget>[
-          Row(
-            children: <Widget>[
-              Text("selectionnez le type de marchandise"),
-              _showSelectTypeOfMarchandise(),
-            ],
-          ),
+          Text("selectionnez le type de marchandise", style: TextStyle(color: Colors.grey[700]),),
+          _showSelectTypeOfMarchandise(),
         ],
       ),
     );
   }
 
-
-  Widget _showTypeOfRemorque(){
+  Widget _showTypeOfRemorque() {
     return Container(
       padding: EdgeInsets.only(top: 20.0),
       child: Column(
         children: <Widget>[
-          Row(
-            children: <Widget>[
-              Text('Selectionnez le type de remorque'),
-              _showSelectTypeOfRemorque(),
-            ],
-          ),
+          Text('Selectionnez le type de remorque', style: TextStyle(color: Colors.grey[700]),),
+          _showSelectTypeOfRemorque(),
         ],
       ),
     );
