@@ -15,7 +15,7 @@ class LoginSignupPage extends StatefulWidget {
   State<StatefulWidget> createState() => new _LoginSignupPageState();
 }
 
-enum FormType {login, register, registerAsPro}
+enum FormType { login, register, registerAsPro }
 
 class _LoginSignupPageState extends State<LoginSignupPage> {
   final _formKey = new GlobalKey<FormState>();
@@ -28,6 +28,9 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
   String _name;
   String _surname;
   String _phone;
+
+  //livreur
+  String _typeOfRemorque = 'Utilitaire 3m3';
   String _errorMessage;
 
   FormType _formType = FormType.login;
@@ -52,7 +55,6 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
         _isLoading = true;
       });
       try {
-
         String userId = _formType == FormType.login
             ? await widget.auth.signIn(_email, _password)
             : await widget.auth.createUser(_email, _password);
@@ -81,11 +83,11 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
             surname: _surname,
             mail: _email,
             phone: _phone,
+            typeOfRemorque: _typeOfRemorque
           );
 
           crudObj.createOrUpdateDeliveryManData(deliveryManData.getDataMap());
         }
-
       } catch (e) {
         print('Error: $e');
         setState(() {
@@ -103,7 +105,6 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
     _formType = FormType.login;
     super.initState();
   }
-
 
   void moveToRegister() {
     _formKey.currentState.reset();
@@ -154,7 +155,6 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
       ),
     );
   }
-
 
   Widget _buildNameField() {
     return Padding(
@@ -226,7 +226,6 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
     );
   }
 
-
   Widget _builConfirmPasswordTextField() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 0.0),
@@ -246,7 +245,6 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
       ),
     );
   }
-
 
   Widget _buildPhoneField() {
     return Padding(
@@ -272,6 +270,43 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
     );
   }
 
+  Widget _buildTypeOfRemorqueField() {
+    return Container(
+      child: DropdownButton<String>(
+        value: _typeOfRemorque,
+        icon: Icon(Icons.arrow_downward),
+        iconSize: 14,
+        elevation: 16,
+        style: TextStyle(color: Theme.of(context).primaryColor),
+        underline: Container(
+          height: 2,
+          color: Theme.of(context).accentColor,
+        ),
+        onChanged: (String newValue) {
+          setState(() {
+            _typeOfRemorque = newValue;
+          });
+        },
+        items: <String>[
+          'Citadine & Compact',
+          'Berline & break',
+          'Utilitaire 3m3',
+          'Utilitaire 6m3',
+          'Utilitaire 9m3',
+          'Utilitaire 12m3',
+          'Utilitaire 14m3',
+          'Utilitaire 20m3',
+          'Utilitaire 20m3 avec plateau de chargement',
+          'Véhicule isotherme ou frigorifique'
+        ].map<DropdownMenuItem<String>>((String value) {
+          return DropdownMenuItem<String>(
+            value: value,
+            child: Text(value),
+          );
+        }).toList(),
+      ),
+    );
+  }
 
   Widget submitWidgets() {
     switch (_formType) {
@@ -299,8 +334,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
                 key: new Key('register'),
                 text: 'Créer',
                 height: 44.0,
-                onPressed: validateAndSubmit
-            ),
+                onPressed: validateAndSubmit),
             FlatButton(
                 key: new Key('need-login'),
                 child: Text("Déjà un compte ? Se connecter"),
@@ -308,7 +342,6 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
           ],
         );
     }
-
   }
 
   Widget _showCircularProgress() {
@@ -351,7 +384,6 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
 //    );
 //  }
 
-
   Widget showErrorMessage() {
     if (_errorMessage.length > 0 && _errorMessage != null) {
       return Padding(
@@ -372,7 +404,6 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
     }
   }
 
-
   Widget showEmailInput() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 100.0, 0.0, 0.0),
@@ -392,7 +423,6 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
     );
   }
 
-
   Widget _buildForm() {
     return new Container(
         padding: EdgeInsets.all(16.0),
@@ -402,9 +432,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
             shrinkWrap: true,
             children: <Widget>[
               _buildEmailField(),
-              _formType == FormType.register
-                  ? _buildNameField()
-                  : Container(),
+              _formType == FormType.register ? _buildNameField() : Container(),
               _formType == FormType.registerAsPro
                   ? _buildNameField()
                   : Container(),
@@ -414,12 +442,13 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
               _formType == FormType.registerAsPro
                   ? _buildSurnameField()
                   : Container(),
-              _formType == FormType.register
-                  ? _buildPhoneField()
-                  : Container(),
+              _formType == FormType.register ? _buildPhoneField() : Container(),
               _formType == FormType.registerAsPro
                   ? _buildPhoneField()
                   : Container(),
+            _formType == FormType.registerAsPro
+                ? _buildTypeOfRemorqueField()
+                : Container(),
               _buildPasswordField(),
               _formType == FormType.register
                   ? _builConfirmPasswordTextField()
@@ -428,12 +457,11 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
                   ? _builConfirmPasswordTextField()
                   : Container(),
               _isLoading == false ? submitWidgets() : _showCircularProgress(),
-            showErrorMessage(),
+              showErrorMessage(),
             ],
           ),
         ));
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -450,7 +478,6 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
               ],
             ),
           ),
-        )
-    );
+        ));
   }
 }
