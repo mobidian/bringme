@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:bringme/user/myDrawer.dart';
 import 'package:bringme/authentification/auth.dart';
+import 'package:intl/intl.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:bringme/services/crud.dart';
 import 'courseDetails.dart';
@@ -62,7 +63,7 @@ class _UserCoursesState extends State<UserCourses> {
     return ListTile(
       title: Text(marchandise),
       subtitle:
-          Text("heure de livraison " + _courseList[index]['deliveryTime']),
+          Text("Date de livraison " + DateFormat('dd/MM/yy HH:mm').format(_courseList[index]['deliveryDate'].toDate())),
       trailing: FlatButton(
         child: Text(
           "détails",
@@ -74,7 +75,7 @@ class _UserCoursesState extends State<UserCourses> {
               MaterialPageRoute(
                 builder: (BuildContext context) => CourseDetails(
                   type: marchandise,
-                  time: _courseList[index]['deliveryTime'],
+                  time: _courseList[index]['deliveryDate'],
                   coursedata: _courseList[index],
                 ),
               ));
