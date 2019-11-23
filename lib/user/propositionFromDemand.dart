@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:bringme/services/crud.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:bringme/root_page.dart';
+import 'package:intl/intl.dart';
 
 class PropositionFromDemand extends StatefulWidget {
   PropositionFromDemand(
@@ -66,7 +67,7 @@ class _PropositionFromDemandState extends State<PropositionFromDemand> {
       'deliveryDate': suggestTime,
       'depart': widget.demandData['depart'],
       'destination': widget.demandData['destination'],
-      'retraitTime': widget.demandData['retraitDate'],
+      'retraitDate': widget.demandData['retraitDate'],
       'typeOfMarchandise': widget.demandData['typeOfMarchandise'],
       'typeOfRemorque': widget.demandData['typeOfRemorque'],
       'userId': widget.userId,
@@ -145,7 +146,8 @@ class _PropositionFromDemandState extends State<PropositionFromDemand> {
                 Text("Prénom : " + name),
                 Text("Téléphone : " + phone),
                 Text("Prix proposé : " + price + "€"),
-                Text("Heure de livraison : " + suggestTime),
+                Text("Heure de livraison : " + DateFormat('HH:mm').format(
+                    suggestTime)),
               ],
             ),
             actions: <Widget>[
@@ -182,11 +184,12 @@ class _PropositionFromDemandState extends State<PropositionFromDemand> {
           String deliveryManName = deliveryManData[index]['name'];
           String price = deliveryManData[index]['price'].toString();
           String phone = deliveryManData[index]['phone'].toString();
-          String suggestTime = deliveryManData[index]['suggestTime'].toString();
+          DateTime suggestTime = deliveryManData[index]['suggestTime'].toDate();
           return Container(
             child: ListTile(
               title: Text(deliveryManName),
-              subtitle: Text(suggestTime),
+              subtitle: Text('heure suggérée ' + DateFormat('HH:mm').format(
+                  suggestTime)),
               leading: Text(price + "€"),
               trailing: FlatButton(
                 child: Text(

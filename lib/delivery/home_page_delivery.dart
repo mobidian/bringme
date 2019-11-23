@@ -27,7 +27,7 @@ class _HomePageState extends State<HomePageDelivery> {
   CrudMethods crudObj = new CrudMethods();
 
   int _price;
-  String _suggestTime;
+  DateTime _suggestTime = DateTime.now();
 
 
   signOut() async {
@@ -75,29 +75,46 @@ class _HomePageState extends State<HomePageDelivery> {
     );
   }
 
-  Widget _buildSuggestTimeField() {
+
+  final DateFormat dateFormat = DateFormat('HH:mm');
+
+  Widget _buildSuggestTimeField(context, currentData) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
-      child: TextFormField(
-        maxLines: 1,
-        key: new Key('suggestTime'),
-        decoration: InputDecoration(
-          labelText: 'Heure Suggérée',
-          icon: new Icon(
-            Icons.timer,
-            color: Colors.grey,
+      padding: const EdgeInsets.only(top: 10.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Text('Heure sugérée'),
+          RaisedButton(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(20.0)),
+            ),
+            child: Text(dateFormat.format(_suggestTime),  style: TextStyle(color: Colors.grey[700]),),
+            onPressed: () async {
+              final selectedTime = await _selectTime(context);
+              if (selectedTime == null) return;
+
+              setState(() {
+                this._suggestTime = DateTime(
+                  currentData["deliveryDate"].toDate().year,
+                  currentData["deliveryDate"].toDate().month,
+                  currentData["deliveryDate"].toDate().day,
+                  selectedTime.hour,
+                  selectedTime.minute,
+                );
+              });
+              print(_suggestTime);
+            },
           ),
-        ),
-// a terme changer par un textinput number car il s'agira d'une heure ou alors fait un calendrier de selection
-//        keyboardType: TextInputType.number,
-        validator: (String value) {
-          if (value.isEmpty) {
-            return 'Saisissez une heure';
-          }
-          return null;
-        },
-        onSaved: (value) => _suggestTime = value.trim(),
+        ],
       ),
+    );
+  }
+
+  Future<TimeOfDay> _selectTime(BuildContext context) {
+    return showTimePicker(
+      context: context,
+      initialTime: TimeOfDay(hour: _suggestTime.hour, minute: _suggestTime.minute),
     );
   }
 
@@ -127,13 +144,6 @@ class _HomePageState extends State<HomePageDelivery> {
       print("le form n'est pas valide");
     }
 
-//    Firestore.instance
-//        .collection('user')
-//        .document(userId)
-//        .collection('demand')
-//        .document(requestId)
-//        .setData(requestData.getDataMapForDemand(),merge: true);
-//
   }
 
   Widget _buildRequestInfo(currentData, remorque) {
@@ -184,24 +194,23 @@ class _HomePageState extends State<HomePageDelivery> {
               borderRadius: BorderRadius.all(Radius.circular(20.0)),
             ),
             title: Text("Accepter la livraison"),
-            content: SingleChildScrollView(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
+            content: StatefulBuilder(
+              builder: (BuildContext context, StateSetter setState){
+                return SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      _buildRequestInfo(currentData, remorque),
+                      Form(
+                        key: _formKey,
+                        child: _buildPriceField(),
+                      ),
+                      _buildSuggestTimeField(context,currentData)
+                    ],
 
-                  Form(
-                    key: _formKey,
-                    child: Column(
-                      children: <Widget>[
-                        _buildRequestInfo(currentData, remorque),
-                        _buildPriceField(),
-                        _buildSuggestTimeField()
-                      ],
-                    ),
                   ),
-                ],
-
-              ),
+                );
+              },
             ),
             actions: <Widget>[
               FlatButton(
@@ -299,6 +308,9 @@ class _HomePageState extends State<HomePageDelivery> {
             trailing: FlatButton(
               child: Icon(FontAwesomeIcons.arrowRight, color: Colors.green,),
               onPressed: () {
+                setState(() {
+                  _suggestTime = currentData['deliveryDate'].toDate();
+                });
                 _showDialog(currentData['userId'], requestId, currentData, remorque);
               },
             ),
