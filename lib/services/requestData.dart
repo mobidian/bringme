@@ -4,8 +4,8 @@ class RequestData{
  RequestData({
    this.depart,
    this.destination,
-   this.retraitTime,
-   this.deliveryTime,
+   this.retraitDate,
+   this.deliveryDate,
    this.typeOfMarchandise,
    this.typeOfRemorque,
    this.userId,
@@ -16,8 +16,8 @@ class RequestData{
 
  final String depart;
  final String destination;
- final String retraitTime;
- final String deliveryTime;
+ final DateTime retraitDate;
+ final DateTime deliveryDate;
  final Map<String, dynamic> typeOfMarchandise;
  final Map<String, dynamic> typeOfRemorque;
  final String userId;
@@ -31,8 +31,8 @@ class RequestData{
    return {
      "depart": depart,
      "destination": destination,
-     "retraitTime": retraitTime,
-     "deliveryTime": deliveryTime,
+     "retraitDate": retraitDate,
+     "deliveryDate": deliveryDate,
      "typeOfMarchandise": typeOfMarchandise,
      "typeOfRemorque": typeOfRemorque,
      "userId": userId
@@ -43,8 +43,8 @@ class RequestData{
    return {
      "depart": depart,
      "destination": destination,
-     "retraitTime": retraitTime,
-     "deliveryTime": deliveryTime,
+     "retraitDate": retraitDate,
+     "deliveryDate": deliveryDate,
      "typeOfMarchandise": typeOfMarchandise,
      "typeOfRemorque": typeOfRemorque,
      "userId": userId,

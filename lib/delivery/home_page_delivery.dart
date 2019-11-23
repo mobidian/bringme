@@ -6,6 +6,7 @@ import 'package:bringme/delivery/drawerDelivery.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'deliveryCourses.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
 
 class HomePageDelivery extends StatefulWidget {
   HomePageDelivery({Key key, this.auth, this.userId, this.logoutCallback})
@@ -241,7 +242,7 @@ class _HomePageState extends State<HomePageDelivery> {
         var requestId = data[index].documentID;
         return Container(
           child: ListTile(
-            title: Text(currentData['destination'] + ' à ' + currentData['deliveryTime']),
+            title: Text(currentData['destination'] + ' à ' + DateFormat('HH:mm').format(currentData['deliveryDate'].toDate())),
             subtitle: Text(remorque),
             trailing: FlatButton(
               child: Icon(FontAwesomeIcons.arrowRight, color: Colors.green,),

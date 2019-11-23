@@ -3,6 +3,7 @@ import 'package:bringme/user/myDrawer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:bringme/authentification/auth.dart';
 import 'propositionFromDemand.dart';
+import 'package:intl/intl.dart';
 
 class UserProposition extends StatefulWidget {
   final BaseAuth auth = new Auth();
@@ -76,7 +77,7 @@ class _UserPropositionState extends State<UserProposition> {
         return Container(
           child: ListTile(
             title: Text(currentData['depart']),
-            subtitle: Text("arrivé à " + currentData['deliveryTime']),
+            subtitle: Text("arrivé à " + DateFormat('HH:mm').format(currentData['deliveryDate'].toDate())),
             trailing: Text(
               listProposition.length.toString(),
               style: TextStyle(color: Colors.red[300]),
@@ -86,7 +87,7 @@ class _UserPropositionState extends State<UserProposition> {
                   context,
                   MaterialPageRoute(
                     builder: (BuildContext context) => PropositionFromDemand(
-                      title: marchandise +' à ' + currentData['deliveryTime'],
+                      title: marchandise +' à ' + DateFormat('HH:mm').format(currentData['deliveryDate'].toDate()),
                       demandId: demandId,
                       listProposition: listProposition,
                       userId: userId,

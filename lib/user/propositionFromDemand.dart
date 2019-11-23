@@ -63,10 +63,10 @@ class _PropositionFromDemandState extends State<PropositionFromDemand> {
     });
 
     Map<String, dynamic> courseData = {
-      'deliveryTime': suggestTime,
+      'deliveryDate': suggestTime,
       'depart': widget.demandData['depart'],
       'destination': widget.demandData['destination'],
-      'retraitTime': widget.demandData['retraitTime'],
+      'retraitTime': widget.demandData['retraitDate'],
       'typeOfMarchandise': widget.demandData['typeOfMarchandise'],
       'typeOfRemorque': widget.demandData['typeOfRemorque'],
       'userId': widget.userId,

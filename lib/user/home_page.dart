@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:bringme/primary_button.dart';
 import 'myDrawer.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key key, this.auth, this.userId, this.logoutCallback})
@@ -29,8 +30,9 @@ class _HomePageState extends State<HomePage> {
 
   String _depart;
   String _destination;
-  String _retraitTime;
-  String _deliveryTime;
+  DateTime _retraitDate = DateTime.now();
+  DateTime _deliveryDate = DateTime.now();
+
 
   //type de remorque
   Map<String, dynamic> mapRemorque = {
@@ -82,8 +84,8 @@ class _HomePageState extends State<HomePage> {
       RequestData requestData = new RequestData(
         depart: _depart,
         destination: _destination,
-        retraitTime: _retraitTime,
-        deliveryTime: _deliveryTime,
+        retraitDate: _retraitDate,
+        deliveryDate: _deliveryDate,
         typeOfMarchandise: mapMarchandise,
         typeOfRemorque: mapRemorque,
         userId: widget.userId,
@@ -166,48 +168,117 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _selectRetraitTime() {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(5.0, 20.0, 10.0, 0.0),
-      child: TextFormField(
-        key: new Key('selectRetraitTime'),
-        decoration: InputDecoration(
-          labelText: 'selectionnez l\'heure de retrait',
-          icon: new Icon(
-            Icons.arrow_forward_ios,
-            size: 24,
-            color: Theme.of(context).primaryColor,
+
+  final DateFormat dateFormat = DateFormat('dd/MM/yyyy HH:mm');
+
+
+  Widget _selectRetraitDate(BuildContext context){
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        RaisedButton(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(20.0)),
           ),
+          child: Text(dateFormat.format(_retraitDate),  style: TextStyle(color: Colors.grey[700]),),
+          onPressed: () async {
+            final selectedDate = await _selectDateTime(context);
+            if (selectedDate == null) return;
+
+            final selectedTime = await _selectTime(context);
+            if (selectedTime == null) return;
+            print(selectedTime);
+
+            setState(() {
+              this._retraitDate = DateTime(
+                selectedDate.year,
+                selectedDate.month,
+                selectedDate.day,
+                selectedTime.hour,
+                selectedTime.minute,
+              );
+            });
+          },
         ),
-        validator: (String value) {
-          if (value.isEmpty) {
-            return 'Saisissez une heure';
-          }
-        },
-        onSaved: (value) => _retraitTime = value,
+      ],
+    );
+  }
+
+  Widget _selectDeliveryDate(BuildContext context){
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        RaisedButton(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(20.0)),
+          ),
+          child: Text(dateFormat.format(_deliveryDate),  style: TextStyle(color: Colors.grey[700]),),
+          onPressed: () async {
+            final selectedDate = await _selectDateTime(context);
+            if (selectedDate == null) return;
+
+            final selectedTime = await _selectTime(context);
+            if (selectedTime == null) return;
+
+            setState(() {
+              this._deliveryDate = DateTime(
+                selectedDate.year,
+                selectedDate.month,
+                selectedDate.day,
+                selectedTime.hour,
+                selectedTime.minute,
+              );
+            });
+          },
+        ),
+      ],
+    );
+  }
+
+
+  Future<TimeOfDay> _selectTime(BuildContext context) {
+    final now = DateTime.now();
+
+    return showTimePicker(
+      context: context,
+      initialTime: TimeOfDay(hour: now.hour, minute: now.minute),
+    );
+  }
+
+
+  Future<DateTime> _selectDateTime(BuildContext context){
+    return showDatePicker(
+      context: context,
+      initialDate: DateTime.now().add(Duration(seconds: 1)),
+      firstDate: DateTime.now(),
+      lastDate: DateTime(2100),
+    );
+  }
+
+
+
+  Widget _selectRetraitTime() {
+    return Container(
+      padding: EdgeInsets.only(top: 25.0),
+      child: Column(
+        children: <Widget>[
+          Text("selectionnez le jour et l\'heure de retrait", style: TextStyle(color: Colors.grey[700]),),
+          SizedBox(height: 10.0,),
+          _selectRetraitDate(context),
+        ],
       ),
     );
   }
 
   Widget _selectDeliveryTime() {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(5.0, 20.0, 10.0, 0.0),
-      child: TextFormField(
-        key: new Key('selectDeliveryTime'),
-        decoration: InputDecoration(
-          labelText: 'selectionnez l\'heure de livraison',
-          icon: new Icon(
-            Icons.arrow_forward_ios,
-            size: 24,
-            color: Theme.of(context).primaryColor,
-          ),
-        ),
-        validator: (String value) {
-          if (value.isEmpty) {
-            return 'Saisissez une heure';
-          }
-        },
-        onSaved: (value) => _deliveryTime = value,
+    return Container(
+      padding: EdgeInsets.only(top: 25.0),
+      child: Column(
+        children: <Widget>[
+          Text("selectionnez le jour et l\'heure de livraison", style: TextStyle(color: Colors.grey[700]),),
+          SizedBox(height: 10.0,),
+          _selectDeliveryDate(context),
+        ],
       ),
     );
   }
