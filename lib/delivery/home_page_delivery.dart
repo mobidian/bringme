@@ -106,7 +106,7 @@ class _HomePageState extends State<HomePageDelivery> {
     print(requestId);
 
 
-    if(validateAndSave()) {
+    if (validateAndSave()) {
       crudObj.getDataFromUserDemand(userId, requestId).then((value) {
         Map<String, dynamic> dataMap = value.data;
         List<dynamic> listProposition = dataMap['proposition'];
@@ -123,7 +123,7 @@ class _HomePageState extends State<HomePageDelivery> {
         };
         crudObj.updateDemandData(userId, requestId, updatedProposition);
       });
-    }else{
+    } else {
       print("le form n'est pas valide");
     }
 
@@ -136,9 +136,46 @@ class _HomePageState extends State<HomePageDelivery> {
 //
   }
 
+  Widget _buildRequestInfo(currentData, remorque) {
+
+    String typeMarchandise = '';
+    currentData['typeOfMarchandise'].forEach((k, v) {
+      if (v == true) {
+        typeMarchandise += ' ' + k.toString();
+      }
+    });
+
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+      child: Column(
+        children: <Widget>[
+          ListTile(
+            title: Text("Départ"),
+            subtitle: Text(currentData['depart'] + ' à ' + DateFormat('HH:mm').format(
+                currentData['retraitDate'].toDate()) + ' le ' + DateFormat('dd/MM/yy').format(
+                currentData['retraitDate'].toDate()) ),
+          ),
+          ListTile(
+            title: Text("Destination"),
+            subtitle: Text(currentData['destination'] + ' à ' + DateFormat('HH:mm').format(
+                currentData['deliveryDate'].toDate()) + ' le ' + DateFormat('dd/MM/yy').format(
+                currentData['deliveryDate'].toDate())),
+          ),
+          ListTile(
+            title: Text('Marchandise'),
+            subtitle: Text(typeMarchandise),
+          ),
+          ListTile(
+            title: Text('Remorque'),
+            subtitle: Text(remorque),
+          ),
+        ],
+      )
+    );
+  }
 
 
-  void _showDialog(userId, requestId) {
+  void _showDialog(userId, requestId, currentData, remorque) {
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -147,20 +184,24 @@ class _HomePageState extends State<HomePageDelivery> {
               borderRadius: BorderRadius.all(Radius.circular(20.0)),
             ),
             title: Text("Accepter la livraison"),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Form(
-                  key: _formKey,
-                  child: Column(
-                    children: <Widget>[
-                      _buildPriceField(),
-                      _buildSuggestTimeField()
-                    ],
-                  ),
-                ),
-              ],
+            content: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
 
+                  Form(
+                    key: _formKey,
+                    child: Column(
+                      children: <Widget>[
+                        _buildRequestInfo(currentData, remorque),
+                        _buildPriceField(),
+                        _buildSuggestTimeField()
+                      ],
+                    ),
+                  ),
+                ],
+
+              ),
             ),
             actions: <Widget>[
               FlatButton(
@@ -171,7 +212,7 @@ class _HomePageState extends State<HomePageDelivery> {
               ),
               FlatButton(
                 child: Text("Envoyer"),
-                onPressed: (){
+                onPressed: () {
                   sendProposition(userId, requestId);
                   Navigator.pop(context);
                 },
@@ -183,9 +224,17 @@ class _HomePageState extends State<HomePageDelivery> {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
-    double font = MediaQuery.of(context).textScaleFactor;
+    double width = MediaQuery
+        .of(context)
+        .size
+        .width;
+    double height = MediaQuery
+        .of(context)
+        .size
+        .height;
+    double font = MediaQuery
+        .of(context)
+        .textScaleFactor;
     return new Scaffold(
       appBar: new AppBar(
         title: new Text("Accueil livreur"),
@@ -234,20 +283,23 @@ class _HomePageState extends State<HomePageDelivery> {
       itemBuilder: (context, index) {
         var currentData = data[index];
         String remorque = '';
-        currentData['typeOfRemorque'].forEach((k,v){
-          if(v == true){
-            remorque += '/ ' + k.toString();
+        currentData['typeOfRemorque'].forEach((k, v) {
+          if (v == true) {
+            remorque += ' ' + k.toString();
           }
         });
         var requestId = data[index].documentID;
         return Container(
           child: ListTile(
-            title: Text(currentData['destination'] + ' à ' + DateFormat('HH:mm').format(currentData['deliveryDate'].toDate())),
+            title: Text(currentData['destination'] + ' à ' +
+                DateFormat('HH:mm').format(
+                    currentData['retraitDate'].toDate()) + ' le ' + DateFormat('dd/MM/yy').format(
+                currentData['retraitDate'].toDate())),
             subtitle: Text(remorque),
             trailing: FlatButton(
               child: Icon(FontAwesomeIcons.arrowRight, color: Colors.green,),
               onPressed: () {
-                _showDialog(currentData['userId'], requestId);
+                _showDialog(currentData['userId'], requestId, currentData, remorque);
               },
             ),
           ),
