@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:bringme/services/crud.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/widgets.dart';
+import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class CourseDetailsDelivery extends StatefulWidget {
@@ -9,7 +10,7 @@ class CourseDetailsDelivery extends StatefulWidget {
       {@required this.type, @required this.time, @required this.coursedata});
 
   final String type;
-  final String time;
+  final Timestamp time;
   final DocumentSnapshot coursedata;
 
   @override
@@ -137,7 +138,7 @@ class _CourseDetailsDeliveryState extends State<CourseDetailsDelivery> {
           Card(
             child: ListTile(
               title: Text("Heure de retrait"),
-              subtitle: Text(widget.coursedata['retraitTime']),
+              subtitle: Text(DateFormat('HH:mm').format(widget.coursedata['retraitDate'].toDate())),
             ),
           ),
           Card(
@@ -149,7 +150,7 @@ class _CourseDetailsDeliveryState extends State<CourseDetailsDelivery> {
           Card(
             child: ListTile(
               title: Text("Heure de livraison"),
-              subtitle: Text(widget.coursedata['deliveryTime']),
+              subtitle: Text(DateFormat('HH:mm').format(widget.coursedata['deliveryDate'].toDate())),
             ),
           ),
           Card(
@@ -196,7 +197,7 @@ class _CourseDetailsDeliveryState extends State<CourseDetailsDelivery> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("A livrer pour " + widget.time),
+        title: Text("A livrer pour " + DateFormat('HH:mm').format(widget.time.toDate())),
       ),
       body: _isLoading ? _showCircularProgress() : _pageConstruct(),
     );
