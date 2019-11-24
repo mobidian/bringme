@@ -79,12 +79,11 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
 
         if (_formType == FormType.registerAsPro) {
           DeliveryManData deliveryManData = new DeliveryManData(
-            name: _name,
-            surname: _surname,
-            mail: _email,
-            phone: _phone,
-            typeOfRemorque: _typeOfRemorque
-          );
+              name: _name,
+              surname: _surname,
+              mail: _email,
+              phone: _phone,
+              typeOfRemorque: _typeOfRemorque);
 
           crudObj.createOrUpdateDeliveryManData(deliveryManData.getDataMap());
         }
@@ -271,39 +270,48 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
   }
 
   Widget _buildTypeOfRemorqueField() {
-    return Container(
-      child: DropdownButton<String>(
-        value: _typeOfRemorque,
-        icon: Icon(Icons.arrow_downward),
-        iconSize: 14,
-        elevation: 16,
-        style: TextStyle(color: Theme.of(context).primaryColor),
-        underline: Container(
-          height: 2,
-          color: Theme.of(context).accentColor,
-        ),
-        onChanged: (String newValue) {
-          setState(() {
-            _typeOfRemorque = newValue;
-          });
-        },
-        items: <String>[
-          'Citadine & Compact',
-          'Berline & break',
-          'Utilitaire 3m3',
-          'Utilitaire 6m3',
-          'Utilitaire 9m3',
-          'Utilitaire 12m3',
-          'Utilitaire 14m3',
-          'Utilitaire 20m3',
-          'Utilitaire 20m3 avec plateau de chargement',
-          'Véhicule isotherme ou frigorifique'
-        ].map<DropdownMenuItem<String>>((String value) {
-          return DropdownMenuItem<String>(
-            value: value,
-            child: Text(value),
-          );
-        }).toList(),
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 0.0),
+      child: Row(
+        children: <Widget>[
+          Icon(Icons.airport_shuttle, color: Colors.grey[500],),
+          SizedBox(
+            width: 15,
+          ),
+          DropdownButton<String>(
+            value: _typeOfRemorque,
+            icon: Icon(Icons.arrow_downward),
+            iconSize: 17,
+            elevation: 16,
+            style: TextStyle(color: Colors.grey[600]),
+            underline: Container(
+              height: 1,
+              color: Colors.grey[500],
+            ),
+            onChanged: (String newValue) {
+              setState(() {
+                _typeOfRemorque = newValue;
+              });
+            },
+            items: <String>[
+              'Citadine & Compact',
+              'Berline & break',
+              'Utilitaire 3m3',
+              'Utilitaire 6m3',
+              'Utilitaire 9m3',
+              'Utilitaire 12m3',
+              'Utilitaire 14m3',
+              'Utilitaire 20m3',
+              'Utilitaire 20m3 avec plateau de chargement',
+              'Véhicule isotherme ou frigorifique'
+            ].map<DropdownMenuItem<String>>((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(value),
+              );
+            }).toList(),
+          ),
+        ],
       ),
     );
   }
@@ -446,9 +454,9 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
               _formType == FormType.registerAsPro
                   ? _buildPhoneField()
                   : Container(),
-            _formType == FormType.registerAsPro
-                ? _buildTypeOfRemorqueField()
-                : Container(),
+              _formType == FormType.registerAsPro
+                  ? _buildTypeOfRemorqueField()
+                  : Container(),
               _buildPasswordField(),
               _formType == FormType.register
                   ? _builConfirmPasswordTextField()
