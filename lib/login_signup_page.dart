@@ -461,46 +461,44 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
   }
 
   Widget _buildForm() {
-    return new Container(
-        padding: EdgeInsets.all(16.0),
-        child: new Form(
-          key: _formKey,
-          child: new ListView(
-            shrinkWrap: true,
-            children: <Widget>[
-              _buildEmailField(),
-              _formType == FormType.register ? _buildNameField() : Container(),
-              _formType == FormType.registerAsPro
-                  ? _buildNameField()
-                  : Container(),
-              _formType == FormType.register
-                  ? _buildSurnameField()
-                  : Container(),
-              _formType == FormType.registerAsPro
-                  ? _buildSurnameField()
-                  : Container(),
-              _formType == FormType.register ? _buildPhoneField() : Container(),
-              _formType == FormType.registerAsPro
-                  ? _buildPhoneField()
-                  : Container(),
-              _formType == FormType.registerAsPro
-                  ? _buildTypeOfRemorqueField()
-                  : Container(),
-            _formType == FormType.registerAsPro
-                ? _buildImmatriculationField()
-                : Container(),
-              _buildPasswordField(),
-              _formType == FormType.register
-                  ? _builConfirmPasswordTextField()
-                  : Container(),
-              _formType == FormType.registerAsPro
-                  ? _builConfirmPasswordTextField()
-                  : Container(),
-              _isLoading == false ? submitWidgets() : _showCircularProgress(),
-              showErrorMessage(),
-            ],
-          ),
-        ));
+    return new Form(
+      key: _formKey,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          _buildEmailField(),
+          _formType == FormType.register ? _buildNameField() : Container(),
+          _formType == FormType.registerAsPro
+              ? _buildNameField()
+              : Container(),
+          _formType == FormType.register
+              ? _buildSurnameField()
+              : Container(),
+          _formType == FormType.registerAsPro
+              ? _buildSurnameField()
+              : Container(),
+          _formType == FormType.register ? _buildPhoneField() : Container(),
+          _formType == FormType.registerAsPro
+              ? _buildPhoneField()
+              : Container(),
+          _formType == FormType.registerAsPro
+              ? _buildTypeOfRemorqueField()
+              : Container(),
+          _formType == FormType.registerAsPro
+              ? _buildImmatriculationField()
+              : Container(),
+          _buildPasswordField(),
+          _formType == FormType.register
+              ? _builConfirmPasswordTextField()
+              : Container(),
+          _formType == FormType.registerAsPro
+              ? _builConfirmPasswordTextField()
+              : Container(),
+          _isLoading == false ? submitWidgets() : _showCircularProgress(),
+          showErrorMessage(),
+        ],
+      ),
+    );
   }
 
   @override
@@ -513,7 +511,15 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
           child: Container(
             child: Column(
               children: <Widget>[
-                _buildForm(),
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Container(
+                      padding: const EdgeInsets.all(16.0),
+                      child: _buildForm(),
+                    ),
+                  ],
+                ),
                 _formType == FormType.registerAsPro ? Container() : comptePro(),
               ],
             ),
