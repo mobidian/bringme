@@ -165,6 +165,12 @@ class _CourseDetailsDeliveryState extends State<CourseDetailsDelivery> {
               subtitle: Text(_typeRemorque),
             ),
           ),
+          Card(
+            child: ListTile(
+              title: Text("Prix de la course"),
+              subtitle: Text(widget.coursedata['price']),
+            ),
+          ),
         ],
       ),
     );

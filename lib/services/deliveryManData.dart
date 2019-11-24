@@ -4,13 +4,15 @@ class DeliveryManData {
         this.surname,
         this.mail,
         this.phone,
-      this.typeOfRemorque});
+      this.typeOfRemorque,
+      this.immatriculation});
 
   final String name;
   final String surname;
   final String mail;
   final String phone;
   final String typeOfRemorque;
+  final String immatriculation;
 
 
   Map<String,dynamic> getDataMap(){
@@ -19,7 +21,8 @@ class DeliveryManData {
       "surname": surname,
       "mail": mail,
       "phone": phone,
-      "typeOfRemorque" : typeOfRemorque
+      "typeOfRemorque" : typeOfRemorque,
+      "immatriculation" : immatriculation
     };
   }
 }

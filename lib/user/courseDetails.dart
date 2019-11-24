@@ -166,6 +166,12 @@ class _CourseDetailsState extends State<CourseDetails> {
               subtitle: Text(_typeRemorque),
             ),
           ),
+          Card(
+            child: ListTile(
+              title: Text("Prix de la course"),
+              subtitle: Text(widget.coursedata['price']),
+            ),
+          ),
         ],
       ),
     );

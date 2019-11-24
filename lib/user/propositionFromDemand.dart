@@ -58,7 +58,7 @@ class _PropositionFromDemandState extends State<PropositionFromDemand> {
     });
   }
 
-  _acceptProposition(deliveryManId, suggestTime) async {
+  _acceptProposition(deliveryManId, suggestTime, price) async {
     setState(() {
       _isLoading = true;
     });
@@ -73,6 +73,7 @@ class _PropositionFromDemandState extends State<PropositionFromDemand> {
       'userId': widget.userId,
       'deliveryManId': deliveryManId,
       'completed': false,
+      'price' : price
     };
 
     DocumentReference docRef = await Firestore.instance
@@ -160,7 +161,7 @@ class _PropositionFromDemandState extends State<PropositionFromDemand> {
               FlatButton(
                 child: Text("Accepter"),
                 onPressed: () {
-                  _acceptProposition(deliveryManId, suggestTime);
+                  _acceptProposition(deliveryManId, suggestTime, price);
                   Navigator.pushReplacementNamed(context, "/");
                 },
               ),

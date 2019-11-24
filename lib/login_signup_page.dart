@@ -31,6 +31,8 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
 
   //livreur
   String _typeOfRemorque = 'Utilitaire 3m3';
+  String _immatriculation;
+
   String _errorMessage;
 
   FormType _formType = FormType.login;
@@ -83,7 +85,8 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
               surname: _surname,
               mail: _email,
               phone: _phone,
-              typeOfRemorque: _typeOfRemorque);
+              typeOfRemorque: _typeOfRemorque,
+              immatriculation: _immatriculation);
 
           crudObj.createOrUpdateDeliveryManData(deliveryManData.getDataMap());
         }
@@ -274,7 +277,10 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
       padding: const EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 0.0),
       child: Row(
         children: <Widget>[
-          Icon(Icons.airport_shuttle, color: Colors.grey[500],),
+          Icon(
+            Icons.airport_shuttle,
+            color: Colors.grey[500],
+          ),
           SizedBox(
             width: 15,
           ),
@@ -312,6 +318,29 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
             }).toList(),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildImmatriculationField() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 0.0),
+      child: TextFormField(
+        maxLines: 1,
+        key: new Key('immatriculationfield'),
+        decoration: InputDecoration(
+          labelText: 'Immatriculation',
+          icon: new Icon(
+            Icons.assignment,
+            color: Colors.grey,
+          ),
+        ),
+        validator: (String value) {
+          if (value.isEmpty || value.length < 5) {
+            return 'Immatriculation invalide';
+          }
+        },
+        onSaved: (value) => _immatriculation = value.trim(),
       ),
     );
   }
@@ -457,6 +486,9 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
               _formType == FormType.registerAsPro
                   ? _buildTypeOfRemorqueField()
                   : Container(),
+            _formType == FormType.registerAsPro
+                ? _buildImmatriculationField()
+                : Container(),
               _buildPasswordField(),
               _formType == FormType.register
                   ? _builConfirmPasswordTextField()
