@@ -22,6 +22,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
   final TextEditingController _passwordTextController = TextEditingController();
 
   CrudMethods crudObj = new CrudMethods();
+  String _pageTitle = "Connexion";
 
   String _email;
   String _password;
@@ -112,6 +113,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
     _formKey.currentState.reset();
     setState(() {
       _formType = FormType.register;
+      _pageTitle = "Inscription";
       _errorMessage = '';
     });
   }
@@ -120,6 +122,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
     _formKey.currentState.reset();
     setState(() {
       _formType = FormType.registerAsPro;
+      _pageTitle = "Inscription Pro";
       _errorMessage = '';
     });
   }
@@ -128,6 +131,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
     _formKey.currentState.reset();
     setState(() {
       _formType = FormType.login;
+      _pageTitle = "Connexion";
       _errorMessage = '';
     });
   }
@@ -468,12 +472,8 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
         children: <Widget>[
           _buildEmailField(),
           _formType == FormType.register ? _buildNameField() : Container(),
-          _formType == FormType.registerAsPro
-              ? _buildNameField()
-              : Container(),
-          _formType == FormType.register
-              ? _buildSurnameField()
-              : Container(),
+          _formType == FormType.registerAsPro ? _buildNameField() : Container(),
+          _formType == FormType.register ? _buildSurnameField() : Container(),
           _formType == FormType.registerAsPro
               ? _buildSurnameField()
               : Container(),
@@ -503,6 +503,10 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+    double font = MediaQuery.of(context).textScaleFactor;
+
     return new Scaffold(
         appBar: new AppBar(
           title: new Text('Bring Me beta'),
@@ -511,6 +515,13 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
           child: Container(
             child: Column(
               children: <Widget>[
+                Container(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Text(
+                    _pageTitle,
+                    style: TextStyle(fontSize: 25 * font),
+                  ),
+                ),
                 Column(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
