@@ -5,6 +5,9 @@ import 'package:bringme/user/userProposition.dart';
 import 'package:provider/provider.dart';
 import 'package:bringme/user/userCourses.dart';
 import 'package:bringme/delivery/deliveryCourses.dart';
+import 'package:flutter/services.dart';
+
+
 
 void main() => runApp(new MyApp());
 
@@ -23,8 +26,14 @@ class _MyAppState extends State<MyApp>{
   @override
   Widget build(BuildContext context) {
 
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+
     return MultiProvider(
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
           title: 'Bring Me beta 0.1',
           theme: new ThemeData(
             primaryColor: Colors.black,

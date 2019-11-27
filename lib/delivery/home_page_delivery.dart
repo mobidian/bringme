@@ -298,23 +298,28 @@ class _HomePageState extends State<HomePageDelivery> {
           }
         });
         var requestId = data[index].documentID;
-        return Container(
-          child: ListTile(
-            title: Text(currentData['destination'] + ' à ' +
-                DateFormat('HH:mm').format(
-                    currentData['retraitDate'].toDate()) + ' le ' + DateFormat('dd/MM/yy').format(
-                currentData['retraitDate'].toDate())),
-            subtitle: Text(remorque),
-            trailing: FlatButton(
-              child: Icon(FontAwesomeIcons.arrowRight, color: Colors.green,),
-              onPressed: () {
-                setState(() {
-                  _suggestTime = currentData['deliveryDate'].toDate();
-                });
-                _showDialog(currentData['userId'], requestId, currentData, remorque);
-              },
+        return Column(
+          children: <Widget>[
+            Container(
+              child: ListTile(
+                title: Text(currentData['depart'] + ' à ' +
+                    DateFormat('HH:mm').format(
+                        currentData['retraitDate'].toDate()) + ' le ' + DateFormat('dd/MM/yy').format(
+                    currentData['retraitDate'].toDate())),
+                subtitle: Text(remorque),
+                trailing: FlatButton(
+                  child: Icon(FontAwesomeIcons.arrowRight, color: Colors.green,),
+                  onPressed: () {
+                    setState(() {
+                      _suggestTime = currentData['deliveryDate'].toDate();
+                    });
+                    _showDialog(currentData['userId'], requestId, currentData, remorque);
+                  },
+                ),
+              ),
             ),
-          ),
+            Divider()
+          ],
         );
       },
     );
