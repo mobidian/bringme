@@ -470,6 +470,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
+          _showLogo(),
           _buildEmailField(),
           _formType == FormType.register ? _buildNameField() : Container(),
           _formType == FormType.registerAsPro ? _buildNameField() : Container(),
@@ -497,6 +498,17 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
           _isLoading == false ? submitWidgets() : _showCircularProgress(),
           showErrorMessage(),
         ],
+      ),
+    );
+  }
+
+  Widget _showLogo() {
+    return Padding(
+      padding: EdgeInsets.only(top: 20.0),
+      child: CircleAvatar(
+        backgroundColor: Colors.transparent,
+        radius: 48.0,
+        child: Image.asset('assets/logo144.jpg'),
       ),
     );
   }
