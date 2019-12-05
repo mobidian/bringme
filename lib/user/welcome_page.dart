@@ -73,6 +73,8 @@ class _WelcomePageState extends State<WelcomePage> {
       drawer: MyDrawer(
         currentPage: "welcome",
         userId: widget.userId,
+        auth: widget.auth,
+        logoutCallback: widget.logoutCallback,
       ),
     );
   }
