@@ -3,12 +3,17 @@ import 'package:bringme/main.dart';
 import 'package:provider/provider.dart';
 import 'package:bringme/services/crud.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:bringme/authentification/auth.dart';
+
 
 class DrawerDelivery extends StatefulWidget {
-  DrawerDelivery({@required this.currentPage, this.userId});
+  DrawerDelivery({@required this.currentPage, this.userId, this.logoutCallback, this.auth});
 
   final String currentPage;
   final String userId;
+  final VoidCallback logoutCallback;
+  final BaseAuth auth;
 
   @override
   State<StatefulWidget> createState() {
@@ -29,6 +34,15 @@ class _DrawerDeliveryState extends State<DrawerDelivery> {
         dataMap = value.data;
       });
     });
+  }
+
+  signOut() async {
+    try {
+      await widget.auth.signOut();
+      widget.logoutCallback();
+    } catch (e) {
+      print(e);
+    }
   }
 
   Widget _showShimmerLoading() {
@@ -87,6 +101,8 @@ class _DrawerDeliveryState extends State<DrawerDelivery> {
   }
 
   Widget _headerContent() {
+    var currentDrawer = Provider.of<DrawerStateInfo>(context).getCurrentDrawer;
+
     return Column(
       children: <Widget>[
         ListTile(
@@ -107,6 +123,16 @@ class _DrawerDeliveryState extends State<DrawerDelivery> {
         ),
         ListTile(
           title: Text(dataMap["mail"]),
+            trailing: currentDrawer == 0 ? IconButton(
+              icon: Icon(
+                FontAwesomeIcons.signOutAlt,
+                size: 20.0,
+                color: Colors.red[300],
+              ),
+              onPressed: () {
+                signOut();
+              },
+            ) : null
         ),
       ],
     );

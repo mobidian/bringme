@@ -247,18 +247,12 @@ class _HomePageState extends State<HomePageDelivery> {
     return new Scaffold(
       appBar: new AppBar(
         title: new Text("Accueil livreur"),
-        actions: <Widget>[
-          FlatButton(
-              child: Icon(
-                FontAwesomeIcons.signOutAlt,
-                color: Colors.white,
-              ),
-              onPressed: signOut)
-        ],
       ),
       drawer: DrawerDelivery(
         currentPage: 'homeDelivery',
         userId: widget.userId,
+        auth: widget.auth,
+        logoutCallback: widget.logoutCallback,
       ),
       body: Column(
         children: <Widget>[
