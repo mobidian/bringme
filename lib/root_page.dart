@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:bringme/authentification/auth.dart';
 import 'package:bringme/login_signup_page.dart';
-import 'package:bringme/user/home_page.dart';
 import 'package:bringme/services/crud.dart';
 import 'package:bringme/delivery/home_page_delivery.dart';
-
+import 'package:bringme/user/welcome_page.dart';
 
 
 enum AuthStatus {
@@ -124,7 +123,7 @@ class _RootPageState extends State<RootPage> {
         break;
       case AuthStatus.LOGGED_IN:
         if (_userId.length > 0 && _userId != null && pro == false) {
-          return new HomePage(
+          return new WelcomePage(
             userId: _userId,
             auth: widget.auth,
             logoutCallback: logoutCallback,

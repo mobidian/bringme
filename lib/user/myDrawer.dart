@@ -3,6 +3,10 @@ import 'package:bringme/main.dart';
 import 'package:provider/provider.dart';
 import 'package:bringme/services/crud.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:bringme/user/home_page.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:bringme/authentification/auth.dart';
+import 'package:bringme/root_page.dart';
 
 class MyDrawer extends StatefulWidget {
   MyDrawer({@required this.currentPage, @required this.userId});
@@ -20,6 +24,8 @@ class _MyDrawerState extends State<MyDrawer> {
   CrudMethods crudObj = new CrudMethods();
   Map<String, dynamic> dataMap = {};
 
+  final BaseAuth auth = new Auth();
+
   @override
   void initState() {
     super.initState();
@@ -29,6 +35,14 @@ class _MyDrawerState extends State<MyDrawer> {
         dataMap = value.data;
       });
     });
+  }
+
+  signOut() async {
+    try {
+      await auth.signOut();
+    } catch (e) {
+      print(e);
+    }
   }
 
   Widget _showShimmerLoading() {
@@ -106,8 +120,12 @@ class _MyDrawerState extends State<MyDrawer> {
           ),
         ),
         ListTile(
-          title: Text(dataMap["mail"]),
-        ),
+            title: Text(dataMap["mail"]),
+            trailing: IconButton(
+                icon: Icon(FontAwesomeIcons.signOutAlt, size: 20.0,color: Colors.red[300],),
+                onPressed: () {
+                  signOut();
+                })),
       ],
     );
   }
@@ -142,7 +160,7 @@ class _MyDrawerState extends State<MyDrawer> {
             ),
             onTap: () {
               Navigator.of(context).pop();
-              if (widget.currentPage == "home") return;
+              if (widget.currentPage == "welcome") return;
 
               Provider.of<DrawerStateInfo>(context).setCurrentDrawer(0);
 
@@ -151,14 +169,42 @@ class _MyDrawerState extends State<MyDrawer> {
           ),
           ListTile(
             leading: Icon(
-              Icons.assignment_turned_in,
+              FontAwesomeIcons.truckLoading,
               color: currentDrawer == 1
                   ? Theme.of(context).primaryColor
                   : Colors.grey,
             ),
             title: Text(
-              "Proposition",
+              "Réserver",
               style: currentDrawer == 1
+                  ? TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0)
+                  : TextStyle(fontWeight: FontWeight.normal, fontSize: 18.0),
+            ),
+            onTap: () {
+              Navigator.of(context).pop();
+              if (widget.currentPage == "reserver") return;
+
+              Provider.of<DrawerStateInfo>(context).setCurrentDrawer(1);
+
+//              Navigator.pushReplacementNamed(context, "/userProposition");
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => HomePage(
+                            userId: widget.userId,
+                          )));
+            },
+          ),
+          ListTile(
+            leading: Icon(
+              Icons.assignment_turned_in,
+              color: currentDrawer == 2
+                  ? Theme.of(context).primaryColor
+                  : Colors.grey,
+            ),
+            title: Text(
+              "Proposition",
+              style: currentDrawer == 2
                   ? TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0)
                   : TextStyle(fontWeight: FontWeight.normal, fontSize: 18.0),
             ),
@@ -166,7 +212,7 @@ class _MyDrawerState extends State<MyDrawer> {
               Navigator.of(context).pop();
               if (widget.currentPage == "proposition") return;
 
-              Provider.of<DrawerStateInfo>(context).setCurrentDrawer(1);
+              Provider.of<DrawerStateInfo>(context).setCurrentDrawer(2);
 
               Navigator.pushReplacementNamed(context, "/userProposition");
             },
@@ -174,13 +220,13 @@ class _MyDrawerState extends State<MyDrawer> {
           ListTile(
             leading: Icon(
               Icons.location_on,
-              color: currentDrawer == 2
+              color: currentDrawer == 3
                   ? Theme.of(context).primaryColor
                   : Colors.grey,
             ),
             title: Text(
               "Courses",
-              style: currentDrawer == 2
+              style: currentDrawer == 3
                   ? TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0)
                   : TextStyle(fontWeight: FontWeight.normal, fontSize: 18.0),
             ),
@@ -188,7 +234,7 @@ class _MyDrawerState extends State<MyDrawer> {
               Navigator.of(context).pop();
               if (widget.currentPage == "courses") return;
 
-              Provider.of<DrawerStateInfo>(context).setCurrentDrawer(2);
+              Provider.of<DrawerStateInfo>(context).setCurrentDrawer(3);
 
               Navigator.pushReplacementNamed(context, "/userCourses");
             },

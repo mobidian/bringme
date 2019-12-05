@@ -3,6 +3,8 @@ import 'package:bringme/services/crud.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:bringme/root_page.dart';
 import 'package:intl/intl.dart';
+import 'package:bringme/main.dart';
+import 'package:provider/provider.dart';
 
 class PropositionFromDemand extends StatefulWidget {
   PropositionFromDemand(
@@ -162,6 +164,7 @@ class _PropositionFromDemandState extends State<PropositionFromDemand> {
                 child: Text("Accepter"),
                 onPressed: () {
                   _acceptProposition(deliveryManId, suggestTime, price);
+                  Provider.of<DrawerStateInfo>(context).setCurrentDrawer(0);
                   Navigator.pushReplacementNamed(context, "/");
                 },
               ),

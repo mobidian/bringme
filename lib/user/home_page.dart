@@ -9,11 +9,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({Key key, this.auth, this.userId, this.logoutCallback})
+  HomePage({Key key, this.userId})
       : super(key: key);
 
-  final BaseAuth auth;
-  final VoidCallback logoutCallback;
   final String userId;
 
   @override
@@ -55,15 +53,6 @@ class _HomePageState extends State<HomePage> {
     'lourd': false,
     'dangereux': false,
   };
-
-  signOut() async {
-    try {
-      await widget.auth.signOut();
-      widget.logoutCallback();
-    } catch (e) {
-      print(e);
-    }
-  }
 
   bool validateAndSave() {
     final form = formKey.currentState;
@@ -694,15 +683,7 @@ class _HomePageState extends State<HomePage> {
     double font = MediaQuery.of(context).textScaleFactor;
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text("Accueil"),
-        actions: <Widget>[
-          FlatButton(
-              child: Icon(
-                FontAwesomeIcons.signOutAlt,
-                color: Colors.white,
-              ),
-              onPressed: signOut)
-        ],
+        title: new Text("Reserver"),
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -722,7 +703,7 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       drawer: MyDrawer(
-        currentPage: "home",
+        currentPage: "reserver",
         userId: widget.userId,
       ),
     );
