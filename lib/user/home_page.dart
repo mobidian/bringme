@@ -8,9 +8,10 @@ import 'myDrawer.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 
+//ce fichier s'appel home_page et la class HomePage mais devrait etre renommé en book_page (page "resever")
+
 class HomePage extends StatefulWidget {
-  HomePage({Key key, this.userId})
-      : super(key: key);
+  HomePage({Key key, this.userId}) : super(key: key);
 
   final String userId;
 
@@ -22,6 +23,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   static final formKey = new GlobalKey<FormState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   CrudMethods crudObj = new CrudMethods();
 
   bool _isLoading = false;
@@ -30,7 +32,6 @@ class _HomePageState extends State<HomePage> {
   String _destination;
   DateTime _retraitDate = DateTime.now();
   DateTime _deliveryDate = DateTime.now();
-
 
   //type de remorque
   Map<String, dynamic> mapRemorque = {
@@ -97,6 +98,9 @@ class _HomePageState extends State<HomePage> {
       setState(() {
         _isLoading = false;
       });
+
+      _scaffoldKey.currentState
+          .showSnackBar(SnackBar(content: Text('Votre demande a été posté !')));
     } else {
       print("form de demande non valide");
     }
@@ -157,11 +161,9 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-
   final DateFormat dateFormat = DateFormat('dd/MM/yyyy HH:mm');
 
-
-  Widget _selectRetraitDate(BuildContext context){
+  Widget _selectRetraitDate(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
@@ -169,7 +171,10 @@ class _HomePageState extends State<HomePage> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(20.0)),
           ),
-          child: Text(dateFormat.format(_retraitDate),  style: TextStyle(color: Colors.grey[700]),),
+          child: Text(
+            dateFormat.format(_retraitDate),
+            style: TextStyle(color: Colors.grey[700]),
+          ),
           onPressed: () async {
             final selectedDate = await _selectDateTime(context);
             if (selectedDate == null) return;
@@ -193,7 +198,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _selectDeliveryDate(BuildContext context){
+  Widget _selectDeliveryDate(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
@@ -201,7 +206,10 @@ class _HomePageState extends State<HomePage> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(20.0)),
           ),
-          child: Text(dateFormat.format(_deliveryDate),  style: TextStyle(color: Colors.grey[700]),),
+          child: Text(
+            dateFormat.format(_deliveryDate),
+            style: TextStyle(color: Colors.grey[700]),
+          ),
           onPressed: () async {
             final selectedDate = await _selectDateTime(context);
             if (selectedDate == null) return;
@@ -224,7 +232,6 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-
   Future<TimeOfDay> _selectTime(BuildContext context) {
     final now = DateTime.now();
 
@@ -234,8 +241,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-
-  Future<DateTime> _selectDateTime(BuildContext context){
+  Future<DateTime> _selectDateTime(BuildContext context) {
     return showDatePicker(
       context: context,
       initialDate: DateTime.now().add(Duration(seconds: 1)),
@@ -244,15 +250,18 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-
-
   Widget _selectRetraitTime() {
     return Container(
       padding: EdgeInsets.only(top: 25.0),
       child: Column(
         children: <Widget>[
-          Text("selectionnez le jour et l\'heure de retrait", style: TextStyle(color: Colors.grey[700]),),
-          SizedBox(height: 10.0,),
+          Text(
+            "selectionnez le jour et l\'heure de retrait",
+            style: TextStyle(color: Colors.grey[700]),
+          ),
+          SizedBox(
+            height: 10.0,
+          ),
           _selectRetraitDate(context),
         ],
       ),
@@ -264,8 +273,13 @@ class _HomePageState extends State<HomePage> {
       padding: EdgeInsets.only(top: 25.0),
       child: Column(
         children: <Widget>[
-          Text("selectionnez le jour et l\'heure de livraison", style: TextStyle(color: Colors.grey[700]),),
-          SizedBox(height: 10.0,),
+          Text(
+            "selectionnez le jour et l\'heure de livraison",
+            style: TextStyle(color: Colors.grey[700]),
+          ),
+          SizedBox(
+            height: 10.0,
+          ),
           _selectDeliveryDate(context),
         ],
       ),
@@ -626,7 +640,10 @@ class _HomePageState extends State<HomePage> {
       padding: EdgeInsets.only(top: 25.0),
       child: Column(
         children: <Widget>[
-          Text("selectionnez le type de marchandise", style: TextStyle(color: Colors.grey[700]),),
+          Text(
+            "selectionnez le type de marchandise",
+            style: TextStyle(color: Colors.grey[700]),
+          ),
           _showSelectTypeOfMarchandise(),
         ],
       ),
@@ -638,7 +655,10 @@ class _HomePageState extends State<HomePage> {
       padding: EdgeInsets.only(top: 20.0),
       child: Column(
         children: <Widget>[
-          Text('Selectionnez le type de remorque', style: TextStyle(color: Colors.grey[700]),),
+          Text(
+            'Selectionnez le type de remorque',
+            style: TextStyle(color: Colors.grey[700]),
+          ),
           _showSelectTypeOfRemorque(),
         ],
       ),
@@ -682,6 +702,7 @@ class _HomePageState extends State<HomePage> {
     double height = MediaQuery.of(context).size.height;
     double font = MediaQuery.of(context).textScaleFactor;
     return new Scaffold(
+      key: _scaffoldKey,
       appBar: new AppBar(
         title: new Text("Reserver"),
       ),
