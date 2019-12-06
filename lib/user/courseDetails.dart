@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:bringme/services/crud.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/widgets.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -52,6 +53,16 @@ class _CourseDetailsState extends State<CourseDetails> {
       await launch(url);
     } else {
       throw 'Could not launch $url';
+    }
+  }
+
+  _launchMap(adresse) async {
+    var url =
+        "google.navigation:q=$adresse";
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Non disponible $url';
     }
   }
 
@@ -140,6 +151,10 @@ class _CourseDetailsState extends State<CourseDetails> {
             child: ListTile(
               title: Text("Depart"),
               subtitle: Text(widget.coursedata['depart']),
+              trailing: Icon(FontAwesomeIcons.mapMarkerAlt),
+              onTap: (){
+                _launchMap(widget.coursedata['depart']);
+              },
             ),
           ),
           Card(
@@ -152,6 +167,10 @@ class _CourseDetailsState extends State<CourseDetails> {
             child: ListTile(
               title: Text("Destination"),
               subtitle: Text(widget.coursedata['destination']),
+              trailing: Icon(FontAwesomeIcons.mapMarkerAlt),
+              onTap: (){
+                _launchMap(widget.coursedata['destination']);
+              },
             ),
           ),
           Card(
