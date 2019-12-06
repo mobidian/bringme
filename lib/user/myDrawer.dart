@@ -110,7 +110,8 @@ class _MyDrawerState extends State<MyDrawer> {
         ListTile(
           leading: CircleAvatar(
             // photo de profil
-            backgroundColor: Colors.black54,
+            backgroundColor: Colors.white,
+            backgroundImage: AssetImage("assets/awid500.png"),
             minRadius: 25,
             maxRadius: 25,
           ),

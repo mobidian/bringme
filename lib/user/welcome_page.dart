@@ -37,7 +37,7 @@ class _WelcomePageState extends State<WelcomePage> {
         child: Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
-        Image.asset("assets/AWID.png"),
+        Image.asset("assets/AWID1080_trait.png"),
         ButtonTheme(
           minWidth: width/1.4,
           child: RaisedButton(
