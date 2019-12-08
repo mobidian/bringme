@@ -214,7 +214,7 @@ class _MyDrawerState extends State<MyDrawer> {
                   : Colors.grey,
             ),
             title: Text(
-              "Proposition",
+              "Propositions",
               style: currentDrawer == 2
                   ? TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0)
                   : TextStyle(fontWeight: FontWeight.normal, fontSize: 18.0),

@@ -194,7 +194,7 @@ class _CourseDetailsState extends State<CourseDetails> {
           Card(
             child: ListTile(
               title: Text("Prix de la course"),
-              subtitle: Text(widget.coursedata['price']),
+              subtitle: Text(widget.coursedata['price'] + "€"),
             ),
           ),
         ],

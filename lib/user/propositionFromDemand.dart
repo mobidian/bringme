@@ -213,22 +213,33 @@ class _PropositionFromDemandState extends State<PropositionFromDemand> {
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                Text("Prénom : " + name),
-                Text("Téléphone : " + phone),
-                Text("Prix proposé : " + price + "€"),
-                Text("Heure de livraison : " +
-                    DateFormat('HH:mm').format(suggestTime)),
+                ListTile(
+                  title: Text("Prénom"),
+                  subtitle: Text(name),
+                ),
+                ListTile(
+                  title: Text("Téléphone"),
+                  subtitle: Text(phone),
+                ),
+                ListTile(
+                  title: Text("Prix proposé"),
+                  subtitle: Text(price + "€"),
+                ),
+                ListTile(
+                  title: Text("Heure de livraison"),
+                  subtitle: Text(DateFormat('HH:mm').format(suggestTime)),
+                ),
               ],
             ),
             actions: <Widget>[
               FlatButton(
-                child: Text("fermer"),
+                child: Text("fermer", style: TextStyle(color: Colors.black),),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
               ),
               FlatButton(
-                child: Text("Accepter"),
+                child: Text("Accepter", style: TextStyle(color: Colors.green[600]),),
                 onPressed: () {
                   _acceptProposition(deliveryManId, suggestTime, price);
                   Provider.of<DrawerStateInfo>(context).setCurrentDrawer(0);
