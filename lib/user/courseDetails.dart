@@ -107,6 +107,18 @@ class _CourseDetailsState extends State<CourseDetails> {
                 ),
                 Card(
                   child: ListTile(
+                    title: Text("Type de remorque"),
+                    subtitle: Text(_deliveryManData['typeOfRemorque']),
+                  ),
+                ),
+                Card(
+                  child: ListTile(
+                    title: Text("Marque"),
+                    subtitle: Text(_deliveryManData['marque']),
+                  ),
+                ),
+                Card(
+                  child: ListTile(
                     title: Text("Numéro"),
                     subtitle: Text(_deliveryManData['phone']),
                     trailing: FlatButton(
