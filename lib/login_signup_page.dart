@@ -507,8 +507,8 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
       padding: EdgeInsets.only(top: 20.0),
       child: CircleAvatar(
         backgroundColor: Colors.transparent,
-        radius: 48.0,
-        child: Image.asset('assets/logo144.jpg'),
+        radius: 68.0,
+        child: Image.asset('assets/AWID1080_trait.png'),
       ),
     );
   }
@@ -521,7 +521,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
 
     return new Scaffold(
         appBar: new AppBar(
-          title: new Text('Bring Me beta'),
+          title: new Text('AWID'),
         ),
         body: SingleChildScrollView(
           child: Container(

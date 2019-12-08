@@ -34,7 +34,7 @@ class _MyAppState extends State<MyApp>{
     return MultiProvider(
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-          title: 'Bring Me beta 0.1',
+          title: 'AWID beta 0.1',
           theme: new ThemeData(
             primaryColor: Colors.black,
             accentColor: Colors.blueGrey
