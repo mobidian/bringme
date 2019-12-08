@@ -75,7 +75,7 @@ class _PropositionFromDemandState extends State<PropositionFromDemand> {
       'userId': widget.userId,
       'deliveryManId': deliveryManId,
       'completed': false,
-      'price' : price
+      'price': price
     };
 
     DocumentReference docRef = await Firestore.instance
@@ -118,6 +118,60 @@ class _PropositionFromDemandState extends State<PropositionFromDemand> {
     });
   }
 
+  _deleteDemand(){
+    //faire super gaffe avec ca pcq on peut carrement supprimer toute une collection
+    //--------------------------
+    Firestore.instance
+        .collection('request')
+        .document(widget.demandId)
+        .delete()
+        .catchError((e) {
+      print(e.toString());
+    });
+
+    Firestore.instance
+        .collection('user')
+        .document(widget.userId)
+        .collection('demand')
+        .document(widget.demandId)
+        .delete()
+        .catchError((e) {
+      print(e.toString());
+    });
+
+  }
+
+  _showDeleteDemandDialog(){
+
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(20.0)),
+            ),
+            title: Text("Etes vous sûr ?"),
+            actions: <Widget>[
+              FlatButton(
+                child: Text("Fermer", style: TextStyle(color: Colors.black),),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              FlatButton(
+                child: Text("Supprimer", style: TextStyle(color: Colors.red[900]),),
+                onPressed: () {
+                  _deleteDemand();
+                  Provider.of<DrawerStateInfo>(context).setCurrentDrawer(0);
+                  Navigator.pushReplacementNamed(context, "/");
+                },
+              ),
+            ],
+          );
+        });
+
+  }
+
   @override
   Widget build(BuildContext context) {
     print(deliveryManData);
@@ -129,6 +183,19 @@ class _PropositionFromDemandState extends State<PropositionFromDemand> {
           children: <Widget>[
             Expanded(
               child: _buildListOfProposition(),
+            ),
+            ButtonTheme(
+              child: RaisedButton(
+                elevation: 5.0,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0)),
+                child: Text("Supprimer la demande",
+                    style: TextStyle(color: Colors.red[900], fontSize: 20.0)),
+                color: Colors.red[200],
+                onPressed: () {
+                  _showDeleteDemandDialog();
+                },
+              ),
             ),
           ],
         ));
@@ -149,8 +216,8 @@ class _PropositionFromDemandState extends State<PropositionFromDemand> {
                 Text("Prénom : " + name),
                 Text("Téléphone : " + phone),
                 Text("Prix proposé : " + price + "€"),
-                Text("Heure de livraison : " + DateFormat('HH:mm').format(
-                    suggestTime)),
+                Text("Heure de livraison : " +
+                    DateFormat('HH:mm').format(suggestTime)),
               ],
             ),
             actions: <Widget>[
@@ -192,8 +259,8 @@ class _PropositionFromDemandState extends State<PropositionFromDemand> {
           return Container(
             child: ListTile(
               title: Text(deliveryManName),
-              subtitle: Text('heure suggérée ' + DateFormat('HH:mm').format(
-                  suggestTime)),
+              subtitle: Text(
+                  'heure suggérée ' + DateFormat('HH:mm').format(suggestTime)),
               leading: Text(price + "€"),
               trailing: FlatButton(
                 child: Text(
