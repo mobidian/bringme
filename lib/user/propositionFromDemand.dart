@@ -201,7 +201,7 @@ class _PropositionFromDemandState extends State<PropositionFromDemand> {
         ));
   }
 
-  void _showDialog(deliveryManId, name, price, phone, suggestTime) {
+  void _showDialog(deliveryManId, name, price, phone, suggestTime, type, marque) {
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -224,6 +224,14 @@ class _PropositionFromDemandState extends State<PropositionFromDemand> {
                 ListTile(
                   title: Text("Prix proposé"),
                   subtitle: Text(price + "€"),
+                ),
+                ListTile(
+                  title: Text("Type de remorque"),
+                  subtitle: Text(type),
+                ),
+                ListTile(
+                  title: Text("Marque du véhicule"),
+                  subtitle: Text(marque),
                 ),
                 ListTile(
                   title: Text("Heure de livraison"),
@@ -267,6 +275,8 @@ class _PropositionFromDemandState extends State<PropositionFromDemand> {
           String price = deliveryManData[index]['price'].toString();
           String phone = deliveryManData[index]['phone'].toString();
           DateTime suggestTime = deliveryManData[index]['suggestTime'].toDate();
+          String type = deliveryManData[index]['typeOfRemorque'];
+          String marque = deliveryManData[index]['marque'];
           return Container(
             child: ListTile(
               title: Text(deliveryManName),
@@ -280,7 +290,7 @@ class _PropositionFromDemandState extends State<PropositionFromDemand> {
                 ),
                 onPressed: () {
                   _showDialog(deliveryManData[index]['deliveryManId'],
-                      deliveryManName, price, phone, suggestTime);
+                      deliveryManName, price, phone, suggestTime,type,marque);
                 },
               ),
             ),

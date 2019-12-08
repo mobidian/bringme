@@ -33,6 +33,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
   //livreur
   String _typeOfRemorque = 'Utilitaire 3m3';
   String _immatriculation;
+  String _marque;
 
   String _errorMessage;
 
@@ -87,7 +88,8 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
               mail: _email,
               phone: _phone,
               typeOfRemorque: _typeOfRemorque,
-              immatriculation: _immatriculation);
+              immatriculation: _immatriculation,
+              marque: _marque);
 
           crudObj.createOrUpdateDeliveryManData(deliveryManData.getDataMap());
         }
@@ -349,6 +351,29 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
     );
   }
 
+  Widget _buildMarqueField() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 0.0),
+      child: TextFormField(
+        maxLines: 1,
+        key: new Key('marqueField'),
+        decoration: InputDecoration(
+          labelText: 'Marque du véhicule',
+          icon: new Icon(
+            Icons.drive_eta,
+            color: Colors.grey,
+          ),
+        ),
+        validator: (String value) {
+          if (value.isEmpty) {
+            return 'Renseignez une marque';
+          }
+        },
+        onSaved: (value) => _marque = value.trim(),
+      ),
+    );
+  }
+
   Widget submitWidgets() {
     switch (_formType) {
       case FormType.login:
@@ -487,6 +512,9 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
               : Container(),
           _formType == FormType.registerAsPro
               ? _buildImmatriculationField()
+              : Container(),
+          _formType == FormType.registerAsPro
+              ? _buildMarqueField()
               : Container(),
           _buildPasswordField(),
           _formType == FormType.register
