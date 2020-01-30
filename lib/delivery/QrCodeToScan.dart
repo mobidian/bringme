@@ -63,8 +63,10 @@ class QrCodeToScan extends StatelessWidget {
             return CircularProgressIndicator();
           }
           var data = snapshot.data;
-          if (data['completed'] == true) {
-            return redirection();
+          if(data.exists){
+            if (data['completed'] == true) {
+              return redirection();
+            }
           }
           return Center(
             child: QrImage(
