@@ -9,7 +9,10 @@ import 'scannerQR.dart';
 
 class CourseDetails extends StatefulWidget {
   CourseDetails(
-      {@required this.type, @required this.time, @required this.coursedata, @required this.courseID});
+      {@required this.type,
+      @required this.time,
+      @required this.coursedata,
+      @required this.courseID});
 
   final String type;
   final Timestamp time;
@@ -59,8 +62,7 @@ class _CourseDetailsState extends State<CourseDetails> {
   }
 
   _launchMap(adresse) async {
-    var url =
-        "google.navigation:q=$adresse";
+    var url = "google.navigation:q=$adresse";
     if (await canLaunch(url)) {
       await launch(url);
     } else {
@@ -125,7 +127,7 @@ class _CourseDetailsState extends State<CourseDetails> {
                     subtitle: Text(_deliveryManData['phone']),
                     trailing: FlatButton(
                       child: Icon(Icons.phone),
-                      onPressed: (){
+                      onPressed: () {
                         _launchURL(_deliveryManData['phone']);
                       },
                     ),
@@ -140,15 +142,13 @@ class _CourseDetailsState extends State<CourseDetails> {
   }
 
   Widget _deliveryInfo() {
-
     String _typeRemorque = '';
 
-    widget.coursedata['typeOfRemorque'].forEach((k,v){
-      if(v == true){
+    widget.coursedata['typeOfRemorque'].forEach((k, v) {
+      if (v == true) {
         _typeRemorque += k.toString() + ' ';
       }
     });
-
 
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
@@ -166,7 +166,7 @@ class _CourseDetailsState extends State<CourseDetails> {
               title: Text("Depart"),
               subtitle: Text(widget.coursedata['depart']),
               trailing: Icon(FontAwesomeIcons.mapMarkerAlt),
-              onTap: (){
+              onTap: () {
                 _launchMap(widget.coursedata['depart']);
               },
             ),
@@ -174,7 +174,8 @@ class _CourseDetailsState extends State<CourseDetails> {
           Card(
             child: ListTile(
               title: Text("Heure de retrait"),
-              subtitle: Text(DateFormat('HH:mm').format(widget.coursedata['retraitDate'].toDate())),
+              subtitle: Text(DateFormat('HH:mm')
+                  .format(widget.coursedata['retraitDate'].toDate())),
             ),
           ),
           Card(
@@ -182,7 +183,7 @@ class _CourseDetailsState extends State<CourseDetails> {
               title: Text("Destination"),
               subtitle: Text(widget.coursedata['destination']),
               trailing: Icon(FontAwesomeIcons.mapMarkerAlt),
-              onTap: (){
+              onTap: () {
                 _launchMap(widget.coursedata['destination']);
               },
             ),
@@ -190,7 +191,8 @@ class _CourseDetailsState extends State<CourseDetails> {
           Card(
             child: ListTile(
               title: Text("Heure de livraison"),
-              subtitle: Text(DateFormat('HH:mm').format(widget.coursedata['deliveryDate'].toDate())),
+              subtitle: Text(DateFormat('HH:mm')
+                  .format(widget.coursedata['deliveryDate'].toDate())),
             ),
           ),
           Card(
@@ -243,13 +245,19 @@ class _CourseDetailsState extends State<CourseDetails> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.type + " à " + DateFormat('HH:mm').format(widget.time.toDate())),
+        title: Text(widget.type +
+            " à " +
+            DateFormat('HH:mm').format(widget.time.toDate())),
         actions: <Widget>[
           IconButton(
             icon: Icon(FontAwesomeIcons.qrcode),
-            onPressed: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context) => ScannerQR(courseID: widget.courseID,)));
-
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ScannerQR(
+                          courseID: widget.courseID,
+                          courseData: widget.coursedata)));
             },
           ),
         ],

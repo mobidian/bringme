@@ -1,12 +1,17 @@
 import 'dart:async';
 
+import 'package:bringme/main.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'home_page.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:qr_mobile_vision/qr_camera.dart';
 
 class ScannerQR extends StatefulWidget {
-  ScannerQR({@required this.courseID});
+  ScannerQR({@required this.courseID, @required this.courseData});
 
   final String courseID;
+  final DocumentSnapshot courseData;
 
   @override
   State<StatefulWidget> createState() {
@@ -41,9 +46,36 @@ class _ScannerQRState extends State<ScannerQR> {
 
   Widget endCourseConstruct() {
     if (widget.courseID == _scannedCode) {
+      //la course est placé dans l'historique du user
+      Map<String, dynamic> _courseData = widget.courseData.data;
+      _courseData['completed'] = true;
+
+      Firestore.instance
+          .collection('user')
+          .document(widget.courseData['userId'])
+          .collection('historic')
+          .document(widget.courseID)
+          .setData(_courseData);
+
+      //la course est aussi placé dans l'historique du livreur
+      Firestore.instance
+          .collection('deliveryman')
+          .document(widget.courseData['deliveryManId'])
+          .collection('historic')
+          .document(widget.courseID)
+          .setData(_courseData);
 
       Timer(Duration(seconds: 4), () {
-        print("Yeah, this line is printed after 4 seconds");
+        Provider.of<DrawerStateInfo>(context).setCurrentDrawer(1);
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (BuildContext context) => HomePage(
+                      userId: widget.courseData['userId'],
+                    )));
+
+        print(
+            "4 SECONDES SONT PASSE REDIRECTION DU USER VERS LA PAGE D'ACCUEIL");
       });
 
       return Container(
@@ -54,8 +86,14 @@ class _ScannerQRState extends State<ScannerQR> {
             children: <Widget>[
               CircularProgressIndicator(),
               Text(''),
-              Text("La course a été validée"),
-              Text("et va être déplacée dans votre historique"),
+              Text(
+                "La course a été validée",
+                style: TextStyle(fontSize: 17.0),
+              ),
+              Text(
+                "et va être déplacée dans votre historique",
+                style: TextStyle(fontSize: 17.0),
+              ),
             ],
           ),
         ),

@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:bringme/main.dart';
 
 class WelcomePage extends StatefulWidget {
-  WelcomePage({Key key, this.auth, this.userId, this.logoutCallback});
+  WelcomePage({Key key, this.auth, @required this.userId, this.logoutCallback});
 
   final BaseAuth auth;
   final VoidCallback logoutCallback;

@@ -9,7 +9,10 @@ import 'QrCodeToScan.dart';
 
 class CourseDetailsDelivery extends StatefulWidget {
   CourseDetailsDelivery(
-      {@required this.type, @required this.time, @required this.coursedata, @required this.courseID});
+      {@required this.type,
+      @required this.time,
+      @required this.coursedata,
+      @required this.courseID});
 
   final String type;
   final Timestamp time;
@@ -37,8 +40,7 @@ class _CourseDetailsDeliveryState extends State<CourseDetailsDelivery> {
       _isLoading = true;
     });
     crudObj
-        .getDataFromUserFromDocumentWithID(
-        widget.coursedata['userId'])
+        .getDataFromUserFromDocumentWithID(widget.coursedata['userId'])
         .then((value) {
       setState(() {
         _userId = value.data;
@@ -59,8 +61,7 @@ class _CourseDetailsDeliveryState extends State<CourseDetailsDelivery> {
   }
 
   _launchMap(adresse) async {
-    var url =
-        "google.navigation:q=$adresse";
+    var url = "google.navigation:q=$adresse";
     if (await canLaunch(url)) {
       await launch(url);
     } else {
@@ -107,7 +108,7 @@ class _CourseDetailsDeliveryState extends State<CourseDetailsDelivery> {
                     subtitle: Text(_userId['phone']),
                     trailing: FlatButton(
                       child: Icon(Icons.phone),
-                      onPressed: (){
+                      onPressed: () {
                         _launchURL(_userId['phone']);
                       },
                     ),
@@ -122,11 +123,10 @@ class _CourseDetailsDeliveryState extends State<CourseDetailsDelivery> {
   }
 
   Widget _deliveryInfo() {
-
     String _typeRemorque = '';
 
-    widget.coursedata['typeOfRemorque'].forEach((k,v){
-      if(v == true){
+    widget.coursedata['typeOfRemorque'].forEach((k, v) {
+      if (v == true) {
         _typeRemorque += k.toString() + ' ';
       }
     });
@@ -147,7 +147,7 @@ class _CourseDetailsDeliveryState extends State<CourseDetailsDelivery> {
               title: Text("Depart"),
               subtitle: Text(widget.coursedata['depart']),
               trailing: Icon(FontAwesomeIcons.mapMarkerAlt),
-              onTap: (){
+              onTap: () {
                 _launchMap(widget.coursedata['depart']);
               },
             ),
@@ -155,7 +155,8 @@ class _CourseDetailsDeliveryState extends State<CourseDetailsDelivery> {
           Card(
             child: ListTile(
               title: Text("Heure de retrait"),
-              subtitle: Text(DateFormat('HH:mm').format(widget.coursedata['retraitDate'].toDate())),
+              subtitle: Text(DateFormat('HH:mm')
+                  .format(widget.coursedata['retraitDate'].toDate())),
             ),
           ),
           Card(
@@ -163,7 +164,7 @@ class _CourseDetailsDeliveryState extends State<CourseDetailsDelivery> {
               title: Text("Destination"),
               subtitle: Text(widget.coursedata['destination']),
               trailing: Icon(FontAwesomeIcons.mapMarkerAlt),
-              onTap: (){
+              onTap: () {
                 _launchMap(widget.coursedata['destination']);
               },
             ),
@@ -171,7 +172,8 @@ class _CourseDetailsDeliveryState extends State<CourseDetailsDelivery> {
           Card(
             child: ListTile(
               title: Text("Heure de livraison"),
-              subtitle: Text(DateFormat('HH:mm').format(widget.coursedata['deliveryDate'].toDate())),
+              subtitle: Text(DateFormat('HH:mm')
+                  .format(widget.coursedata['deliveryDate'].toDate())),
             ),
           ),
           Card(
@@ -224,14 +226,19 @@ class _CourseDetailsDeliveryState extends State<CourseDetailsDelivery> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("A livrer pour " + DateFormat('HH:mm').format(widget.time.toDate())),
+        title: Text("A livrer pour " +
+            DateFormat('HH:mm').format(widget.time.toDate())),
         actions: <Widget>[
           IconButton(
             icon: Icon(FontAwesomeIcons.qrcode),
-            onPressed: (){
+            onPressed: () {
               print(widget.courseID);
-              Navigator.push(context, MaterialPageRoute(builder: (context) => QrCodeToScan(courseID: widget.courseID,)));
-
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => QrCodeToScan(
+                          courseID: widget.courseID,
+                          courseData: widget.coursedata)));
             },
           ),
         ],
