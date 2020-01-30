@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:bringme/user/userCourses.dart';
 import 'package:bringme/delivery/deliveryCourses.dart';
 import 'package:flutter/services.dart';
+import 'package:bringme/delivery/historicPage.dart';
 
 
 
@@ -44,6 +45,7 @@ class _MyAppState extends State<MyApp>{
             '/userProposition': (BuildContext context) => UserProposition(),
             '/userCourses': (BuildContext context) => UserCourses(),
             '/deliveryCourses': (BuildContext context) => DeliveryCourses(),
+            '/deliveryHistoric': (BuildContext context) => HistoricPage(),
           },
       ),
       providers: <SingleChildCloneableWidget>[

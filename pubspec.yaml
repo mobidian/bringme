@@ -60,6 +60,7 @@ flutter:
   - assets/awid500.png
   - assets/AWID1080.png
   - assets/AWID1080_trait.png
+  - assets/awid_livreur500.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

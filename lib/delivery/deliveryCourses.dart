@@ -97,7 +97,7 @@ class _DeliveryCoursesState extends State<DeliveryCourses>{
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("livreur courses"),
+        title: Text("Livreur courses"),
       ),
       drawer: DrawerDelivery(currentPage: 'deliveryCourses', userId: userId,),
       body: SmartRefresher(

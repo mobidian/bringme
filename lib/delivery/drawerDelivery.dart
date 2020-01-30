@@ -108,7 +108,8 @@ class _DrawerDeliveryState extends State<DrawerDelivery> {
         ListTile(
           leading: CircleAvatar(
             // photo de profil
-            backgroundColor: Colors.black54,
+            backgroundColor: Colors.white,
+            backgroundImage: AssetImage("assets/awid_livreur500.png"),
             minRadius: 25,
             maxRadius: 25,
           ),
@@ -195,6 +196,28 @@ class _DrawerDeliveryState extends State<DrawerDelivery> {
               Provider.of<DrawerStateInfo>(context).setCurrentDrawer(1);
 
               Navigator.pushReplacementNamed(context, "/deliveryCourses");
+            },
+          ),
+          ListTile(
+            leading: Icon(
+              Icons.history,
+              color: currentDrawer == 2
+                  ? Theme.of(context).primaryColor
+                  : Colors.grey,
+            ),
+            title: Text(
+              "Historique",
+              style: currentDrawer == 2
+                  ? TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0)
+                  : TextStyle(fontWeight: FontWeight.normal, fontSize: 18.0),
+            ),
+            onTap: () {
+              Navigator.of(context).pop();
+              if (widget.currentPage == "deliveryHistoric") return;
+
+              Provider.of<DrawerStateInfo>(context).setCurrentDrawer(2);
+
+              Navigator.pushReplacementNamed(context, "/deliveryHistoric");
             },
           ),
         ],
