@@ -47,8 +47,8 @@ android {
         applicationId "com.bringme.flutter.jerem.bringme"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 1 // nombre de build upload sur le play store
-        versionName "0.1.0"
+        versionCode 2 // nombre de build upload sur le play store
+        versionName "0.2.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true //support du multidex
     }

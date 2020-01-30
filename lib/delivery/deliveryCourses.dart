@@ -85,6 +85,7 @@ class _DeliveryCoursesState extends State<DeliveryCourses>{
                   type: marchandise,
                   time: _courseList[index]['deliveryDate'],
                   coursedata: _courseList[index],
+                  courseID: _courseList[index].documentID
                 ),
               ));
         },

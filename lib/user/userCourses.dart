@@ -77,6 +77,7 @@ class _UserCoursesState extends State<UserCourses> {
                   type: marchandise,
                   time: _courseList[index]['deliveryDate'],
                   coursedata: _courseList[index],
+                  courseID: _courseList[index].documentID,
                 ),
               ));
         },

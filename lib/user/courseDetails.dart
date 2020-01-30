@@ -5,14 +5,16 @@ import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'scannerQR.dart';
 
 class CourseDetails extends StatefulWidget {
   CourseDetails(
-      {@required this.type, @required this.time, @required this.coursedata});
+      {@required this.type, @required this.time, @required this.coursedata, @required this.courseID});
 
   final String type;
   final Timestamp time;
   final DocumentSnapshot coursedata;
+  final String courseID;
 
   @override
   State<StatefulWidget> createState() {
@@ -242,6 +244,15 @@ class _CourseDetailsState extends State<CourseDetails> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.type + " à " + DateFormat('HH:mm').format(widget.time.toDate())),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(FontAwesomeIcons.qrcode),
+            onPressed: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context) => ScannerQR(courseID: widget.courseID,)));
+
+            },
+          ),
+        ],
       ),
       body: _isLoading ? _showCircularProgress() : _pageConstruct(),
     );

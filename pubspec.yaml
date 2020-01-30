@@ -27,6 +27,8 @@ dependencies:
   url_launcher: ^5.2.5
   font_awesome_flutter: ^8.5.0
   intl: ^0.16.0
+  qr_flutter: ^2.0.0
+  qr_mobile_vision: ^0.2.2
 
 
   flutter:
