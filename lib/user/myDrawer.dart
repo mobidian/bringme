@@ -250,6 +250,28 @@ class _MyDrawerState extends State<MyDrawer> {
               Navigator.pushReplacementNamed(context, "/userCourses");
             },
           ),
+          ListTile(
+            leading: Icon(
+              Icons.history,
+              color: currentDrawer == 4
+                  ? Theme.of(context).primaryColor
+                  : Colors.grey,
+            ),
+            title: Text(
+              "Historique",
+              style: currentDrawer == 4
+                  ? TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0)
+                  : TextStyle(fontWeight: FontWeight.normal, fontSize: 18.0),
+            ),
+            onTap: () {
+              Navigator.of(context).pop();
+              if (widget.currentPage == "userHistoric") return;
+
+              Provider.of<DrawerStateInfo>(context).setCurrentDrawer(4);
+
+              Navigator.pushReplacementNamed(context, "/userHistoric");
+            },
+          ),
         ],
       ),
     );

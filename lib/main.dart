@@ -7,6 +7,7 @@ import 'package:bringme/user/userCourses.dart';
 import 'package:bringme/delivery/deliveryCourses.dart';
 import 'package:flutter/services.dart';
 import 'package:bringme/delivery/historicPage.dart';
+import 'package:bringme/user/userHistoric.dart';
 
 
 
@@ -44,6 +45,7 @@ class _MyAppState extends State<MyApp>{
             '/': (BuildContext context) => new RootPage(auth: new Auth()),
             '/userProposition': (BuildContext context) => UserProposition(),
             '/userCourses': (BuildContext context) => UserCourses(),
+            '/userHistoric': (BuildContext context) => UserHistoricPage(),
             '/deliveryCourses': (BuildContext context) => DeliveryCourses(),
             '/deliveryHistoric': (BuildContext context) => HistoricPage(),
           },
