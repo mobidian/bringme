@@ -59,7 +59,6 @@ class QrCodeToScan extends StatelessWidget {
             .document(courseData.documentID)
             .snapshots(),
         builder: (context, snapshot) {
-          print(snapshot.data);
           if (!snapshot.hasData) {
             return CircularProgressIndicator();
           }

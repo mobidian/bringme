@@ -6,6 +6,7 @@ import 'home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_mobile_vision/qr_camera.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ScannerQR extends StatefulWidget {
   ScannerQR({@required this.courseID, @required this.courseData});
@@ -65,6 +66,28 @@ class _ScannerQRState extends State<ScannerQR> {
           .document(widget.courseID)
           .setData(_courseData);
 
+      //la course est supprimée de la collection du user
+      Firestore.instance
+          .collection('user')
+          .document(widget.courseData['userId'])
+          .collection('course')
+          .document(widget.courseID)
+          .delete()
+          .catchError((e) {
+        print(e.toString());
+      });
+
+      //la course est supprimée de la collection du livreur
+      Firestore.instance
+          .collection('deliveryman')
+          .document(widget.courseData['deliveryManId'])
+          .collection('course')
+          .document(widget.courseID)
+          .delete()
+          .catchError((e) {
+        print(e.toString());
+      });
+
       Timer(Duration(seconds: 4), () {
         Provider.of<DrawerStateInfo>(context).setCurrentDrawer(1);
         Navigator.pushReplacement(
@@ -100,11 +123,33 @@ class _ScannerQRState extends State<ScannerQR> {
       );
     }
 
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(20.0, 200.0, 20.0, 0.0),
-      child: Text(
-        "Impossible de valider la course , vous avez peut-être sélectionné la mauvaise course à vérifier",
-        style: TextStyle(color: Colors.red[700]),
+    return Container(
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Icon(
+              FontAwesomeIcons.exclamationTriangle,
+              color: Colors.red[700],
+              size: 40.0,
+            ),
+            Text(''),
+            Text(
+              "Impossible de valider la course",
+              style: TextStyle(fontSize: 17.0, color: Colors.red[700]),
+            ),
+            Text(''),
+            Text(
+              "vous avez peut-être sélectionné",
+              style: TextStyle(fontSize: 17.0, color: Colors.red[700]),
+            ),
+            Text(
+              "la mauvaise course à vérifier",
+              style: TextStyle(fontSize: 17.0, color: Colors.red[700]),
+            ),
+          ],
+        ),
       ),
     );
   }
