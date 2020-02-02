@@ -4,9 +4,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:bringme/services/crud.dart';
 import 'package:bringme/delivery/drawerDelivery.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'deliveryCourses.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 class HomePageDelivery extends StatefulWidget {
   HomePageDelivery({Key key, this.auth, this.userId, this.logoutCallback})
@@ -29,6 +29,34 @@ class _HomePageState extends State<HomePageDelivery> {
   int _price;
   DateTime _suggestTime = DateTime.now();
 
+  //notification
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+
+  @override
+  void initState() {
+    super.initState();
+    _firebaseMessaging.getToken().then((token){
+      print(token);
+    });
+    _firebaseMessaging.configure(
+      onMessage: (Map<String, dynamic> message) async {
+        print("onMessage: $message");
+        final notification = message['notification'];
+        print(notification);
+        print(notification['title']);
+      },
+      onResume: (Map<String, dynamic> message) async {
+        print("onResume: $message");
+      },
+      onLaunch: (Map<String, dynamic> message) async {
+        print("onLaunch: $message");
+      },
+    );
+
+    //juste pour IOS
+    _firebaseMessaging.requestNotificationPermissions(
+        const IosNotificationSettings(sound: true, badge: true, alert: true));
+  }
 
   signOut() async {
     try {
@@ -39,7 +67,6 @@ class _HomePageState extends State<HomePageDelivery> {
     }
   }
 
-
   bool validateAndSave() {
     final form = _formKey.currentState;
     if (form.validate()) {
@@ -48,7 +75,6 @@ class _HomePageState extends State<HomePageDelivery> {
     }
     return false;
   }
-
 
   Widget _buildPriceField() {
     return Padding(
@@ -75,7 +101,6 @@ class _HomePageState extends State<HomePageDelivery> {
     );
   }
 
-
   final DateFormat dateFormat = DateFormat('HH:mm');
 
   Widget _buildSuggestTimeField(context, currentData) {
@@ -89,7 +114,10 @@ class _HomePageState extends State<HomePageDelivery> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(20.0)),
             ),
-            child: Text(dateFormat.format(_suggestTime),  style: TextStyle(color: Colors.grey[700]),),
+            child: Text(
+              dateFormat.format(_suggestTime),
+              style: TextStyle(color: Colors.grey[700]),
+            ),
             onPressed: () async {
               final selectedTime = await _selectTime(context);
               if (selectedTime == null) return;
@@ -114,14 +142,14 @@ class _HomePageState extends State<HomePageDelivery> {
   Future<TimeOfDay> _selectTime(BuildContext context) {
     return showTimePicker(
       context: context,
-      initialTime: TimeOfDay(hour: _suggestTime.hour, minute: _suggestTime.minute),
+      initialTime:
+          TimeOfDay(hour: _suggestTime.hour, minute: _suggestTime.minute),
     );
   }
 
   void sendProposition(userId, requestId) {
     print(userId);
     print(requestId);
-
 
     if (validateAndSave()) {
       crudObj.getDataFromUserDemand(userId, requestId).then((value) {
@@ -143,11 +171,9 @@ class _HomePageState extends State<HomePageDelivery> {
     } else {
       print("le form n'est pas valide");
     }
-
   }
 
   Widget _buildRequestInfo(currentData, remorque) {
-
     String typeMarchandise = '';
     currentData['typeOfMarchandise'].forEach((k, v) {
       if (v == true) {
@@ -156,34 +182,40 @@ class _HomePageState extends State<HomePageDelivery> {
     });
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
-      child: Column(
-        children: <Widget>[
-          ListTile(
-            title: Text("Départ"),
-            subtitle: Text(currentData['depart'] + ' à ' + DateFormat('HH:mm').format(
-                currentData['retraitDate'].toDate()) + ' le ' + DateFormat('dd/MM/yy').format(
-                currentData['retraitDate'].toDate()) ),
-          ),
-          ListTile(
-            title: Text("Destination"),
-            subtitle: Text(currentData['destination'] + ' à ' + DateFormat('HH:mm').format(
-                currentData['deliveryDate'].toDate()) + ' le ' + DateFormat('dd/MM/yy').format(
-                currentData['deliveryDate'].toDate())),
-          ),
-          ListTile(
-            title: Text('Marchandise'),
-            subtitle: Text(typeMarchandise),
-          ),
-          ListTile(
-            title: Text('Remorque'),
-            subtitle: Text(remorque),
-          ),
-        ],
-      )
-    );
+        padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+        child: Column(
+          children: <Widget>[
+            ListTile(
+              title: Text("Départ"),
+              subtitle: Text(currentData['depart'] +
+                  ' à ' +
+                  DateFormat('HH:mm')
+                      .format(currentData['retraitDate'].toDate()) +
+                  ' le ' +
+                  DateFormat('dd/MM/yy')
+                      .format(currentData['retraitDate'].toDate())),
+            ),
+            ListTile(
+              title: Text("Destination"),
+              subtitle: Text(currentData['destination'] +
+                  ' à ' +
+                  DateFormat('HH:mm')
+                      .format(currentData['deliveryDate'].toDate()) +
+                  ' le ' +
+                  DateFormat('dd/MM/yy')
+                      .format(currentData['deliveryDate'].toDate())),
+            ),
+            ListTile(
+              title: Text('Marchandise'),
+              subtitle: Text(typeMarchandise),
+            ),
+            ListTile(
+              title: Text('Remorque'),
+              subtitle: Text(remorque),
+            ),
+          ],
+        ));
   }
-
 
   void _showDialog(userId, requestId, currentData, remorque) {
     showDialog(
@@ -195,7 +227,7 @@ class _HomePageState extends State<HomePageDelivery> {
             ),
             title: Text("Accepter la livraison"),
             content: StatefulBuilder(
-              builder: (BuildContext context, StateSetter setState){
+              builder: (BuildContext context, StateSetter setState) {
                 return SingleChildScrollView(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
@@ -205,9 +237,8 @@ class _HomePageState extends State<HomePageDelivery> {
                         key: _formKey,
                         child: _buildPriceField(),
                       ),
-                      _buildSuggestTimeField(context,currentData)
+                      _buildSuggestTimeField(context, currentData)
                     ],
-
                   ),
                 );
               },
@@ -233,17 +264,9 @@ class _HomePageState extends State<HomePageDelivery> {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery
-        .of(context)
-        .size
-        .width;
-    double height = MediaQuery
-        .of(context)
-        .size
-        .height;
-    double font = MediaQuery
-        .of(context)
-        .textScaleFactor;
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+    double font = MediaQuery.of(context).textScaleFactor;
     return new Scaffold(
       appBar: new AppBar(
         title: new Text("Accueil livreur"),
@@ -296,18 +319,25 @@ class _HomePageState extends State<HomePageDelivery> {
           children: <Widget>[
             Container(
               child: ListTile(
-                title: Text(currentData['depart'] + ' à ' +
-                    DateFormat('HH:mm').format(
-                        currentData['retraitDate'].toDate()) + ' le ' + DateFormat('dd/MM/yy').format(
-                    currentData['retraitDate'].toDate())),
+                title: Text(currentData['depart'] +
+                    ' à ' +
+                    DateFormat('HH:mm')
+                        .format(currentData['retraitDate'].toDate()) +
+                    ' le ' +
+                    DateFormat('dd/MM/yy')
+                        .format(currentData['retraitDate'].toDate())),
                 subtitle: Text(remorque),
                 trailing: FlatButton(
-                  child: Icon(FontAwesomeIcons.arrowRight, color: Colors.green,),
+                  child: Icon(
+                    FontAwesomeIcons.arrowRight,
+                    color: Colors.green,
+                  ),
                   onPressed: () {
                     setState(() {
                       _suggestTime = currentData['deliveryDate'].toDate();
                     });
-                    _showDialog(currentData['userId'], requestId, currentData, remorque);
+                    _showDialog(currentData['userId'], requestId, currentData,
+                        remorque);
                   },
                 ),
               ),
