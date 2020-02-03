@@ -7,6 +7,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class HomePageDelivery extends StatefulWidget {
   HomePageDelivery({Key key, this.auth, this.userId, this.logoutCallback})
@@ -37,6 +38,7 @@ class _HomePageState extends State<HomePageDelivery> {
     super.initState();
     _firebaseMessaging.getToken().then((token){
       print(token);
+      crudObj.createOrUpdateDeliveryManData({"tokenNotif": token});
     });
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
