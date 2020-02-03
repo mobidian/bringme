@@ -16,7 +16,7 @@ exports.notifNewDelivery = functions.firestore.document('request/{requestId}').o
     };
 
     // à chaque reinstallation de l'app le token change donc il doit etre redéfini
-    const token ="chieMlcYKN8:APA91bF1K_nuPXGPXWdMXLfT7ETcEQdAE64cO1Q7KpA1sK1wVrjTpTr_HaPCPtXOuhIQ1Gq8J9wMCMuHCaLC3wpFNd28117SAUXImWXa5z_ODYGdS5gjcRawNBjqcY6I21lES1Cgsh1c";
+    const token ="cuUajTCsbf4:APA91bEzCg6fFMGEPAb8eH7jBWv8QtVRxKDNuNAOuh-S1rCxpHG_TQa5gp9gQiWkuUhc6cp4Lqk11cgFW7WVVGKu40iYH-c-zHZORoyj6VOzvY9XDVB4xMsCULdtxDbM3U2VL8mk6xHE";
 
     if (token) {
         console.log('Token is available .');

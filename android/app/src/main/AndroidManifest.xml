@@ -20,6 +20,9 @@
         android:name="io.flutter.app.FlutterApplication"
         android:label="Awid"
         android:icon="@mipmap/ic_awid">
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/notif_icon" />
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
