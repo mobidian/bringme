@@ -6,24 +6,36 @@ admin.initializeApp();
 
 
 exports.notifNewDelivery = functions.firestore.document('request/{requestId}').onCreate((snap, context) => {
-    const newValue = snap.data();
-    const t = newValue.test;
-    console.log(newValue);
-    console.log(t);
+
+    //permet d'afficher dans la console cloud functions les données qui ont été créées pour trigger la fonction
+    const newRequest = snap.data();
+    //const t = newRequest.test;
+    //console.log(newRequest);
+    //console.log(t);
+
+    let date_ob = new Date(newRequest.deliveryDate);
+    let date = date_ob.getDate();
+    console.log(date);
 
     const payload = {
-        notification: { title: 'Notification test cloud functions', body: 'appuyer pour lancer l app', badge: '1', sound: 'default', }
+        notification: { title: 'Nouvelle demande de livraison !', body: "coucou" + ' à ' + newRequest.destination, badge: '1', sound: 'default', }
     };
 
-    // à chaque reinstallation de l'app le token change donc il doit etre redéfini
-    const token ="cuUajTCsbf4:APA91bEzCg6fFMGEPAb8eH7jBWv8QtVRxKDNuNAOuh-S1rCxpHG_TQa5gp9gQiWkuUhc6cp4Lqk11cgFW7WVVGKu40iYH-c-zHZORoyj6VOzvY9XDVB4xMsCULdtxDbM3U2VL8mk6xHE";
+    //permet de stocker les tokens de notif de tout les delivery man pour pouvoir envoyer les notifs a tout ceux qui en ont un
+    let tokens = []
 
-    if (token) {
-        console.log('Token is available .');
-        return admin.messaging().sendToDevice(token, payload);
-    } else {
-        return console.log('token error');
-    }
-
+    return admin.firestore().collection('deliveryman').get().then(doc => {
+           doc.forEach(docu => {
+                if(docu.data().tokenNotif === undefined){
+                    //ne rien faire si il n'y a pas de token
+                }else{
+                    tokens.push(docu.data().tokenNotif);
+                }
+            });
+        console.log(tokens);
+        return tokens;
+    }).then((tokens) => {
+        return admin.messaging().sendToDevice(tokens, payload);
+    });
 });
 
