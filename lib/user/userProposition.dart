@@ -80,7 +80,7 @@ class _UserPropositionState extends State<UserProposition> {
             subtitle: Text("arrivé à " + DateFormat('HH:mm').format(currentData['deliveryDate'].toDate())),
             trailing: Text(
               listProposition.length.toString(),
-              style: TextStyle(color: Colors.red[300]),
+              style: TextStyle(color: Colors.green[600], fontWeight: FontWeight.w800),
             ),
             onTap: () {
               Navigator.push(

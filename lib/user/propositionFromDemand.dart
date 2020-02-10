@@ -190,8 +190,8 @@ class _PropositionFromDemandState extends State<PropositionFromDemand> {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30.0)),
                 child: Text("Supprimer la demande",
-                    style: TextStyle(color: Colors.red[900], fontSize: 20.0)),
-                color: Colors.red[200],
+                    style: TextStyle(color: Colors.red[500], fontSize: 20.0)),
+                color: Colors.white,
                 onPressed: () {
                   _showDeleteDemandDialog();
                 },

@@ -29,6 +29,7 @@ class MyDrawer extends StatefulWidget {
 class _MyDrawerState extends State<MyDrawer> {
   CrudMethods crudObj = new CrudMethods();
   Map<String, dynamic> dataMap = {};
+  int _numberOfPropositions = 0;
 
   final BaseAuth auth = new Auth();
 
@@ -40,6 +41,20 @@ class _MyDrawerState extends State<MyDrawer> {
       setState(() {
         dataMap = value.data;
       });
+    });
+
+    crudObj.getAllDemandFromUser(widget.userId).then((value) {
+      var docs = value.documents;
+      print(value.documents[0].documentID);
+      for (int i = 0; i < docs.length; i++) {
+        var demandId = docs[i].documentID;
+        crudObj.getDataFromUserDemand(widget.userId, demandId).then((doc) {
+          var data = doc.data;
+          setState(() {
+            _numberOfPropositions += data['proposition'].length;
+          });
+        });
+      }
     });
   }
 
@@ -178,7 +193,8 @@ class _MyDrawerState extends State<MyDrawer> {
                     "Accueil",
                     style: currentDrawer == 0
                         ? TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0)
-                        : TextStyle(fontWeight: FontWeight.normal, fontSize: 18.0),
+                        : TextStyle(
+                            fontWeight: FontWeight.normal, fontSize: 18.0),
                   ),
                   onTap: () {
                     Navigator.of(context).pop();
@@ -200,7 +216,8 @@ class _MyDrawerState extends State<MyDrawer> {
                     "Réserver",
                     style: currentDrawer == 1
                         ? TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0)
-                        : TextStyle(fontWeight: FontWeight.normal, fontSize: 18.0),
+                        : TextStyle(
+                            fontWeight: FontWeight.normal, fontSize: 18.0),
                   ),
                   onTap: () {
                     Navigator.of(context).pop();
@@ -228,8 +245,15 @@ class _MyDrawerState extends State<MyDrawer> {
                     "Propositions",
                     style: currentDrawer == 2
                         ? TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0)
-                        : TextStyle(fontWeight: FontWeight.normal, fontSize: 18.0),
+                        : TextStyle(
+                            fontWeight: FontWeight.normal, fontSize: 18.0),
                   ),
+                  trailing: _numberOfPropositions == 0
+                      ? Text("")
+                      : Text(_numberOfPropositions.toString(),
+                          style: TextStyle(
+                              color: Colors.green[600],
+                              fontWeight: FontWeight.w800)),
                   onTap: () {
                     Navigator.of(context).pop();
                     if (widget.currentPage == "proposition") return;
@@ -250,7 +274,8 @@ class _MyDrawerState extends State<MyDrawer> {
                     "Courses",
                     style: currentDrawer == 3
                         ? TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0)
-                        : TextStyle(fontWeight: FontWeight.normal, fontSize: 18.0),
+                        : TextStyle(
+                            fontWeight: FontWeight.normal, fontSize: 18.0),
                   ),
                   onTap: () {
                     Navigator.of(context).pop();
@@ -272,7 +297,8 @@ class _MyDrawerState extends State<MyDrawer> {
                     "Historique",
                     style: currentDrawer == 4
                         ? TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0)
-                        : TextStyle(fontWeight: FontWeight.normal, fontSize: 18.0),
+                        : TextStyle(
+                            fontWeight: FontWeight.normal, fontSize: 18.0),
                   ),
                   onTap: () {
                     Navigator.of(context).pop();
@@ -286,7 +312,6 @@ class _MyDrawerState extends State<MyDrawer> {
               ],
             ),
           ),
-
           Container(
             child: Align(
               alignment: Alignment.bottomLeft,
@@ -303,8 +328,10 @@ class _MyDrawerState extends State<MyDrawer> {
                     title: Text(
                       "A Propos",
                       style: currentDrawer == 5
-                          ? TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0)
-                          : TextStyle(fontWeight: FontWeight.normal, fontSize: 18.0),
+                          ? TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 18.0)
+                          : TextStyle(
+                              fontWeight: FontWeight.normal, fontSize: 18.0),
                     ),
                     onTap: () {
                       Navigator.of(context).pop();
