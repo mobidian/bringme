@@ -59,11 +59,17 @@ class _SelectProfilPictureState extends State<SelectProfilPicture> {
     return Container(
       child: Column(
         children: <Widget>[
-          Image.file(
-            newProfilPic,
-            height: 200,
-            width: 200,
+          CircleAvatar(
+            // photo de profil
+            backgroundImage: FileImage(newProfilPic),
+            minRadius: 30,
+            maxRadius: 93,
           ),
+//          Image.file(
+//            newProfilPic,
+//            height: 200,
+//            width: 200,
+//          ),
           _isLoading == false
               ? Container(
             margin: EdgeInsets.only(top: 10.0),
