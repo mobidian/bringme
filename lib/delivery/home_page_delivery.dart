@@ -8,6 +8,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:expandable/expandable.dart';
 
 class HomePageDelivery extends StatefulWidget {
   HomePageDelivery({Key key, this.auth, this.userId, this.logoutCallback})
@@ -36,7 +37,7 @@ class _HomePageState extends State<HomePageDelivery> {
   @override
   void initState() {
     super.initState();
-    _firebaseMessaging.getToken().then((token){
+    _firebaseMessaging.getToken().then((token) {
       print(token);
       crudObj.createOrUpdateDeliveryManData({"tokenNotif": token});
     });
@@ -317,36 +318,89 @@ class _HomePageState extends State<HomePageDelivery> {
           }
         });
         var requestId = data[index].documentID;
-        return Column(
-          children: <Widget>[
-            Container(
-              child: ListTile(
-                title: Text(currentData['depart'] +
-                    ' à ' +
-                    DateFormat('HH:mm')
-                        .format(currentData['retraitDate'].toDate()) +
-                    ' le ' +
-                    DateFormat('dd/MM/yy')
-                        .format(currentData['retraitDate'].toDate())),
-                subtitle: Text(remorque),
-                trailing: FlatButton(
-                  child: Icon(
-                    FontAwesomeIcons.arrowRight,
-                    color: Colors.green,
+        return Container(
+          padding: EdgeInsets.all(10.0),
+          child: Card(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15.0)),
+            child: Column(
+              children: <Widget>[
+                ListTile(
+                  title: Text(
+                    currentData['depart'] +
+                        ' à ' +
+                        DateFormat('HH:mm')
+                            .format(currentData['retraitDate'].toDate()) +
+                        ' le ' +
+                        DateFormat('dd/MM/yy')
+                            .format(currentData['retraitDate'].toDate()),
+                    style: TextStyle(fontWeight: FontWeight.w800),
                   ),
-                  onPressed: () {
-                    setState(() {
-                      _suggestTime = currentData['deliveryDate'].toDate();
-                    });
-                    _showDialog(currentData['userId'], requestId, currentData,
-                        remorque);
-                  },
+                  trailing: FlatButton(
+                    child: Icon(
+                      FontAwesomeIcons.arrowAltCircleRight,
+                      color: Colors.green,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _suggestTime = currentData['deliveryDate'].toDate();
+                      });
+                      _showDialog(currentData['userId'], requestId, currentData,
+                          remorque);
+                    },
+                  ),
                 ),
-              ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 15.0),
+                  child: Row(
+                    children: <Widget>[
+                      Text("Remorque : "),
+                      Text(remorque),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(15.0,7.0,15.0,10.0),
+                  child: currentData['description'] == null || currentData['description'] == '' ? Text("Pas de description") : ExpandablePanel(
+                    header: Text("Description"),
+                    collapsed: Text(currentData['description'],softWrap: true, maxLines: 2, overflow: TextOverflow.ellipsis,),
+                    expanded: Text(currentData['description'],softWrap: true),
+                  ),
+                ),
+              ],
             ),
-            Divider()
-          ],
+          ),
         );
+//        return Column(
+//          children: <Widget>[
+//            Container(
+//              child: ListTile(
+//                title: Text(currentData['depart'] +
+//                    ' à ' +
+//                    DateFormat('HH:mm')
+//                        .format(currentData['retraitDate'].toDate()) +
+//                    ' le ' +
+//                    DateFormat('dd/MM/yy')
+//                        .format(currentData['retraitDate'].toDate())),
+//                subtitle: Text(remorque),
+//                trailing: FlatButton(
+//                  child: Icon(
+//                    FontAwesomeIcons.arrowRight,
+//                    color: Colors.green,
+//                  ),
+//                  onPressed: () {
+//                    setState(() {
+//                      _suggestTime = currentData['deliveryDate'].toDate();
+//                    });
+//                    _showDialog(currentData['userId'], requestId, currentData,
+//                        remorque);
+//                  },
+//                ),
+//              ),
+//            ),
+//            Divider()
+//          ],
+//        );
       },
     );
   }

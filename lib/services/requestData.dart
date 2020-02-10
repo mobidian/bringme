@@ -11,7 +11,8 @@ class RequestData{
    this.userId,
    this.accepted,
    this.completed,
-   this.proposition
+   this.proposition,
+   this.description
 });
 
  final String depart;
@@ -21,8 +22,9 @@ class RequestData{
  final Map<String, dynamic> typeOfMarchandise;
  final Map<String, dynamic> typeOfRemorque;
  final String userId;
+ final String description;
 
- //champs pour les demandes sotckées chez le user et non pas display à tout le monde
+ //champs pour les demandes stockées chez le user et non pas display à tout le monde
  final bool completed;
  final bool accepted;
  final List<dynamic> proposition;
@@ -35,7 +37,8 @@ class RequestData{
      "deliveryDate": deliveryDate,
      "typeOfMarchandise": typeOfMarchandise,
      "typeOfRemorque": typeOfRemorque,
-     "userId": userId
+     "userId": userId,
+     "description": description,
    };
  }
 
@@ -50,7 +53,8 @@ class RequestData{
      "userId": userId,
      "completed": completed,
      "accepted": accepted,
-     "proposition": proposition
+     "proposition": proposition,
+     "description": description,
    };
  }
 

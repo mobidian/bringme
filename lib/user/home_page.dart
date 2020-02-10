@@ -8,7 +8,7 @@ import 'myDrawer.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 
-//ce fichier s'appel home_page et la class HomePage mais devrait etre renommé en book_page (page "resever")
+//ce fichier s'appel home_page et la class HomePage mais devrait etre renommé en book_page (page "reserver")
 
 class HomePage extends StatefulWidget {
   HomePage({Key key, this.userId}) : super(key: key);
@@ -32,6 +32,7 @@ class _HomePageState extends State<HomePage> {
   String _destination;
   DateTime _retraitDate = DateTime.now();
   DateTime _deliveryDate = DateTime.now();
+  String _description;
 
   //type de remorque
   Map<String, dynamic> mapRemorque = {
@@ -82,6 +83,7 @@ class _HomePageState extends State<HomePage> {
         completed: false,
         accepted: false,
         proposition: [],
+        description: _description
       );
 
       DocumentReference docRef = await Firestore.instance
@@ -635,6 +637,29 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+
+  Widget _enterDescription() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(5.0, 20.0, 10.0, 0.0),
+      child: TextFormField(
+        keyboardType: TextInputType.multiline,
+        maxLines: 5,
+        key: new Key('enterDescription'),
+        decoration: InputDecoration(
+          labelText: 'Ajouter une description',
+          icon: new Icon(
+            Icons.description,
+            size: 24,
+            color: Theme.of(context).primaryColor,
+          ),
+        ),
+        onSaved: (value) => _description = value,
+      ),
+    );
+  }
+
+
+
   Widget _showTypeOfMarchandise() {
     return Container(
       padding: EdgeInsets.only(top: 25.0),
@@ -687,6 +712,7 @@ class _HomePageState extends State<HomePage> {
                 _selectDeliveryTime(),
                 _showTypeOfMarchandise(),
                 _showTypeOfRemorque(),
+                _enterDescription(),
               ],
             ),
           ),
