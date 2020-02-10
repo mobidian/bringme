@@ -106,7 +106,8 @@ class _HomePageState extends State<HomePageDelivery> {
 
   final DateFormat dateFormat = DateFormat('HH:mm');
 
-  Widget _buildSuggestTimeField(context, currentData) {
+  Widget _buildSuggestTimeField(ctx, currentData, setState) {
+    print(_suggestTime);
     return Padding(
       padding: const EdgeInsets.only(top: 10.0),
       child: Column(
@@ -122,11 +123,11 @@ class _HomePageState extends State<HomePageDelivery> {
               style: TextStyle(color: Colors.grey[700]),
             ),
             onPressed: () async {
-              final selectedTime = await _selectTime(context);
+              final selectedTime = await _selectTime(ctx);
               if (selectedTime == null) return;
 
               setState(() {
-                this._suggestTime = DateTime(
+                _suggestTime = DateTime(
                   currentData["deliveryDate"].toDate().year,
                   currentData["deliveryDate"].toDate().month,
                   currentData["deliveryDate"].toDate().day,
@@ -142,9 +143,9 @@ class _HomePageState extends State<HomePageDelivery> {
     );
   }
 
-  Future<TimeOfDay> _selectTime(BuildContext context) {
+  Future<TimeOfDay> _selectTime(BuildContext ctx) {
     return showTimePicker(
-      context: context,
+      context: ctx,
       initialTime:
           TimeOfDay(hour: _suggestTime.hour, minute: _suggestTime.minute),
     );
@@ -222,16 +223,16 @@ class _HomePageState extends State<HomePageDelivery> {
 
   void _showDialog(userId, requestId, currentData, remorque) {
     showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(20.0)),
-            ),
-            title: Text("Accepter la livraison"),
-            content: StatefulBuilder(
-              builder: (BuildContext context, StateSetter setState) {
-                return SingleChildScrollView(
+        context: this.context,
+        builder: (BuildContext ctx) {
+          return StatefulBuilder(
+            builder: (BuildContext context, StateSetter setState) {
+              return AlertDialog(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                ),
+                title: Text("Accepter la livraison"),
+                content: SingleChildScrollView(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
@@ -240,27 +241,27 @@ class _HomePageState extends State<HomePageDelivery> {
                         key: _formKey,
                         child: _buildPriceField(),
                       ),
-                      _buildSuggestTimeField(context, currentData)
+                      _buildSuggestTimeField(ctx, currentData, setState)
                     ],
                   ),
-                );
-              },
-            ),
-            actions: <Widget>[
-              FlatButton(
-                child: Text("Fermer"),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-              FlatButton(
-                child: Text("Envoyer"),
-                onPressed: () {
-                  sendProposition(userId, requestId);
-                  Navigator.pop(context);
-                },
-              ),
-            ],
+                ),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text("Fermer"),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                  FlatButton(
+                    child: Text("Envoyer"),
+                    onPressed: () {
+                      sendProposition(userId, requestId);
+                      Navigator.pop(context);
+                    },
+                  ),
+                ],
+              );
+            },
           );
         });
   }
@@ -360,12 +361,21 @@ class _HomePageState extends State<HomePageDelivery> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(15.0,7.0,15.0,10.0),
-                  child: currentData['description'] == null || currentData['description'] == '' ? Text("Pas de description") : ExpandablePanel(
-                    header: Text("Description"),
-                    collapsed: Text(currentData['description'],softWrap: true, maxLines: 2, overflow: TextOverflow.ellipsis,),
-                    expanded: Text(currentData['description'],softWrap: true),
-                  ),
+                  padding: const EdgeInsets.fromLTRB(15.0, 7.0, 15.0, 10.0),
+                  child: currentData['description'] == null ||
+                          currentData['description'] == ''
+                      ? Text("Pas de description")
+                      : ExpandablePanel(
+                          header: Text("Description"),
+                          collapsed: Text(
+                            currentData['description'],
+                            softWrap: true,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          expanded:
+                              Text(currentData['description'], softWrap: true),
+                        ),
                 ),
               ],
             ),
