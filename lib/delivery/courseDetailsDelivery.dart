@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'QrCodeToScan.dart';
+import 'package:expandable/expandable.dart';
 
 class CourseDetailsDelivery extends StatefulWidget {
   CourseDetailsDelivery(
@@ -192,6 +193,25 @@ class _CourseDetailsDeliveryState extends State<CourseDetailsDelivery> {
             child: ListTile(
               title: Text("Prix de la course"),
               subtitle: Text(widget.coursedata['price'] + "€"),
+            ),
+          ),
+          Card(
+            child: ListTile(
+              title: Text("Description de la course"),
+              subtitle: widget.coursedata['description'] == null ||
+                  widget.coursedata['description'] == ''
+                  ? Text("Pas de description")
+                  : ExpandablePanel(
+                header: Text(""),
+                collapsed: Text(
+                  widget.coursedata['description'],
+                  softWrap: true,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                expanded:
+                Text(widget.coursedata['description'], softWrap: true),
+              ),
             ),
           ),
         ],

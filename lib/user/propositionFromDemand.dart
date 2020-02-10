@@ -75,7 +75,8 @@ class _PropositionFromDemandState extends State<PropositionFromDemand> {
       'userId': widget.userId,
       'deliveryManId': deliveryManId,
       'completed': false,
-      'price': price
+      'price': price,
+      'description': widget.demandData['description']
     };
 
     DocumentReference docRef = await Firestore.instance
