@@ -260,13 +260,15 @@ class _PropositionFromDemandState extends State<PropositionFromDemand> {
   }
 
   _buildListOfProposition() {
-    //pour le moment seul l'id du livreur est montré mais l'idéal
-    //serait d'avoir ses infos à montrer
-    //sur la meme page parce que sinon beaucoup trop de page dans des pages
-    //c'est lourd et chiant à naviguer
 
-    if (_loadingData || deliveryManData.isEmpty) {
-      return CircularProgressIndicator();
+    if(deliveryManData.isEmpty){
+      return Center(
+        child: Text("Aucune proposition pour le moment"),
+      );
+    }
+
+    if (_loadingData) {
+      return Center(child: CircularProgressIndicator());
     } else {
       return ListView.builder(
         itemCount: widget.listProposition.length,
