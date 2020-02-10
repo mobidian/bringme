@@ -161,124 +161,163 @@ class _MyDrawerState extends State<MyDrawer> {
   Widget build(BuildContext context) {
     var currentDrawer = Provider.of<DrawerStateInfo>(context).getCurrentDrawer;
     return Drawer(
-      child: ListView(
+      child: Column(
         children: <Widget>[
-          _createHeader(),
-          ListTile(
-            leading: Icon(
-              Icons.home,
-              color: currentDrawer == 0
-                  ? Theme.of(context).primaryColor
-                  : Colors.grey,
-            ),
-            title: Text(
-              "Accueil",
-              style: currentDrawer == 0
-                  ? TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0)
-                  : TextStyle(fontWeight: FontWeight.normal, fontSize: 18.0),
-            ),
-            onTap: () {
-              Navigator.of(context).pop();
-              if (widget.currentPage == "welcome") return;
+          Expanded(
+            child: ListView(
+              children: <Widget>[
+                _createHeader(),
+                ListTile(
+                  leading: Icon(
+                    Icons.home,
+                    color: currentDrawer == 0
+                        ? Theme.of(context).primaryColor
+                        : Colors.grey,
+                  ),
+                  title: Text(
+                    "Accueil",
+                    style: currentDrawer == 0
+                        ? TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0)
+                        : TextStyle(fontWeight: FontWeight.normal, fontSize: 18.0),
+                  ),
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    if (widget.currentPage == "welcome") return;
 
-              Provider.of<DrawerStateInfo>(context).setCurrentDrawer(0);
+                    Provider.of<DrawerStateInfo>(context).setCurrentDrawer(0);
 
-              Navigator.pushReplacementNamed(context, "/");
-            },
-          ),
-          ListTile(
-            leading: Icon(
-              FontAwesomeIcons.truckLoading,
-              color: currentDrawer == 1
-                  ? Theme.of(context).primaryColor
-                  : Colors.grey,
-            ),
-            title: Text(
-              "Réserver",
-              style: currentDrawer == 1
-                  ? TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0)
-                  : TextStyle(fontWeight: FontWeight.normal, fontSize: 18.0),
-            ),
-            onTap: () {
-              Navigator.of(context).pop();
-              if (widget.currentPage == "reserver") return;
+                    Navigator.pushReplacementNamed(context, "/");
+                  },
+                ),
+                ListTile(
+                  leading: Icon(
+                    FontAwesomeIcons.truckLoading,
+                    color: currentDrawer == 1
+                        ? Theme.of(context).primaryColor
+                        : Colors.grey,
+                  ),
+                  title: Text(
+                    "Réserver",
+                    style: currentDrawer == 1
+                        ? TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0)
+                        : TextStyle(fontWeight: FontWeight.normal, fontSize: 18.0),
+                  ),
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    if (widget.currentPage == "reserver") return;
 
-              Provider.of<DrawerStateInfo>(context).setCurrentDrawer(1);
+                    Provider.of<DrawerStateInfo>(context).setCurrentDrawer(1);
 
 //              Navigator.pushReplacementNamed(context, "/userProposition");
-              Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (BuildContext context) => HomePage(
-                            userId: widget.userId,
-                          )));
-            },
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (BuildContext context) => HomePage(
+                                  userId: widget.userId,
+                                )));
+                  },
+                ),
+                ListTile(
+                  leading: Icon(
+                    Icons.assignment_turned_in,
+                    color: currentDrawer == 2
+                        ? Theme.of(context).primaryColor
+                        : Colors.grey,
+                  ),
+                  title: Text(
+                    "Propositions",
+                    style: currentDrawer == 2
+                        ? TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0)
+                        : TextStyle(fontWeight: FontWeight.normal, fontSize: 18.0),
+                  ),
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    if (widget.currentPage == "proposition") return;
+
+                    Provider.of<DrawerStateInfo>(context).setCurrentDrawer(2);
+
+                    Navigator.pushReplacementNamed(context, "/userProposition");
+                  },
+                ),
+                ListTile(
+                  leading: Icon(
+                    Icons.location_on,
+                    color: currentDrawer == 3
+                        ? Theme.of(context).primaryColor
+                        : Colors.grey,
+                  ),
+                  title: Text(
+                    "Courses",
+                    style: currentDrawer == 3
+                        ? TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0)
+                        : TextStyle(fontWeight: FontWeight.normal, fontSize: 18.0),
+                  ),
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    if (widget.currentPage == "courses") return;
+
+                    Provider.of<DrawerStateInfo>(context).setCurrentDrawer(3);
+
+                    Navigator.pushReplacementNamed(context, "/userCourses");
+                  },
+                ),
+                ListTile(
+                  leading: Icon(
+                    Icons.history,
+                    color: currentDrawer == 4
+                        ? Theme.of(context).primaryColor
+                        : Colors.grey,
+                  ),
+                  title: Text(
+                    "Historique",
+                    style: currentDrawer == 4
+                        ? TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0)
+                        : TextStyle(fontWeight: FontWeight.normal, fontSize: 18.0),
+                  ),
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    if (widget.currentPage == "userHistoric") return;
+
+                    Provider.of<DrawerStateInfo>(context).setCurrentDrawer(4);
+
+                    Navigator.pushReplacementNamed(context, "/userHistoric");
+                  },
+                ),
+              ],
+            ),
           ),
-          ListTile(
-            leading: Icon(
-              Icons.assignment_turned_in,
-              color: currentDrawer == 2
-                  ? Theme.of(context).primaryColor
-                  : Colors.grey,
-            ),
-            title: Text(
-              "Propositions",
-              style: currentDrawer == 2
-                  ? TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0)
-                  : TextStyle(fontWeight: FontWeight.normal, fontSize: 18.0),
-            ),
-            onTap: () {
-              Navigator.of(context).pop();
-              if (widget.currentPage == "proposition") return;
 
-              Provider.of<DrawerStateInfo>(context).setCurrentDrawer(2);
+          Container(
+            child: Align(
+              alignment: Alignment.bottomLeft,
+              child: Column(
+                children: <Widget>[
+                  Divider(),
+                  ListTile(
+                    leading: Icon(
+                      Icons.info_outline,
+                      color: currentDrawer == 5
+                          ? Theme.of(context).primaryColor
+                          : Colors.grey,
+                    ),
+                    title: Text(
+                      "A Propos",
+                      style: currentDrawer == 5
+                          ? TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0)
+                          : TextStyle(fontWeight: FontWeight.normal, fontSize: 18.0),
+                    ),
+                    onTap: () {
+                      Navigator.of(context).pop();
+                      if (widget.currentPage == "aProposUser") return;
 
-              Navigator.pushReplacementNamed(context, "/userProposition");
-            },
-          ),
-          ListTile(
-            leading: Icon(
-              Icons.location_on,
-              color: currentDrawer == 3
-                  ? Theme.of(context).primaryColor
-                  : Colors.grey,
+                      Provider.of<DrawerStateInfo>(context).setCurrentDrawer(5);
+
+                      Navigator.pushReplacementNamed(context, "/aProposUser");
+                    },
+                  ),
+                ],
+              ),
             ),
-            title: Text(
-              "Courses",
-              style: currentDrawer == 3
-                  ? TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0)
-                  : TextStyle(fontWeight: FontWeight.normal, fontSize: 18.0),
-            ),
-            onTap: () {
-              Navigator.of(context).pop();
-              if (widget.currentPage == "courses") return;
-
-              Provider.of<DrawerStateInfo>(context).setCurrentDrawer(3);
-
-              Navigator.pushReplacementNamed(context, "/userCourses");
-            },
-          ),
-          ListTile(
-            leading: Icon(
-              Icons.history,
-              color: currentDrawer == 4
-                  ? Theme.of(context).primaryColor
-                  : Colors.grey,
-            ),
-            title: Text(
-              "Historique",
-              style: currentDrawer == 4
-                  ? TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0)
-                  : TextStyle(fontWeight: FontWeight.normal, fontSize: 18.0),
-            ),
-            onTap: () {
-              Navigator.of(context).pop();
-              if (widget.currentPage == "userHistoric") return;
-
-              Provider.of<DrawerStateInfo>(context).setCurrentDrawer(4);
-
-              Navigator.pushReplacementNamed(context, "/userHistoric");
-            },
           ),
         ],
       ),

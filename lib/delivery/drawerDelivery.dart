@@ -255,11 +255,11 @@ class _DrawerDeliveryState extends State<DrawerDelivery> {
                     ),
                     onTap: () {
                       Navigator.of(context).pop();
-                      if (widget.currentPage == "aPropos") return;
+                      if (widget.currentPage == "aProposDelivery") return;
 
                       Provider.of<DrawerStateInfo>(context).setCurrentDrawer(3);
 
-                      Navigator.pushReplacementNamed(context, "/aPropos");
+                      Navigator.pushReplacementNamed(context, "/aProposDelivery");
                     },
                   ),
                 ],

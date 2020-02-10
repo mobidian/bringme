@@ -102,7 +102,7 @@ class _HomePageState extends State<HomePage> {
       _scaffoldKey.currentState
           .showSnackBar(SnackBar(content: Text('Votre demande a été posté !')));
     } else {
-      print("form de demande non valide");
+      print("forme de demande non valide");
     }
   }
 
