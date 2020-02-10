@@ -159,74 +159,112 @@ class _DrawerDeliveryState extends State<DrawerDelivery> {
   Widget build(BuildContext context) {
     var currentDrawer = Provider.of<DrawerStateInfo>(context).getCurrentDrawer;
     return Drawer(
-      child: ListView(
+      child: Column(
         children: <Widget>[
-          _createHeader(),
-          ListTile(
-            leading: Icon(
-              Icons.home,
-              color: currentDrawer == 0
-                  ? Theme.of(context).primaryColor
-                  : Colors.grey,
-            ),
-            title: Text(
-              "Accueil",
-              style: currentDrawer == 0
-                  ? TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0)
-                  : TextStyle(fontWeight: FontWeight.normal, fontSize: 18.0),
-            ),
-            onTap: () {
-              Navigator.of(context).pop();
-              if (widget.currentPage == "homeDelivery") return;
+          Expanded(
+            child: ListView(
+              children: <Widget>[
+                _createHeader(),
+                ListTile(
+                  leading: Icon(
+                    Icons.home,
+                    color: currentDrawer == 0
+                        ? Theme.of(context).primaryColor
+                        : Colors.grey,
+                  ),
+                  title: Text(
+                    "Accueil",
+                    style: currentDrawer == 0
+                        ? TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0)
+                        : TextStyle(fontWeight: FontWeight.normal, fontSize: 18.0),
+                  ),
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    if (widget.currentPage == "homeDelivery") return;
 
-              Provider.of<DrawerStateInfo>(context).setCurrentDrawer(0);
+                    Provider.of<DrawerStateInfo>(context).setCurrentDrawer(0);
 
-              Navigator.pushReplacementNamed(context, "/");
-            },
+                    Navigator.pushReplacementNamed(context, "/");
+                  },
+                ),
+                ListTile(
+                  leading: Icon(
+                    Icons.location_on,
+                    color: currentDrawer == 1
+                        ? Theme.of(context).primaryColor
+                        : Colors.grey,
+                  ),
+                  title: Text(
+                    "Courses",
+                    style: currentDrawer == 1
+                        ? TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0)
+                        : TextStyle(fontWeight: FontWeight.normal, fontSize: 18.0),
+                  ),
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    if (widget.currentPage == "deliveryCourses") return;
+
+                    Provider.of<DrawerStateInfo>(context).setCurrentDrawer(1);
+
+                    Navigator.pushReplacementNamed(context, "/deliveryCourses");
+                  },
+                ),
+                ListTile(
+                  leading: Icon(
+                    Icons.history,
+                    color: currentDrawer == 2
+                        ? Theme.of(context).primaryColor
+                        : Colors.grey,
+                  ),
+                  title: Text(
+                    "Historique",
+                    style: currentDrawer == 2
+                        ? TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0)
+                        : TextStyle(fontWeight: FontWeight.normal, fontSize: 18.0),
+                  ),
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    if (widget.currentPage == "deliveryHistoric") return;
+
+                    Provider.of<DrawerStateInfo>(context).setCurrentDrawer(2);
+
+                    Navigator.pushReplacementNamed(context, "/deliveryHistoric");
+                  },
+                ),
+              ],
+            ),
           ),
-          ListTile(
-            leading: Icon(
-              Icons.location_on,
-              color: currentDrawer == 1
-                  ? Theme.of(context).primaryColor
-                  : Colors.grey,
-            ),
-            title: Text(
-              "Courses",
-              style: currentDrawer == 1
-                  ? TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0)
-                  : TextStyle(fontWeight: FontWeight.normal, fontSize: 18.0),
-            ),
-            onTap: () {
-              Navigator.of(context).pop();
-              if (widget.currentPage == "deliveryCourses") return;
+          Container(
+            child: Align(
+              alignment: Alignment.bottomLeft,
+              child: Column(
+                children: <Widget>[
+                  Divider(),
+                  ListTile(
+                    leading: Icon(
+                      Icons.info_outline,
+                      color: currentDrawer == 3
+                          ? Theme.of(context).primaryColor
+                          : Colors.grey,
+                    ),
+                    title: Text(
+                      "A Propos",
+                      style: currentDrawer == 3
+                          ? TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0)
+                          : TextStyle(fontWeight: FontWeight.normal, fontSize: 18.0),
+                    ),
+                    onTap: () {
+                      Navigator.of(context).pop();
+                      if (widget.currentPage == "aPropos") return;
 
-              Provider.of<DrawerStateInfo>(context).setCurrentDrawer(1);
+                      Provider.of<DrawerStateInfo>(context).setCurrentDrawer(3);
 
-              Navigator.pushReplacementNamed(context, "/deliveryCourses");
-            },
-          ),
-          ListTile(
-            leading: Icon(
-              Icons.history,
-              color: currentDrawer == 2
-                  ? Theme.of(context).primaryColor
-                  : Colors.grey,
+                      Navigator.pushReplacementNamed(context, "/aPropos");
+                    },
+                  ),
+                ],
+              ),
             ),
-            title: Text(
-              "Historique",
-              style: currentDrawer == 2
-                  ? TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0)
-                  : TextStyle(fontWeight: FontWeight.normal, fontSize: 18.0),
-            ),
-            onTap: () {
-              Navigator.of(context).pop();
-              if (widget.currentPage == "deliveryHistoric") return;
-
-              Provider.of<DrawerStateInfo>(context).setCurrentDrawer(2);
-
-              Navigator.pushReplacementNamed(context, "/deliveryHistoric");
-            },
           ),
         ],
       ),

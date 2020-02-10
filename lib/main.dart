@@ -8,6 +8,7 @@ import 'package:bringme/delivery/deliveryCourses.dart';
 import 'package:flutter/services.dart';
 import 'package:bringme/delivery/historicPage.dart';
 import 'package:bringme/user/userHistoric.dart';
+import 'package:bringme/delivery/aProposDelivery.dart';
 
 
 
@@ -48,6 +49,7 @@ class _MyAppState extends State<MyApp>{
             '/userHistoric': (BuildContext context) => UserHistoricPage(),
             '/deliveryCourses': (BuildContext context) => DeliveryCourses(),
             '/deliveryHistoric': (BuildContext context) => HistoricPage(),
+            '/aPropos': (BuildContext context) => AProposDelivery(),
           },
       ),
       providers: <SingleChildCloneableWidget>[
