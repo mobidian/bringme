@@ -28,8 +28,9 @@ dependencies:
   font_awesome_flutter: ^8.5.0
   intl: ^0.16.0
   qr_flutter: ^2.0.0
-  qr_mobile_vision: ^0.2.2
+  qr_mobile_vision: ^0.3.1
   firebase_messaging: ^6.0.9
+  image_picker: ^0.6.3+1
 
 
   flutter:

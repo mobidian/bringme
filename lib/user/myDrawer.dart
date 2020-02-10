@@ -6,9 +6,14 @@ import 'package:shimmer/shimmer.dart';
 import 'package:bringme/user/home_page.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:bringme/authentification/auth.dart';
+import 'userProfil.dart';
 
 class MyDrawer extends StatefulWidget {
-  MyDrawer({@required this.currentPage, @required this.userId, this.logoutCallback, this.auth});
+  MyDrawer(
+      {@required this.currentPage,
+      @required this.userId,
+      this.logoutCallback,
+      this.auth});
 
   final String currentPage;
   final String userId;
@@ -125,18 +130,45 @@ class _MyDrawerState extends State<MyDrawer> {
           ),
         ),
         ListTile(
-          title: Text(dataMap["mail"]),
-          trailing: currentDrawer == 0 ? IconButton(
-            icon: Icon(
-              FontAwesomeIcons.signOutAlt,
-              size: 20.0,
-              color: Colors.red[300],
+            title: Text(dataMap["mail"]),
+            trailing: currentDrawer == 0
+                ? IconButton(
+                    icon: Icon(
+                      FontAwesomeIcons.signOutAlt,
+                      size: 20.0,
+                      color: Colors.red[300],
+                    ),
+                    onPressed: () {
+                      signOut();
+                    },
+                  )
+                : null),
+        ButtonTheme(
+          minWidth: 160.0,
+          child: RaisedButton.icon(
+            elevation: 3.0,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(30.0)),
+            label: Text(
+              'Profil',
+              style: TextStyle(
+                fontSize: 14.0,
+                color: Theme.of(context).primaryColor,
+              ),
             ),
+            icon: Icon(Icons.account_circle),
+            color: Colors.white,
+            textColor: Theme.of(context).primaryColor,
             onPressed: () {
-              signOut();
+              Provider.of<DrawerStateInfo>(context).setCurrentDrawer(10);
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) =>
+                          UserProfil()));
             },
-          ) : null
-        ),
+          ),
+        )
       ],
     );
   }
