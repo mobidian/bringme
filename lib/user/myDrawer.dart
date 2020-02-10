@@ -131,44 +131,19 @@ class _MyDrawerState extends State<MyDrawer> {
         ),
         ListTile(
             title: Text(dataMap["mail"]),
-            trailing: currentDrawer == 0
-                ? IconButton(
-                    icon: Icon(
-                      FontAwesomeIcons.signOutAlt,
-                      size: 20.0,
-                      color: Colors.red[300],
-                    ),
-                    onPressed: () {
-                      signOut();
-                    },
-                  )
-                : null),
-        ButtonTheme(
-          minWidth: 160.0,
-          child: RaisedButton.icon(
-            elevation: 3.0,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30.0)),
-            label: Text(
-              'Profil',
-              style: TextStyle(
-                fontSize: 14.0,
-                color: Theme.of(context).primaryColor,
+            trailing: IconButton(
+              icon: Icon(
+                FontAwesomeIcons.userCircle,
+                size: 20.0,
+                color: Colors.black,
               ),
-            ),
-            icon: Icon(Icons.account_circle),
-            color: Colors.white,
-            textColor: Theme.of(context).primaryColor,
-            onPressed: () {
-              Provider.of<DrawerStateInfo>(context).setCurrentDrawer(10);
-              Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (BuildContext context) =>
-                          UserProfil()));
-            },
-          ),
-        )
+              onPressed: () {
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) => UserProfil()));
+              },
+            )),
       ],
     );
   }

@@ -6,11 +6,25 @@ import 'selectProfilePicture.dart';
 import 'myDrawer.dart';
 
 class UserProfil extends StatefulWidget {
+
+  UserProfil({this.onSignOut});
+
+  final VoidCallback onSignOut;
+
   final BaseAuth auth = new Auth();
+
+  void _signOut() async {
+    try {
+      await auth.signOut();
+      onSignOut();
+    } catch (e) {
+      print(e);
+    }
+  }
+
 
   @override
   State<StatefulWidget> createState() {
-    // TODO: implement createState
     return _UserProfilState();
   }
 }
@@ -479,6 +493,14 @@ class _UserProfilState extends State<UserProfil> {
                 ),
                 Container(
                   height: 10,
+                ),
+                Container(
+                  child: FlatButton(
+                      onPressed: () {
+                        widget._signOut();
+                        Navigator.pushReplacementNamed(context, '/');
+                      },
+                      child: Text("Deconnexion")),
                 ),
               ],
             ),
