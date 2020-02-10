@@ -5,10 +5,14 @@ import 'package:bringme/services/crud.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:bringme/authentification/auth.dart';
-
+import 'deliveryManProfil.dart';
 
 class DrawerDelivery extends StatefulWidget {
-  DrawerDelivery({@required this.currentPage, this.userId, this.logoutCallback, this.auth});
+  DrawerDelivery(
+      {@required this.currentPage,
+      this.userId,
+      this.logoutCallback,
+      this.auth});
 
   final String currentPage;
   final String userId;
@@ -109,7 +113,7 @@ class _DrawerDeliveryState extends State<DrawerDelivery> {
           leading: CircleAvatar(
             // photo de profil
             backgroundColor: Colors.white,
-            backgroundImage: AssetImage("assets/awid_livreur500.png"),
+            backgroundImage: NetworkImage(dataMap['picture']),
             minRadius: 25,
             maxRadius: 25,
           ),
@@ -124,16 +128,20 @@ class _DrawerDeliveryState extends State<DrawerDelivery> {
         ),
         ListTile(
           title: Text(dataMap["mail"]),
-            trailing: currentDrawer == 0 ? IconButton(
-              icon: Icon(
-                FontAwesomeIcons.signOutAlt,
-                size: 20.0,
-                color: Colors.red[300],
-              ),
-              onPressed: () {
-                signOut();
-              },
-            ) : null
+          trailing: IconButton(
+            icon: Icon(
+              FontAwesomeIcons.userCircle,
+              size: 20.0,
+              color: Colors.black,
+            ),
+            onPressed: () {
+              Provider.of<DrawerStateInfo>(context).setCurrentDrawer(10);
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => DeliveryManProfil()));
+            },
+          ),
         ),
       ],
     );

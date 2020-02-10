@@ -116,7 +116,7 @@ class _MyDrawerState extends State<MyDrawer> {
           leading: CircleAvatar(
             // photo de profil
             backgroundColor: Colors.white,
-            backgroundImage: AssetImage("assets/awid500.png"),
+            backgroundImage: NetworkImage(dataMap['picture']),
             minRadius: 25,
             maxRadius: 25,
           ),
@@ -138,6 +138,7 @@ class _MyDrawerState extends State<MyDrawer> {
                 color: Colors.black,
               ),
               onPressed: () {
+                Provider.of<DrawerStateInfo>(context).setCurrentDrawer(10);
                 Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(

@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:bringme/authentification/auth.dart';
 import 'package:bringme/services/crud.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'selectProfilePicture.dart';
-import 'myDrawer.dart';
+import 'selectProfilPictureDelivery.dart';
+import 'drawerDelivery.dart';
 
-class UserProfil extends StatefulWidget {
-  UserProfil({this.onSignOut});
+class DeliveryManProfil extends StatefulWidget {
+  DeliveryManProfil({this.onSignOut});
 
   final VoidCallback onSignOut;
 
@@ -23,11 +23,11 @@ class UserProfil extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _UserProfilState();
+    return _DeliveryManProfilState();
   }
 }
 
-class _UserProfilState extends State<UserProfil> {
+class _DeliveryManProfilState extends State<DeliveryManProfil> {
   String userId = 'userId';
   CrudMethods crudObj = new CrudMethods();
   String userMail = 'userMail';
@@ -51,10 +51,8 @@ class _UserProfilState extends State<UserProfil> {
       });
     });
 
-    crudObj.getDataFromUserFromDocument().then((value) {
-      // correspond à await Firestore.instance.collection('user').document(user.uid).get();
-      Map<String, dynamic> dataMap = value
-          .data; // retourne la Map des donné de l'utilisateur correspondant à uid passé dans la methode venant du cruObj
+    crudObj.getDataFromDeliveryManFromDocument().then((value) {
+      Map<String, dynamic> dataMap = value.data;
     });
   }
 
@@ -68,7 +66,7 @@ class _UserProfilState extends State<UserProfil> {
               color: Color(0xFF737373),
             ),
             child: Container(
-              child: SelectProfilPicture(),
+              child: SelectProfilPictureDelivery(),
               decoration: BoxDecoration(
                 color: Theme.of(context).canvasColor,
                 borderRadius: BorderRadius.only(
@@ -107,8 +105,10 @@ class _UserProfilState extends State<UserProfil> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      stream:
-          Firestore.instance.collection('user').document(userId).snapshots(),
+      stream: Firestore.instance
+          .collection('deliveryman')
+          .document(userId)
+          .snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return CircularProgressIndicator();
@@ -209,8 +209,8 @@ class _UserProfilState extends State<UserProfil> {
                               onPressed: () {
                                 if (_formKey.currentState.validate()) {
                                   _formKey.currentState.save();
-                                  crudObj
-                                      .createOrUpdateUserData({'name': _name});
+                                  crudObj.createOrUpdateDeliveryManData(
+                                      {'name': _name});
                                   Navigator.pop(context);
                                 }
                               },
@@ -227,7 +227,7 @@ class _UserProfilState extends State<UserProfil> {
           userData['name'],
           style: TextStyle(
             fontSize: 15.0,
-            color: Colors.black,
+            color: Theme.of(context).accentColor,
           ),
         ),
       );
@@ -281,7 +281,7 @@ class _UserProfilState extends State<UserProfil> {
                               onPressed: () {
                                 if (_formKey.currentState.validate()) {
                                   _formKey.currentState.save();
-                                  crudObj.createOrUpdateUserData(
+                                  crudObj.createOrUpdateDeliveryManData(
                                       {'surname': _surname});
                                   Navigator.pop(context);
                                 }
@@ -297,7 +297,8 @@ class _UserProfilState extends State<UserProfil> {
         ),
         subtitle: Text(
           userData['surname'],
-          style: TextStyle(fontSize: 15.0, color: Colors.black),
+          style:
+              TextStyle(fontSize: 15.0, color: Theme.of(context).accentColor),
         ),
       );
     }
@@ -315,7 +316,8 @@ class _UserProfilState extends State<UserProfil> {
         ),
         subtitle: Text(
           userMail,
-          style: TextStyle(fontSize: 15.0, color: Colors.black),
+          style:
+              TextStyle(fontSize: 15.0, color: Theme.of(context).accentColor),
         ),
       );
     }
@@ -369,7 +371,7 @@ class _UserProfilState extends State<UserProfil> {
                               onPressed: () {
                                 if (_formKey.currentState.validate()) {
                                   _formKey.currentState.save();
-                                  crudObj.createOrUpdateUserData(
+                                  crudObj.createOrUpdateDeliveryManData(
                                       {'phone': _phoneNumber});
                                   Navigator.pop(context);
                                 }
@@ -385,7 +387,65 @@ class _UserProfilState extends State<UserProfil> {
         ),
         subtitle: Text(
           userData['phone'],
-          style: TextStyle(fontSize: 15.0, color: Colors.black),
+          style:
+              TextStyle(fontSize: 15.0, color: Theme.of(context).accentColor),
+        ),
+      );
+    }
+
+    Widget immatriculation() {
+      return ListTile(
+        leading: Icon(
+          Icons.assignment,
+          color: Colors.black,
+          size: 35,
+        ),
+        title: Text(
+          'Immatriculation',
+          style: TextStyle(color: Colors.black, fontSize: 18.0),
+        ),
+        subtitle: Text(
+          userData['immatriculation'],
+          style:
+              TextStyle(fontSize: 15.0, color: Theme.of(context).accentColor),
+        ),
+      );
+    }
+
+    Widget remorque() {
+      return ListTile(
+        leading: Icon(
+          Icons.airport_shuttle,
+          color: Colors.black,
+          size: 35,
+        ),
+        title: Text(
+          'Remorque',
+          style: TextStyle(color: Colors.black, fontSize: 18.0),
+        ),
+        subtitle: Text(
+          userData['typeOfRemorque'],
+          style:
+              TextStyle(fontSize: 15.0, color: Theme.of(context).accentColor),
+        ),
+      );
+    }
+
+    Widget marque() {
+      return ListTile(
+        leading: Icon(
+          Icons.branding_watermark,
+          color: Colors.black,
+          size: 35,
+        ),
+        title: Text(
+          'Marque du véhicule',
+          style: TextStyle(color: Colors.black, fontSize: 18.0),
+        ),
+        subtitle: Text(
+          userData['marque'],
+          style:
+              TextStyle(fontSize: 15.0, color: Theme.of(context).accentColor),
         ),
       );
     }
@@ -438,6 +498,12 @@ class _UserProfilState extends State<UserProfil> {
                                     divider(),
                                     phone(),
                                     divider(),
+                                    immatriculation(),
+                                    divider(),
+                                    remorque(),
+                                    divider(),
+                                    marque(),
+                                    divider(),
 //                                    notification(),
                                   ],
                                 ),
@@ -460,8 +526,8 @@ class _UserProfilState extends State<UserProfil> {
   Widget pageConstruct(userData, context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      drawer: MyDrawer(
-        currentPage: 'userProfil',
+      drawer: DrawerDelivery(
+        currentPage: 'deliveryProfil',
         userId: userId,
       ),
       resizeToAvoidBottomPadding: false,

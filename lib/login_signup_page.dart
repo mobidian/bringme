@@ -76,6 +76,8 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
             surname: _surname,
             mail: _email,
             phone: _phone,
+            picture:
+                "https://firebasestorage.googleapis.com/v0/b/bring-me-b2e30.appspot.com/o/awid500.png?alt=media&token=36063bf4-f2d4-4ed4-9e86-5cd89e51b4f7",
           );
 
           crudObj.createOrUpdateUserData(userData.getDataMap());
@@ -83,13 +85,16 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
 
         if (_formType == FormType.registerAsPro) {
           DeliveryManData deliveryManData = new DeliveryManData(
-              name: _name,
-              surname: _surname,
-              mail: _email,
-              phone: _phone,
-              typeOfRemorque: _typeOfRemorque,
-              immatriculation: _immatriculation,
-              marque: _marque);
+            name: _name,
+            surname: _surname,
+            mail: _email,
+            phone: _phone,
+            typeOfRemorque: _typeOfRemorque,
+            immatriculation: _immatriculation,
+            marque: _marque,
+            picture:
+                "https://firebasestorage.googleapis.com/v0/b/bring-me-b2e30.appspot.com/o/awid_livreur500.png?alt=media&token=661d3d63-254b-45cb-9b79-d84544d6bb5b",
+          );
 
           crudObj.createOrUpdateDeliveryManData(deliveryManData.getDataMap());
         }

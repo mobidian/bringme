@@ -5,21 +5,21 @@ import 'package:bringme/services/crud.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:image_picker/image_picker.dart';
 
-class SelectProfilPicture extends StatefulWidget {
+class SelectProfilPictureDelivery extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return _SelectProfilPictureState();
+    return _SelectProfilPictureDeliveryState();
   }
 }
 
-class _SelectProfilPictureState extends State<SelectProfilPicture> {
+class _SelectProfilPictureDeliveryState extends State<SelectProfilPictureDelivery> {
   bool _isLoading = false;
   File newProfilPic;
   CrudMethods crudObj = new CrudMethods();
 
   updateProfilPicture(picUrl) {
     Map<String, dynamic> userMap = {'picture': picUrl};
-    crudObj.createOrUpdateUserData(userMap);
+    crudObj.createOrUpdateDeliveryManData(userMap);
   }
 
   Future getImageFromGallery() async {
@@ -38,7 +38,7 @@ class _SelectProfilPictureState extends State<SelectProfilPicture> {
 
   uploadImage() async {
     FirebaseUser user = await FirebaseAuth.instance.currentUser();
-    final StorageReference firebaseStorageRef = FirebaseStorage.instance.ref().child('userPicture/${user.uid}.jpg');
+    final StorageReference firebaseStorageRef = FirebaseStorage.instance.ref().child('deliveryPicture/${user.uid}.jpg');
     final StorageUploadTask task = firebaseStorageRef.putFile(newProfilPic);
     if (task.isInProgress) {
       setState(() {
