@@ -71,6 +71,37 @@ class _CourseDetailsState extends State<CourseDetails> {
     }
   }
 
+
+
+  Widget profilInfoDelivery() {
+    return Container(
+      padding: EdgeInsets.only(top: 16),
+      child: Column(
+        children: <Widget>[
+          Container(
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(
+                color: Color.fromRGBO(0, 0, 0, 1),
+                width: 6,
+              ),
+            ),
+            child: CircleAvatar(
+              // photo de profil
+              backgroundImage: NetworkImage(_deliveryManData['picture']),
+              minRadius: 30,
+              maxRadius: 93,
+            ),
+          ),
+          Container(
+            height: 15,
+          ),
+        ],
+      ),
+    );
+  }
+
+
   Widget _deliveryManInfo() {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
@@ -83,15 +114,21 @@ class _CourseDetailsState extends State<CourseDetails> {
             "Information sur le livreur",
             style: TextStyle(fontSize: font * 20),
           ),
+          profilInfoDelivery(),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(25.0,0.0,25.0,5.0),
+            child: Container(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Text(_deliveryManData['name'], style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.w600),),
+                ],
+              ),
+            ),
+          ),
           Container(
             child: Column(
               children: <Widget>[
-                Card(
-                  child: ListTile(
-                    title: Text("Prénom"),
-                    subtitle: Text(_deliveryManData['name']),
-                  ),
-                ),
                 Card(
                   child: ListTile(
                     title: Text("Nom"),
@@ -218,19 +255,19 @@ class _CourseDetailsState extends State<CourseDetails> {
             child: ListTile(
               title: Text("Description de la course"),
               subtitle: widget.coursedata['description'] == null ||
-                  widget.coursedata['description'] == ''
+                      widget.coursedata['description'] == ''
                   ? Text("Pas de description")
                   : ExpandablePanel(
-                header: Text(""),
-                collapsed: Text(
-                  widget.coursedata['description'],
-                  softWrap: true,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                expanded:
-                Text(widget.coursedata['description'], softWrap: true),
-              ),
+                      header: Text(""),
+                      collapsed: Text(
+                        widget.coursedata['description'],
+                        softWrap: true,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      expanded: Text(widget.coursedata['description'],
+                          softWrap: true),
+                    ),
             ),
           ),
         ],
