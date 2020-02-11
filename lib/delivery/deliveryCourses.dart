@@ -42,6 +42,11 @@ class _DeliveryCoursesState extends State<DeliveryCourses>{
 
   Future<dynamic> _refresh() {
     return crudObj.getDeliveryManCourses().then((value) {
+      List<dynamic> templist = value.documents;
+      templist.sort((m1,m2){
+        return m1['deliveryDate'].compareTo(m2['deliveryDate']);
+
+      });
       setState(() {
         _courseList = value.documents;
       });
@@ -51,8 +56,13 @@ class _DeliveryCoursesState extends State<DeliveryCourses>{
 
   Future<dynamic> _onLoading() {
     return crudObj.getDeliveryManCourses().then((value) {
+      List<dynamic> templist = value.documents;
+      templist.sort((m1,m2){
+        return m1['deliveryDate'].compareTo(m2['deliveryDate']);
+
+      });
       setState(() {
-        _courseList = value.documents;
+        _courseList = templist;
       });
       _refreshController.loadComplete();
     });

@@ -35,6 +35,11 @@ class _UserCoursesState extends State<UserCourses> {
 
   Future<dynamic> _refresh() {
     return crudObj.getUserCourses().then((value) {
+      List<dynamic> templist = value.documents;
+      templist.sort((m1,m2){
+        return m1['deliveryDate'].compareTo(m2['deliveryDate']);
+
+      });
       setState(() {
         _courseList = value.documents;
       });
@@ -44,6 +49,11 @@ class _UserCoursesState extends State<UserCourses> {
 
   Future<dynamic> _onLoading() {
     return crudObj.getUserCourses().then((value) {
+      List<dynamic> templist = value.documents;
+      templist.sort((m1,m2){
+        return m1['deliveryDate'].compareTo(m2['deliveryDate']);
+
+      });
       setState(() {
         _courseList = value.documents;
       });
