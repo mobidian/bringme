@@ -76,7 +76,8 @@ class _PropositionFromDemandState extends State<PropositionFromDemand> {
       'deliveryManId': deliveryManId,
       'completed': false,
       'price': price,
-      'description': widget.demandData['description']
+      'description': widget.demandData['description'],
+      'object': widget.demandData['object'],
     };
 
     DocumentReference docRef = await Firestore.instance
@@ -285,7 +286,7 @@ class _PropositionFromDemandState extends State<PropositionFromDemand> {
               title: Text(deliveryManName),
               subtitle: Text(
                   'heure suggérée ' + DateFormat('HH:mm').format(suggestTime)),
-              leading: Text(price + "€"),
+              leading: Text(price + "€", style: TextStyle(fontWeight: FontWeight.w800),),
               trailing: FlatButton(
                 child: Text(
                   "Voir",

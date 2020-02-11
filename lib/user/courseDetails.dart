@@ -199,6 +199,12 @@ class _CourseDetailsState extends State<CourseDetails> {
             "Information sur la livraison",
             style: TextStyle(fontSize: font * 20),
           ),
+          widget.coursedata['object'] != null ? Card(
+            child: ListTile(
+              title: Text("Object de la course"),
+              subtitle: Text(widget.coursedata['object']),
+            ),
+          ) : Container(),
           Card(
             child: ListTile(
               title: Text("Depart"),

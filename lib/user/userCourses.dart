@@ -61,7 +61,7 @@ class _UserCoursesState extends State<UserCourses> {
     });
 
     return ListTile(
-      title: Text(marchandise),
+      title: _courseList[index]['object'] == null ? Text(marchandise) : Text(_courseList[index]['object']),
       subtitle:
           Text("Date de livraison " + DateFormat('dd/MM/yy HH:mm').format(_courseList[index]['deliveryDate'].toDate())),
       trailing: FlatButton(
