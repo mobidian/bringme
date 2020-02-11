@@ -46,7 +46,7 @@ exports.notifNewDelivery = functions.firestore.document('request/{requestId}').o
 
 exports.notifNewProposition = functions.firestore.document('user/{userId}/demand/{demandId}').onUpdate((change, context) => {
 
-    console.log("essai notif new propositions");
+    console.log("lancement notif de proposition");
     console.log(context.params.userId);
     console.log(context.params.demandId);
 
@@ -64,6 +64,31 @@ exports.notifNewProposition = functions.firestore.document('user/{userId}/demand
         userTokenNotif = doc.data().tokenNotif;
         console.log(userTokenNotif);
         return userTokenNotif;
+    }).then((token) => {
+     return admin.messaging().sendToDevice(token, payload);
+ }  );
+
+});
+
+
+exports.notifCourseAccepted = functions.firestore.document('deliveryman/{deliveryManId}/course/{courseId}').onCreate((snap, context) => {
+
+    console.log("Lancement notif course accepted");
+    console.log(context.params.deliveryManId);
+    console.log(context.params.courseId);
+
+    let concernedDeliveryManId = context.params.deliveryManId;
+    let courseData = snap.data();
+
+
+    const payload = {
+        notification: { title: 'Course acceptée !', body: 'Vous pouvez retirer le colis -> ' + courseData.depart, badge: '1', sound: 'default', }
+    };
+
+    return admin.firestore().collection('deliveryman').doc(concernedDeliveryManId).get().then(doc => {
+        deliveryTokenNotif = doc.data().tokenNotif;
+        console.log(deliveryTokenNotif);
+        return deliveryTokenNotif;
     }).then((token) => {
      return admin.messaging().sendToDevice(token, payload);
  }  );
