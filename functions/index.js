@@ -50,6 +50,22 @@ exports.notifNewProposition = functions.firestore.document('user/{userId}/demand
     console.log(context.params.userId);
     console.log(context.params.demandId);
 
-    return null;
+    let concernedUserId = context.params.userId;
+    let demandData = change.after.data();
+    let lengthProposition = demandData['proposition'].length;
+    let newPropositionData = demandData['proposition'][lengthProposition-1];
+
+
+    const payload = {
+        notification: { title: 'Proposition de livraison !', body: newPropositionData['price'] + "€" + " pour '" + demandData['object'] + "'", badge: '1', sound: 'default', }
+    };
+
+    return admin.firestore().collection('user').doc(concernedUserId).get().then(doc => {
+        userTokenNotif = doc.data().tokenNotif;
+        console.log(userTokenNotif);
+        return userTokenNotif;
+    }).then((token) => {
+     return admin.messaging().sendToDevice(token, payload);
+ }  );
 
 });
