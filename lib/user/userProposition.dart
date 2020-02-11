@@ -33,7 +33,10 @@ class _UserPropositionState extends State<UserProposition> {
       appBar: AppBar(
         title: Text("Proposition"),
       ),
-      drawer: MyDrawer(currentPage: "proposition", userId: userId,),
+      drawer: MyDrawer(
+        currentPage: "proposition",
+        userId: userId,
+      ),
       body: userId == null ? _showProgressIndicator() : _streamBuilder(),
     );
   }
@@ -69,25 +72,33 @@ class _UserPropositionState extends State<UserProposition> {
         var listProposition = currentData["proposition"];
         var demandId = data[index].documentID;
         String marchandise = '';
-        currentData['typeOfMarchandise'].forEach((k,v){
-          if(v == true){
-            marchandise += k.toString() +' - ';
+        currentData['typeOfMarchandise'].forEach((k, v) {
+          if (v == true) {
+            marchandise += k.toString() + ' - ';
           }
         });
         return Container(
           child: ListTile(
-            title: Text(currentData['depart']),
-            subtitle: Text("arrivé à " + DateFormat('HH:mm').format(currentData['deliveryDate'].toDate())),
+            title: currentData['object'] == null
+                ? Text(currentData['depart'])
+                : Text(currentData['object']),
+            subtitle: Text("arrivé à " +
+                DateFormat('HH:mm')
+                    .format(currentData['deliveryDate'].toDate())),
             trailing: Text(
               listProposition.length.toString(),
-              style: TextStyle(color: Colors.green[600], fontWeight: FontWeight.w800),
+              style: TextStyle(
+                  color: Colors.green[600], fontWeight: FontWeight.w800),
             ),
             onTap: () {
               Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (BuildContext context) => PropositionFromDemand(
-                      title: marchandise +' à ' + DateFormat('HH:mm').format(currentData['deliveryDate'].toDate()),
+                      title: marchandise +
+                          ' à ' +
+                          DateFormat('HH:mm')
+                              .format(currentData['deliveryDate'].toDate()),
                       demandId: demandId,
                       listProposition: listProposition,
                       userId: userId,

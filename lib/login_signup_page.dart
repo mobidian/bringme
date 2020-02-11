@@ -163,6 +163,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
                   .hasMatch(value)) {
             return 'Saisissez un e-mail valide';
           }
+          return null;
         },
         onSaved: (value) => _email = value.trim(),
       ),
@@ -175,6 +176,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
       child: TextFormField(
         maxLines: 1,
         key: new Key('namefield'),
+        textCapitalization: TextCapitalization.sentences,
         decoration: InputDecoration(
           labelText: 'Prénom',
           icon: new Icon(
@@ -186,6 +188,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
           if (value.isEmpty) {
             return 'Saisissez un prénom';
           }
+          return null;
         },
         onSaved: (value) => _name = value.trim(),
       ),
@@ -198,6 +201,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
       child: TextFormField(
         maxLines: 1,
         key: new Key('surnamefield'),
+        textCapitalization: TextCapitalization.sentences,
         decoration: InputDecoration(
           labelText: 'Nom',
           icon: new Icon(
@@ -209,6 +213,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
           if (value.isEmpty) {
             return 'Saisissez un nom';
           }
+          return null;
         },
         onSaved: (value) => _surname = value.trim(),
       ),
@@ -233,6 +238,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
           if (value.isEmpty || value.length < 6) {
             return '6 caractères minimum sont requis';
           }
+          return null;
         },
         onSaved: (value) => _password = value.trim(),
       ),
@@ -254,6 +260,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
           if (_passwordTextController.text != value) {
             return 'Le mot de passe ne correspond pas';
           }
+          return null;
         },
       ),
     );
@@ -277,6 +284,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
           if (value.isEmpty || value.length < 10) {
             return 'numéro invalide';
           }
+          return null;
         },
         onSaved: (value) => _phone = value.trim(),
       ),
@@ -350,6 +358,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
           if (value.isEmpty || value.length < 5) {
             return 'Immatriculation invalide';
           }
+          return null;
         },
         onSaved: (value) => _immatriculation = value.trim(),
       ),
@@ -373,6 +382,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
           if (value.isEmpty) {
             return 'Renseignez une marque';
           }
+          return null;
         },
         onSaved: (value) => _marque = value.trim(),
       ),
@@ -488,7 +498,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
               Icons.mail,
               color: Colors.grey,
             )),
-        validator: (value) => value.isEmpty ? 'Email can\'t be empty' : null,
+        validator: (value) => value.isEmpty ? 'Le mail ne peut pas être vide' : null,
         onSaved: (value) => _email = value.trim(),
       ),
     );

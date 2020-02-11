@@ -33,6 +33,7 @@ class _HomePageState extends State<HomePage> {
   DateTime _retraitDate = DateTime.now();
   DateTime _deliveryDate = DateTime.now();
   String _description;
+  String _object;
 
   //type de remorque
   Map<String, dynamic> mapRemorque = {
@@ -83,7 +84,8 @@ class _HomePageState extends State<HomePage> {
         completed: false,
         accepted: false,
         proposition: [],
-        description: _description
+        description: _description,
+        object: _object,
       );
 
       DocumentReference docRef = await Firestore.instance
@@ -117,11 +119,36 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  Widget demandObject() {
+    return ListTile(
+      title: Text(
+        "Objet de la demande",
+        style: TextStyle(fontWeight: FontWeight.w600),
+      ),
+      subtitle: TextFormField(
+        maxLength: 30,
+        textCapitalization: TextCapitalization.sentences,
+        key: new Key('object'),
+        decoration: InputDecoration(
+          labelText: 'saisissez un objet',
+        ),
+        validator: (String value) {
+          if (value.isEmpty) {
+            return 'Vous devez saisir un objet';
+          }
+          return null;
+        },
+        onSaved: (value) => _object = value,
+      ),
+    );
+  }
+
   Widget _selectDeparture() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(5.0, 20.0, 10.0, 0.0),
       child: TextFormField(
         key: new Key('selectDepart'),
+        textCapitalization: TextCapitalization.sentences,
         decoration: InputDecoration(
           labelText: 'selectionnez l\'adresse de départ',
           icon: new Icon(
@@ -134,6 +161,7 @@ class _HomePageState extends State<HomePage> {
           if (value.isEmpty) {
             return 'Saisissez une adresse';
           }
+          return null;
         },
         onSaved: (value) => _depart = value,
       ),
@@ -145,6 +173,7 @@ class _HomePageState extends State<HomePage> {
       padding: const EdgeInsets.fromLTRB(5.0, 20.0, 10.0, 0.0),
       child: TextFormField(
         key: new Key('selectDestination'),
+        textCapitalization: TextCapitalization.sentences,
         decoration: InputDecoration(
           labelText: 'selectionnez l\'adresse de destination',
           icon: new Icon(
@@ -157,6 +186,7 @@ class _HomePageState extends State<HomePage> {
           if (value.isEmpty) {
             return 'Saisissez une adresse';
           }
+          return null;
         },
         onSaved: (value) => _destination = value,
       ),
@@ -637,7 +667,6 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-
   Widget _enterDescription() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(5.0, 20.0, 10.0, 0.0),
@@ -645,6 +674,7 @@ class _HomePageState extends State<HomePage> {
         keyboardType: TextInputType.multiline,
         maxLines: 5,
         key: new Key('enterDescription'),
+        textCapitalization: TextCapitalization.sentences,
         decoration: InputDecoration(
           labelText: 'Ajouter une description',
           icon: new Icon(
@@ -657,8 +687,6 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
-
-
 
   Widget _showTypeOfMarchandise() {
     return Container(
@@ -706,6 +734,7 @@ class _HomePageState extends State<HomePage> {
           Container(
             child: Column(
               children: <Widget>[
+                demandObject(),
                 _selectDeparture(),
                 _selectDestination(),
                 _selectRetraitTime(),
@@ -737,10 +766,10 @@ class _HomePageState extends State<HomePage> {
           padding: const EdgeInsets.all(16.0),
           child: Column(children: <Widget>[
             Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
-              Text(
-                "Faire une demande de livraison",
-                style: TextStyle(fontSize: font * 15),
-              ),
+//              Text(
+//                "Faire une demande de livraison",
+//                style: TextStyle(fontSize: font * 15),
+//              ),
               Container(
                 padding: const EdgeInsets.all(16.0),
                 child: buildForm(),
