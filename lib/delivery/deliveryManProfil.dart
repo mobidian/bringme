@@ -35,6 +35,8 @@ class _DeliveryManProfilState extends State<DeliveryManProfil> {
   String _phoneNumber;
   String _name;
   String _surname;
+  String _immatriculation;
+  String _marque;
 
   final _formKey = GlobalKey<FormState>();
 
@@ -98,6 +100,13 @@ class _DeliveryManProfilState extends State<DeliveryManProfil> {
   String validateNames(String value) {
     if (value.length < 1)
       return 'Ce champ ne doit pas être vide !';
+    else
+      return null;
+  }
+
+  String validateImma(String value) {
+    if (value.length < 4)
+      return 'Mauvais format d\'immatriculation';
     else
       return null;
   }
@@ -401,13 +410,64 @@ class _DeliveryManProfilState extends State<DeliveryManProfil> {
           size: 35,
         ),
         title: Text(
-          'Immatriculation',
+          "Immatriculation",
           style: TextStyle(color: Colors.black, fontSize: 18.0),
+        ),
+        trailing: IconButton(
+          icon: Icon(Icons.edit, color: Colors.black),
+          onPressed: () {
+            showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(20.0))),
+                    content: Form(
+                      key: _formKey,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: TextFormField(
+                              validator: validateImma,
+                              decoration: InputDecoration(
+                                  hintText: 'Immatriculation'),
+                              onSaved: (value) => _immatriculation = value,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: RaisedButton(
+                              color: Theme.of(context).accentColor,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                  BorderRadius.all(Radius.circular(20.0))),
+                              child: Text(
+                                "Valider",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              onPressed: () {
+                                if (_formKey.currentState.validate()) {
+                                  _formKey.currentState.save();
+                                  crudObj.createOrUpdateDeliveryManData(
+                                      {'immatriculation': _immatriculation});
+                                  Navigator.pop(context);
+                                }
+                              },
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  );
+                });
+          },
         ),
         subtitle: Text(
           userData['immatriculation'],
           style:
-              TextStyle(fontSize: 15.0, color: Theme.of(context).accentColor),
+          TextStyle(fontSize: 15.0, color: Theme.of(context).accentColor),
         ),
       );
     }
@@ -431,24 +491,78 @@ class _DeliveryManProfilState extends State<DeliveryManProfil> {
       );
     }
 
+
+
     Widget marque() {
       return ListTile(
         leading: Icon(
-          Icons.branding_watermark,
+          Icons.assignment,
           color: Colors.black,
           size: 35,
         ),
         title: Text(
-          'Marque du véhicule',
+          "Marque du Véhicule",
           style: TextStyle(color: Colors.black, fontSize: 18.0),
+        ),
+        trailing: IconButton(
+          icon: Icon(Icons.edit, color: Colors.black),
+          onPressed: () {
+            showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(20.0))),
+                    content: Form(
+                      key: _formKey,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: TextFormField(
+                              validator: validateNames,
+                              decoration: InputDecoration(
+                                  hintText: userData['marque']),
+                              onSaved: (value) => _marque = value,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: RaisedButton(
+                              color: Theme.of(context).accentColor,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                  BorderRadius.all(Radius.circular(20.0))),
+                              child: Text(
+                                "Valider",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              onPressed: () {
+                                if (_formKey.currentState.validate()) {
+                                  _formKey.currentState.save();
+                                  crudObj.createOrUpdateDeliveryManData(
+                                      {'marque': _marque});
+                                  Navigator.pop(context);
+                                }
+                              },
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  );
+                });
+          },
         ),
         subtitle: Text(
           userData['marque'],
           style:
-              TextStyle(fontSize: 15.0, color: Theme.of(context).accentColor),
+          TextStyle(fontSize: 15.0, color: Theme.of(context).accentColor),
         ),
       );
     }
+
 
 //    Widget notification() {
 //      return ListTile(
