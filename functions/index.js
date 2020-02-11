@@ -43,3 +43,13 @@ exports.notifNewDelivery = functions.firestore.document('request/{requestId}').o
     });
 });
 
+
+exports.notifNewProposition = functions.firestore.document('user/{userId}/demand/{demandId}').onUpdate((change, context) => {
+
+    console.log("essai notif new propositions");
+    console.log(context.params.userId);
+    console.log(context.params.demandId);
+
+    return null;
+
+});

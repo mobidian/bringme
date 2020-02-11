@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:bringme/authentification/auth.dart';
 import 'package:bringme/services/crud.dart';
 import 'package:bringme/services/requestData.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:bringme/primary_button.dart';
 import 'myDrawer.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 //ce fichier s'appel home_page et la class HomePage mais devrait etre renommé en book_page (page "reserver")
 
@@ -22,9 +21,12 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
   static final formKey = new GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+
   CrudMethods crudObj = new CrudMethods();
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
   bool _isLoading = false;
 
@@ -34,6 +36,40 @@ class _HomePageState extends State<HomePage> {
   DateTime _deliveryDate = DateTime.now();
   String _description;
   String _object;
+
+
+
+
+  //retourne le token notif du user /!\ attention si un compte delivery et user son connecté au meme appareil il est possible que le token soit le meme
+  @override
+  void initState() {
+    super.initState();
+    _firebaseMessaging.getToken().then((token) {
+      print(token);
+      crudObj.createOrUpdateUserData({"tokenNotif": token});
+    });
+    _firebaseMessaging.configure(
+      onMessage: (Map<String, dynamic> message) async {
+        print("onMessage: $message");
+        final notification = message['notification'];
+        print(notification);
+        print(notification['title']);
+      },
+      onResume: (Map<String, dynamic> message) async {
+        print("onResume: $message");
+      },
+      onLaunch: (Map<String, dynamic> message) async {
+        print("onLaunch: $message");
+      },
+    );
+
+    //juste pour IOS
+    _firebaseMessaging.requestNotificationPermissions(
+        const IosNotificationSettings(sound: true, badge: true, alert: true));
+  }
+
+
+
 
   //type de remorque
   Map<String, dynamic> mapRemorque = {
