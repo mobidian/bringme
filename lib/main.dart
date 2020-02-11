@@ -10,6 +10,7 @@ import 'package:bringme/delivery/historicPage.dart';
 import 'package:bringme/user/userHistoric.dart';
 import 'package:bringme/delivery/aProposDelivery.dart';
 import 'package:bringme/user/aProposUser.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 
 
@@ -37,6 +38,14 @@ class _MyAppState extends State<MyApp>{
 
     return MultiProvider(
       child: MaterialApp(
+        localizationsDelegates: [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+        ],
+        supportedLocales: [
+          const Locale('en'), // English
+          const Locale('fr',"FR")
+        ],
         debugShowCheckedModeBanner: false,
           title: 'AWID beta 0.1',
           theme: new ThemeData(

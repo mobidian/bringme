@@ -277,6 +277,7 @@ class _HomePageState extends State<HomePage> {
     return showDatePicker(
       context: context,
       initialDate: DateTime.now().add(Duration(seconds: 1)),
+      locale: Locale("fr", "FR"),
       firstDate: DateTime.now(),
       lastDate: DateTime(2100),
     );
