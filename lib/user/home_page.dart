@@ -33,7 +33,7 @@ class _HomePageState extends State<HomePage> {
   String _depart;
   String _destination;
   DateTime _retraitDate = DateTime.now();
-  DateTime _deliveryDate = DateTime.now();
+  DateTime _deliveryDate;
   String _description;
   String _object;
 
@@ -274,12 +274,15 @@ class _HomePageState extends State<HomePage> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(20.0)),
           ),
-          child: Text(
+          child: _deliveryDate == null ? Text(
+            dateFormat.format(_retraitDate),
+            style: TextStyle(color: Colors.grey[700]),
+          ) : Text(
             dateFormat.format(_deliveryDate),
             style: TextStyle(color: Colors.grey[700]),
           ),
           onPressed: () async {
-            final selectedDate = await _selectDateTime(context);
+            final selectedDate = await _selectDateForDelivery(context);
             if (selectedDate == null) return;
 
             final selectedTime = await _selectTime(context);
@@ -315,6 +318,16 @@ class _HomePageState extends State<HomePage> {
       initialDate: DateTime.now().add(Duration(seconds: 1)),
       locale: Locale("fr", "FR"),
       firstDate: DateTime.now(),
+      lastDate: DateTime(2100),
+    );
+  }
+
+  Future<DateTime> _selectDateForDelivery(BuildContext context) {
+    return showDatePicker(
+      context: context,
+      initialDate: _retraitDate,
+      locale: Locale("fr", "FR"),
+      firstDate: _retraitDate,
       lastDate: DateTime(2100),
     );
   }
