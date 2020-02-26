@@ -26,6 +26,7 @@ class HomePageDelivery extends StatefulWidget {
 
 class _HomePageState extends State<HomePageDelivery> {
   final _formKey = new GlobalKey<FormState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   CrudMethods crudObj = new CrudMethods();
 
   int _price;
@@ -172,6 +173,8 @@ class _HomePageState extends State<HomePageDelivery> {
         };
         crudObj.updateDemandData(userId, requestId, updatedProposition);
       });
+      _scaffoldKey.currentState
+          .showSnackBar(SnackBar(content: Text('Votre proposition a été envoyé à l\'utilisateur !')));
     } else {
       print("le form n'est pas valide");
     }
@@ -256,7 +259,9 @@ class _HomePageState extends State<HomePageDelivery> {
                     child: Text("Envoyer"),
                     onPressed: () {
                       sendProposition(userId, requestId);
-                      Navigator.pop(context);
+                      if(validateAndSave()){
+                        Navigator.pop(context);
+                      }
                     },
                   ),
                 ],
@@ -272,6 +277,7 @@ class _HomePageState extends State<HomePageDelivery> {
     double height = MediaQuery.of(context).size.height;
     double font = MediaQuery.of(context).textScaleFactor;
     return new Scaffold(
+      key: _scaffoldKey,
       appBar: new AppBar(
         title: new Text("Accueil livreur"),
       ),
