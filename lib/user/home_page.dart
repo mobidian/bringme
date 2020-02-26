@@ -33,9 +33,13 @@ class _HomePageState extends State<HomePage> {
   String _depart;
   String _destination;
   DateTime _retraitDate = DateTime.now();
-  DateTime _deliveryDate;
+  DateTime _deliveryDate = DateTime.now();
   String _description;
   String _object;
+
+  Color dateColor = Colors.grey[700];
+  Color marchandiseColor = Colors.grey[500];
+  Color remorqueColor = Colors.grey[500];
 
 
 
@@ -146,12 +150,50 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+
+  bool validateMarchandise(){
+    for(var v in mapMarchandise.values){
+      if(v) return true;
+    }
+    return false;
+  }
+
+
+  bool validateRemorque(){
+    for(var v in mapRemorque.values){
+      if(v) return true;
+    }
+    return false;
+  }
+
+
   Widget submitWidget() {
     return PrimaryButton(
       key: new Key('submitrequest'),
       text: 'Poster la demande',
       height: 44.0,
-      onPressed: validateAndSubmit,
+      onPressed: (){
+        if(_deliveryDate.isBefore(_retraitDate) || _deliveryDate.isAtSameMomentAs(_retraitDate)){
+          validateAndSave();
+          setState(() {
+            dateColor = Colors.red[400];
+          });
+        }else if(validateMarchandise() == false){
+          validateAndSave();
+          setState(() {
+            marchandiseColor = Colors.red[400];
+          });
+
+        }else if(validateRemorque() == false){
+          validateAndSave();
+          setState(() {
+            remorqueColor = Colors.red[400];
+          });
+
+        }else{
+          validateAndSubmit();
+        }
+      },
     );
   }
 
@@ -274,12 +316,9 @@ class _HomePageState extends State<HomePage> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(20.0)),
           ),
-          child: _deliveryDate == null ? Text(
-            dateFormat.format(_retraitDate),
-            style: TextStyle(color: Colors.grey[700]),
-          ) : Text(
+          child: Text(
             dateFormat.format(_deliveryDate),
-            style: TextStyle(color: Colors.grey[700]),
+            style: TextStyle(color: dateColor),
           ),
           onPressed: () async {
             final selectedDate = await _selectDateForDelivery(context);
@@ -296,6 +335,8 @@ class _HomePageState extends State<HomePage> {
                 selectedTime.hour,
                 selectedTime.minute,
               );
+
+              dateColor = Colors.grey[700];
             });
           },
         ),
@@ -309,6 +350,7 @@ class _HomePageState extends State<HomePage> {
     return showTimePicker(
       context: context,
       initialTime: TimeOfDay(hour: now.hour, minute: now.minute),
+
     );
   }
 
@@ -370,7 +412,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget _showSelectTypeOfMarchandise() {
     return RaisedButton(
-      color: Colors.grey[500],
+      color: marchandiseColor,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(20.0)),
       ),
@@ -464,13 +506,16 @@ class _HomePageState extends State<HomePage> {
                 }),
               );
             });
+        setState(() {
+          marchandiseColor = Colors.grey[500];
+        });
       },
     );
   }
 
   Widget _showSelectTypeOfRemorque() {
     return RaisedButton(
-      color: Colors.grey[500],
+      color: remorqueColor,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(20.0)),
       ),
@@ -713,6 +758,9 @@ class _HomePageState extends State<HomePage> {
                 ),
               );
             });
+        setState(() {
+          remorqueColor = Colors.grey[500];
+        });
       },
     );
   }

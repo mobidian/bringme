@@ -45,7 +45,6 @@ class _MyDrawerState extends State<MyDrawer> {
 
     crudObj.getAllDemandFromUser(widget.userId).then((value) {
       var docs = value.documents;
-      print(value.documents[0].documentID);
       for (int i = 0; i < docs.length; i++) {
         var demandId = docs[i].documentID;
         crudObj.getDataFromUserDemand(widget.userId, demandId).then((doc) {
