@@ -30,10 +30,12 @@ class _HomePageState extends State<HomePage> {
 
   bool _isLoading = false;
 
+  static DateTime actualDate = DateTime.now();
+
   String _depart;
   String _destination;
-  DateTime _retraitDate = DateTime.now();
-  DateTime _deliveryDate = DateTime.now();
+  DateTime _retraitDate = actualDate;
+  DateTime _deliveryDate = actualDate;
   String _description;
   String _object;
 
@@ -864,10 +866,6 @@ class _HomePageState extends State<HomePage> {
           padding: const EdgeInsets.all(16.0),
           child: Column(children: <Widget>[
             Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
-//              Text(
-//                "Faire une demande de livraison",
-//                style: TextStyle(fontSize: font * 15),
-//              ),
               Container(
                 padding: const EdgeInsets.all(16.0),
                 child: buildForm(),
