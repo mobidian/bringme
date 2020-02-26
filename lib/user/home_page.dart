@@ -288,6 +288,7 @@ class _HomePageState extends State<HomePage> {
             style: TextStyle(color: Colors.grey[700]),
           ),
           onPressed: () async {
+            FocusScope.of(context).unfocus();
             final selectedDate = await _selectDateTime(context);
             if (selectedDate == null) return;
 
@@ -323,6 +324,7 @@ class _HomePageState extends State<HomePage> {
             style: TextStyle(color: dateColor),
           ),
           onPressed: () async {
+            FocusScope.of(context).unfocus();
             final selectedDate = await _selectDateForDelivery(context);
             if (selectedDate == null) return;
 
@@ -423,6 +425,7 @@ class _HomePageState extends State<HomePage> {
         color: Colors.white,
       ),
       onPressed: () {
+        FocusScope.of(context).unfocus();
         showDialog(
             context: context,
             builder: (BuildContext context) {
@@ -526,6 +529,7 @@ class _HomePageState extends State<HomePage> {
         color: Colors.white,
       ),
       onPressed: () {
+        FocusScope.of(context).unfocus();
         showDialog(
             context: context,
             builder: (BuildContext context) {
