@@ -36,6 +36,8 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
   String _marque;
 
   String _errorMessage;
+  final _resetEmailformKey = new GlobalKey<FormState>();
+  String _emailReset;
 
   FormType _formType = FormType.login;
 
@@ -66,9 +68,9 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
           _isLoading = false;
         });
 
-        if (userId.length > 0 && userId != null) {
-          widget.loginCallback();
-        }
+//        if (userId.length > 0 && userId != null) {
+//          widget.loginCallback();
+//        }
 
         if (_formType == FormType.register) {
           UserData userData = new UserData(
@@ -98,13 +100,42 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
 
           crudObj.createOrUpdateDeliveryManData(deliveryManData.getDataMap());
         }
+
+        if (userId == null) {
+          print("EMAIL PAS VERIFIE");
+          setState(() {
+            _errorMessage = 'Vérifiez votre e-mail 🙂';
+            _isLoading = false;
+            _formType = FormType.login;
+          });
+        } else {
+          _isLoading = false;
+          widget.loginCallback();
+        }
       } catch (e) {
-        print('Error: $e');
         setState(() {
           _isLoading = false;
-          _errorMessage = e.message;
+          switch (e.code) {
+            case 'ERROR_INVALID_EMAIL':
+              _errorMessage = 'Email invalide';
+              break;
+            case 'ERROR_USER_NOT_FOUND':
+              _errorMessage = 'Aucun utilisateur trouvé ';
+              break;
+            case 'ERROR_WRONG_PASSWORD':
+              _errorMessage = 'Mauvais mot de passe';
+              break;
+            default:
+              _errorMessage = 'Erreur de connexion';
+              break;
+          }
         });
+        print(e);
       }
+    } else {
+      setState(() {
+        _errorMessage = '';
+      });
     }
   }
 
@@ -467,9 +498,9 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
 
   Widget showErrorMessage() {
     if (_errorMessage.length > 0 && _errorMessage != null) {
-      return Padding(
-        padding: const EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 0.0),
-        child: new Text(
+      return Align(
+        alignment: Alignment.bottomCenter,
+        child: Text(
           _errorMessage,
           style: TextStyle(
               fontSize: 13.0,
@@ -485,6 +516,89 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
     }
   }
 
+  Widget showResetPassword() {
+    return Align(
+      alignment: Alignment.bottomCenter,
+      child: FlatButton(
+        onPressed: _dialogResetPassword,
+        child: Text('Mot de passe oublié ?', style: TextStyle(color: Colors.grey[600]),),
+      ),
+    );
+  }
+
+
+  bool validateAndSaveReset() {
+    final form = _resetEmailformKey.currentState;
+    if (form.validate()) {
+      form.save();
+      return true;
+    }
+    return false;
+  }
+
+  Widget _buildEmailResetField() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
+      child: TextFormField(
+        maxLines: 1,
+        key: new Key('emailreset'),
+        keyboardType: TextInputType.emailAddress,
+        validator: (String value) {
+          if (value.isEmpty ||
+              !RegExp(r"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")
+                  .hasMatch(value)) {
+            return 'Saisissez un e-mail valide';
+          }
+          return null;
+        },
+          onSaved: (value) => _emailReset = value.trim(),
+      ),
+    );
+  }
+
+  _dialogResetPassword(){
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(20.0)),
+            ),
+            title: Text("Nous allons vous envoyer un mail pour réinitialiser votre mot de passe"),
+            content: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Form(
+                    key: _resetEmailformKey,
+                    child: _buildEmailResetField(),
+                  ),
+                ],
+              ),
+            ),
+            actions: <Widget>[
+              FlatButton(
+                child: Text("Fermer", style: TextStyle(color: Colors.black),),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              FlatButton(
+                child: Text("Envoyer l'e-mail", style: TextStyle(color: Colors.green[400]),),
+                onPressed: () {
+                  if(validateAndSaveReset()){
+                    widget.auth.resetPassword(_emailReset);
+                    Navigator.pop(context);
+                  }
+                },
+              ),
+            ],
+          );
+        });
+
+  }
+
+
   Widget showEmailInput() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 100.0, 0.0, 0.0),
@@ -498,7 +612,8 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
               Icons.mail,
               color: Colors.grey,
             )),
-        validator: (value) => value.isEmpty ? 'Le mail ne peut pas être vide' : null,
+        validator: (value) =>
+            value.isEmpty ? 'Le mail ne peut pas être vide' : null,
         onSaved: (value) => _email = value.trim(),
       ),
     );
@@ -587,6 +702,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
                   ],
                 ),
                 _formType == FormType.registerAsPro ? Container() : comptePro(),
+                showResetPassword(),
               ],
             ),
           ),
