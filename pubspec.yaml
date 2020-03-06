@@ -32,6 +32,7 @@ dependencies:
   firebase_messaging: ^6.0.9
   image_picker: ^0.6.3+1
   expandable: ^4.1.2
+  flutter_rating_bar: ^3.0.1+1
 
 
   flutter:

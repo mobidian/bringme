@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_mobile_vision/qr_camera.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'rating.dart';
 
 class ScannerQR extends StatefulWidget {
   ScannerQR({@required this.courseID, @required this.courseData});
@@ -89,12 +90,12 @@ class _ScannerQRState extends State<ScannerQR> {
       });
 
       Timer(Duration(seconds: 4), () {
-        Provider.of<DrawerStateInfo>(context).setCurrentDrawer(1);
+        //Provider.of<DrawerStateInfo>(context).setCurrentDrawer(1);
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-                builder: (BuildContext context) => HomePage(
-                      userId: widget.courseData['userId'],
+                builder: (BuildContext context) => RateDelivery(
+                      courseData: widget.courseData,
                     )));
 
         print(
