@@ -38,18 +38,17 @@ class _RateDeliveryState extends State<RateDelivery> {
     });
   }
 
-  double roundDouble(double value, int places){
+  double roundDouble(double value, int places) {
     double mod = pow(10.0, places);
     return ((value * mod).round().toDouble() / mod);
   }
 
   void sendRating() {
-
-    if (deliveryManData['star'] == null || deliveryManData['totalRate'] == null) {
+    if (deliveryManData['star'] == null ||
+        deliveryManData['totalRate'] == null) {
       crudObj.updateDeliveryManDataWithID(
           widget.courseData['deliveryManId'], {'star': note, 'totalRate': 1});
     } else {
-
       var totalPoint = deliveryManData['star'] * deliveryManData['totalRate'];
       var newTotalRate = deliveryManData['totalRate'] + 1;
       var newStar = (totalPoint + note) / newTotalRate;
@@ -82,42 +81,71 @@ class _RateDeliveryState extends State<RateDelivery> {
     }
 
     return Container(
+      child: Center(
         child: Column(
-      children: <Widget>[
-        RatingBar(
-          initialRating: 0,
-          minRating: 1,
-          direction: Axis.horizontal,
-          allowHalfRating: true,
-          itemCount: 5,
-          itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-          itemBuilder: (context, _) => Icon(
-            Icons.star,
-            color: Colors.amber,
-          ),
-          onRatingUpdate: (rating) {
-            print(rating);
-            setState(() {
-              note = rating;
-            });
-          },
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Text("N'hésitez pas à laisser une note à votre livreur", style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.w600),overflow: TextOverflow.ellipsis,),
+            SizedBox(
+              height: 20.0,
+            ),
+            RatingBar(
+              glow: false,
+              initialRating: 0,
+              minRating: 1,
+              direction: Axis.horizontal,
+              allowHalfRating: true,
+              itemCount: 5,
+              itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+              itemBuilder: (context, _) => Icon(
+                Icons.airport_shuttle,
+                color: Colors.black,
+              ),
+              onRatingUpdate: (rating) {
+                print(rating);
+                setState(() {
+                  note = rating;
+                });
+              },
+            ),
+            SizedBox(
+              height: 20.0,
+            ),
+            ButtonTheme(
+              child: RaisedButton(
+                elevation: 5.0,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0)),
+                child: Text("Noter",
+                    style: TextStyle(color: Colors.white, fontSize: 20.0,)),
+                color: Theme.of(context).primaryColor,
+                textColor: Colors.white,
+                onPressed: () {
+                  sendRating();
+                },
+              ),
+            ),
+            SizedBox(
+              height: 10.0,
+            ),
+            FlatButton(
+              child: Text("plus tard"),
+              onPressed: (){
+                Provider.of<DrawerStateInfo>(context).setCurrentDrawer(1);
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (BuildContext context) => HomePage(
+                      userId: widget.courseData['userId'],
+                    ),
+                  ),
+                );
+              },
+            ),
+          ],
         ),
-        ButtonTheme(
-          child: RaisedButton(
-            elevation: 5.0,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30.0)),
-            child: Text("Noter !",
-                style: TextStyle(color: Colors.white, fontSize: 20.0)),
-            color: Theme.of(context).primaryColor,
-            textColor: Colors.white,
-            onPressed: () {
-              sendRating();
-            },
-          ),
-        ),
-      ],
-    ));
+      ),
+    );
   }
 
   @override

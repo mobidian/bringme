@@ -91,15 +91,24 @@ class _ScannerQRState extends State<ScannerQR> {
 
       Timer(Duration(seconds: 4), () {
         //Provider.of<DrawerStateInfo>(context).setCurrentDrawer(1);
-        Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-                builder: (BuildContext context) => RateDelivery(
-                      courseData: widget.courseData,
-                    )));
+//        Navigator.pushReplacement(
+//            context,
+//            MaterialPageRoute(
+//                builder: (BuildContext context) => RateDelivery(
+//                      courseData: widget.courseData,
+//                    )));
+
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+              builder: (context) => RateDelivery(
+                    courseData: widget.courseData,
+                  )),
+          (Route<dynamic> route) => false,
+        );
 
         print(
-            "4 SECONDES SONT PASSE REDIRECTION DU USER VERS LA PAGE D'ACCUEIL");
+            "4 SECONDES SONT PASSE REDIRECTION DU USER VERS LA PAGE DE NOTATION");
       });
 
       return Container(
