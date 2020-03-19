@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'scannerQR.dart';
 import 'package:expandable/expandable.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class CourseDetails extends StatefulWidget {
   CourseDetails(
@@ -106,6 +107,7 @@ class _CourseDetailsState extends State<CourseDetails> {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     double font = MediaQuery.of(context).textScaleFactor;
+    double star = _deliveryManData['star'];
 
     return Container(
       child: Column(
@@ -118,10 +120,34 @@ class _CourseDetailsState extends State<CourseDetails> {
           Padding(
             padding: const EdgeInsets.fromLTRB(25.0,0.0,25.0,5.0),
             child: Container(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              child: Column(
                 children: <Widget>[
-                  Text(_deliveryManData['name'], style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.w600),),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      Text(_deliveryManData['name'], style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.w600),),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 5.0,
+                  ),
+                  star == null ? Text('') :
+                  RatingBar(
+                    ignoreGestures: true,
+                    glow: false,
+                    initialRating: star,
+                    direction: Axis.horizontal,
+                    allowHalfRating: true,
+                    itemCount: 5,
+                    itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                    itemBuilder: (context, _) => Icon(
+                      Icons.airport_shuttle,
+                      color: Colors.black,
+                    ),
+                    onRatingUpdate: (rating) {
+                      print(rating);
+                    },
+                  ),
                 ],
               ),
             ),
