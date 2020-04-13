@@ -120,7 +120,7 @@ class _PropositionFromDemandState extends State<PropositionFromDemand> {
     });
   }
 
-  _deleteDemand(){
+  _deleteDemand() {
     //faire super gaffe avec ca pcq on peut carrement supprimer toute une collection
     //--------------------------
     Firestore.instance
@@ -140,11 +140,9 @@ class _PropositionFromDemandState extends State<PropositionFromDemand> {
         .catchError((e) {
       print(e.toString());
     });
-
   }
 
-  _showDeleteDemandDialog(){
-
+  _showDeleteDemandDialog() {
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -155,13 +153,19 @@ class _PropositionFromDemandState extends State<PropositionFromDemand> {
             title: Text("Etes vous sûr ?"),
             actions: <Widget>[
               FlatButton(
-                child: Text("Fermer", style: TextStyle(color: Colors.black),),
+                child: Text(
+                  "Fermer",
+                  style: TextStyle(color: Colors.black),
+                ),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
               ),
               FlatButton(
-                child: Text("Supprimer", style: TextStyle(color: Colors.red[900]),),
+                child: Text(
+                  "Supprimer",
+                  style: TextStyle(color: Colors.red[900]),
+                ),
                 onPressed: () {
                   _deleteDemand();
                   Provider.of<DrawerStateInfo>(context).setCurrentDrawer(0);
@@ -171,7 +175,6 @@ class _PropositionFromDemandState extends State<PropositionFromDemand> {
             ],
           );
         });
-
   }
 
   @override
@@ -203,7 +206,8 @@ class _PropositionFromDemandState extends State<PropositionFromDemand> {
         ));
   }
 
-  void _showDialog(deliveryManId, name, price, phone, suggestTime, type, marque) {
+  void _showDialog(
+      deliveryManId, name, price, phone, suggestTime, type, marque, star) {
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -218,6 +222,20 @@ class _PropositionFromDemandState extends State<PropositionFromDemand> {
                 ListTile(
                   title: Text("Prénom"),
                   subtitle: Text(name),
+                  trailing:
+                      star == null ? Text('') : Container(
+                        width: 55.0,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text(star, style: TextStyle(fontWeight: FontWeight.bold),),
+                            Icon(
+                              Icons.airport_shuttle,
+                              color: Colors.black,
+                            ),
+                          ],
+                        ),
+                      ),
                 ),
                 ListTile(
                   title: Text("Téléphone"),
@@ -243,13 +261,19 @@ class _PropositionFromDemandState extends State<PropositionFromDemand> {
             ),
             actions: <Widget>[
               FlatButton(
-                child: Text("fermer", style: TextStyle(color: Colors.black),),
+                child: Text(
+                  "fermer",
+                  style: TextStyle(color: Colors.black),
+                ),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
               ),
               FlatButton(
-                child: Text("Accepter", style: TextStyle(color: Colors.green[600]),),
+                child: Text(
+                  "Accepter",
+                  style: TextStyle(color: Colors.green[600]),
+                ),
                 onPressed: () {
                   _acceptProposition(deliveryManId, suggestTime, price);
                   Provider.of<DrawerStateInfo>(context).setCurrentDrawer(0);
@@ -262,8 +286,7 @@ class _PropositionFromDemandState extends State<PropositionFromDemand> {
   }
 
   _buildListOfProposition() {
-
-    if(deliveryManData.isEmpty){
+    if (deliveryManData.isEmpty) {
       return Center(
         child: Text("Aucune proposition pour le moment"),
       );
@@ -281,20 +304,31 @@ class _PropositionFromDemandState extends State<PropositionFromDemand> {
           DateTime suggestTime = deliveryManData[index]['suggestTime'].toDate();
           String type = deliveryManData[index]['typeOfRemorque'];
           String marque = deliveryManData[index]['marque'];
+          String star = deliveryManData[index]['star'].toString();
           return Container(
             child: ListTile(
               title: Text(deliveryManName),
               subtitle: Text(
                   'heure suggérée ' + DateFormat('HH:mm').format(suggestTime)),
-              leading: Text(price + "€", style: TextStyle(fontWeight: FontWeight.w800),),
+              leading: Text(
+                price + "€",
+                style: TextStyle(fontWeight: FontWeight.w800),
+              ),
               trailing: FlatButton(
                 child: Text(
                   "Voir",
                   style: TextStyle(fontWeight: FontWeight.w600),
                 ),
                 onPressed: () {
-                  _showDialog(deliveryManData[index]['deliveryManId'],
-                      deliveryManName, price, phone, suggestTime,type,marque);
+                  _showDialog(
+                      deliveryManData[index]['deliveryManId'],
+                      deliveryManName,
+                      price,
+                      phone,
+                      suggestTime,
+                      type,
+                      marque,
+                      star);
                 },
               ),
             ),

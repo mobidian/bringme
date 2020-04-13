@@ -143,6 +143,28 @@ class _DrawerDeliveryState extends State<DrawerDelivery> {
             },
           ),
         ),
+        dataMap['star'] == null
+            ? Text("Vous n'avez pas de note")
+            : Container(
+                width: 200.0,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      dataMap['star'].toString(),
+                      style: TextStyle(
+                          fontSize: 17.0, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(
+                      width: 6.0,
+                    ),
+                    Icon(
+                      Icons.airport_shuttle,
+                      color: Colors.black,
+                    ),
+                  ],
+                ),
+              )
       ],
     );
   }
@@ -176,7 +198,8 @@ class _DrawerDeliveryState extends State<DrawerDelivery> {
                     "Accueil",
                     style: currentDrawer == 0
                         ? TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0)
-                        : TextStyle(fontWeight: FontWeight.normal, fontSize: 18.0),
+                        : TextStyle(
+                            fontWeight: FontWeight.normal, fontSize: 18.0),
                   ),
                   onTap: () {
                     Navigator.of(context).pop();
@@ -198,7 +221,8 @@ class _DrawerDeliveryState extends State<DrawerDelivery> {
                     "Courses",
                     style: currentDrawer == 1
                         ? TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0)
-                        : TextStyle(fontWeight: FontWeight.normal, fontSize: 18.0),
+                        : TextStyle(
+                            fontWeight: FontWeight.normal, fontSize: 18.0),
                   ),
                   onTap: () {
                     Navigator.of(context).pop();
@@ -220,7 +244,8 @@ class _DrawerDeliveryState extends State<DrawerDelivery> {
                     "Historique",
                     style: currentDrawer == 2
                         ? TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0)
-                        : TextStyle(fontWeight: FontWeight.normal, fontSize: 18.0),
+                        : TextStyle(
+                            fontWeight: FontWeight.normal, fontSize: 18.0),
                   ),
                   onTap: () {
                     Navigator.of(context).pop();
@@ -228,7 +253,8 @@ class _DrawerDeliveryState extends State<DrawerDelivery> {
 
                     Provider.of<DrawerStateInfo>(context).setCurrentDrawer(2);
 
-                    Navigator.pushReplacementNamed(context, "/deliveryHistoric");
+                    Navigator.pushReplacementNamed(
+                        context, "/deliveryHistoric");
                   },
                 ),
               ],
@@ -250,8 +276,10 @@ class _DrawerDeliveryState extends State<DrawerDelivery> {
                     title: Text(
                       "A Propos",
                       style: currentDrawer == 3
-                          ? TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0)
-                          : TextStyle(fontWeight: FontWeight.normal, fontSize: 18.0),
+                          ? TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 18.0)
+                          : TextStyle(
+                              fontWeight: FontWeight.normal, fontSize: 18.0),
                     ),
                     onTap: () {
                       Navigator.of(context).pop();
@@ -259,7 +287,8 @@ class _DrawerDeliveryState extends State<DrawerDelivery> {
 
                       Provider.of<DrawerStateInfo>(context).setCurrentDrawer(3);
 
-                      Navigator.pushReplacementNamed(context, "/aProposDelivery");
+                      Navigator.pushReplacementNamed(
+                          context, "/aProposDelivery");
                     },
                   ),
                 ],

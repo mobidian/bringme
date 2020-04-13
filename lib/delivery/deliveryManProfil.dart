@@ -156,6 +156,22 @@ class _DeliveryManProfilState extends State<DeliveryManProfil> {
           Container(
             height: 15,
           ),
+          Container(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                userData['star'] == null ? Text("Vous n'avez pas de note") : Text(userData['star'].toString(), style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold)),
+                SizedBox(
+                  width: 15.0,
+                ),
+                Icon(
+                  Icons.airport_shuttle,
+                  color: Colors.black,
+                  size: 30.0,
+                ),
+              ],
+            ),
+          )
         ],
       ),
     );
