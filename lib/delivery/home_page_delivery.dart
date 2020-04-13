@@ -9,6 +9,7 @@ import 'package:intl/intl.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expandable/expandable.dart';
+import 'vignette/demo.dart';
 
 class HomePageDelivery extends StatefulWidget {
   HomePageDelivery({Key key, this.auth, this.userId, this.logoutCallback})
@@ -173,8 +174,8 @@ class _HomePageState extends State<HomePageDelivery> {
         };
         crudObj.updateDemandData(userId, requestId, updatedProposition);
       });
-      _scaffoldKey.currentState
-          .showSnackBar(SnackBar(content: Text('Votre proposition a été envoyé à l\'utilisateur !')));
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+          content: Text('Votre proposition a été envoyé à l\'utilisateur !')));
     } else {
       print("le form n'est pas valide");
     }
@@ -259,7 +260,7 @@ class _HomePageState extends State<HomePageDelivery> {
                     child: Text("Envoyer"),
                     onPressed: () {
                       sendProposition(userId, requestId);
-                      if(validateAndSave()){
+                      if (validateAndSave()) {
                         Navigator.pop(context);
                       }
                     },
@@ -304,7 +305,8 @@ class _HomePageState extends State<HomePageDelivery> {
                   return CircularProgressIndicator();
                 }
                 var data = snapshot.data.documents;
-                return pageConstruct(data, context);
+//                return pageConstruct(data, context);
+                return TicketFoldDemo(data: data, scaffoldInstance: _scaffoldKey);
               },
             ),
           ),
@@ -387,36 +389,6 @@ class _HomePageState extends State<HomePageDelivery> {
             ),
           ),
         );
-//        return Column(
-//          children: <Widget>[
-//            Container(
-//              child: ListTile(
-//                title: Text(currentData['depart'] +
-//                    ' à ' +
-//                    DateFormat('HH:mm')
-//                        .format(currentData['retraitDate'].toDate()) +
-//                    ' le ' +
-//                    DateFormat('dd/MM/yy')
-//                        .format(currentData['retraitDate'].toDate())),
-//                subtitle: Text(remorque),
-//                trailing: FlatButton(
-//                  child: Icon(
-//                    FontAwesomeIcons.arrowRight,
-//                    color: Colors.green,
-//                  ),
-//                  onPressed: () {
-//                    setState(() {
-//                      _suggestTime = currentData['deliveryDate'].toDate();
-//                    });
-//                    _showDialog(currentData['userId'], requestId, currentData,
-//                        remorque);
-//                  },
-//                ),
-//              ),
-//            ),
-//            Divider()
-//          ],
-//        );
       },
     );
   }
