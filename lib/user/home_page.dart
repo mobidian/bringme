@@ -79,16 +79,11 @@ class _HomePageState extends State<HomePage> {
 
   //type de remorque
   Map<String, dynamic> mapRemorque = {
-    'vcc': false,
-    'vbb': false,
-    'u3': false,
-    'u6': false,
-    'u9': false,
-    'u12': false,
-    'u14': false,
-    'u20': false,
-    'u20pc': false,
-    'vif': false
+    'Véhicule particuliers': false,
+    'Utilitaire petit': false,
+    'Utilitaire moyen': false,
+    'Utilitaire grand': false,
+    'Véhicule Isotherme ou Frigorifique': false,
   };
 
   //type de marchandise
@@ -545,17 +540,17 @@ class _HomePageState extends State<HomePage> {
                         Row(
                           children: <Widget>[
                             Checkbox(
-                              value: mapRemorque['vcc'],
+                              value: mapRemorque['Véhicule particuliers'],
                               onChanged: (bool value) {
                                 setState(() {
-                                  mapRemorque['vcc'] = value;
+                                  mapRemorque['Véhicule particuliers'] = value;
                                 });
                               },
                             ),
                             Flexible(
                               child: Container(
                                 child: Text(
-                                  "Voiture citadine & compact",
+                                  "Véhicule particuliers",
                                   overflow: TextOverflow.ellipsis,
                                 ),
                               ),
@@ -565,17 +560,17 @@ class _HomePageState extends State<HomePage> {
                         Row(
                           children: <Widget>[
                             Checkbox(
-                              value: mapRemorque['vbb'],
+                              value: mapRemorque['Utilitaire petit'],
                               onChanged: (bool value) {
                                 setState(() {
-                                  mapRemorque['vbb'] = value;
+                                  mapRemorque['Utilitaire petit'] = value;
                                 });
                               },
                             ),
                             Flexible(
                               child: Container(
                                 child: Text(
-                                  "Voiture berline & break",
+                                  "Utilitaire petit",
                                   overflow: TextOverflow.ellipsis,
                                 ),
                               ),
@@ -585,17 +580,17 @@ class _HomePageState extends State<HomePage> {
                         Row(
                           children: <Widget>[
                             Checkbox(
-                              value: mapRemorque['u3'],
+                              value: mapRemorque['Utilitaire moyen'],
                               onChanged: (bool value) {
                                 setState(() {
-                                  mapRemorque['u3'] = value;
+                                  mapRemorque['Utilitaire moyen'] = value;
                                 });
                               },
                             ),
                             Flexible(
                               child: Container(
                                 child: Text(
-                                  "Utilitaire 3 m3",
+                                  "Utilitaire moyen",
                                   overflow: TextOverflow.ellipsis,
                                 ),
                               ),
@@ -605,17 +600,17 @@ class _HomePageState extends State<HomePage> {
                         Row(
                           children: <Widget>[
                             Checkbox(
-                              value: mapRemorque['u6'],
+                              value: mapRemorque['Utilitaire grand'],
                               onChanged: (bool value) {
                                 setState(() {
-                                  mapRemorque['u6'] = value;
+                                  mapRemorque['Utilitaire grand'] = value;
                                 });
                               },
                             ),
                             Flexible(
                               child: Container(
                                 child: Text(
-                                  "Utilitaire 6 m3",
+                                  "Utilitaire grand",
                                   overflow: TextOverflow.ellipsis,
                                 ),
                               ),
@@ -625,117 +620,17 @@ class _HomePageState extends State<HomePage> {
                         Row(
                           children: <Widget>[
                             Checkbox(
-                              value: mapRemorque['u9'],
+                              value: mapRemorque['Véhicule Isotherme ou Frigorifique'],
                               onChanged: (bool value) {
                                 setState(() {
-                                  mapRemorque['u9'] = value;
+                                  mapRemorque['Véhicule Isotherme ou Frigorifique'] = value;
                                 });
                               },
                             ),
                             Flexible(
                               child: Container(
                                 child: Text(
-                                  "Utilitaire 9 m3",
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: <Widget>[
-                            Checkbox(
-                              value: mapRemorque['u12'],
-                              onChanged: (bool value) {
-                                setState(() {
-                                  mapRemorque['u12'] = value;
-                                });
-                              },
-                            ),
-                            Flexible(
-                              child: Container(
-                                child: Text(
-                                  "Utilitaire 12 m3",
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: <Widget>[
-                            Checkbox(
-                              value: mapRemorque['u14'],
-                              onChanged: (bool value) {
-                                setState(() {
-                                  mapRemorque['u14'] = value;
-                                });
-                              },
-                            ),
-                            Flexible(
-                              child: Container(
-                                child: Text(
-                                  "Utilitaire 14 m3",
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: <Widget>[
-                            Checkbox(
-                              value: mapRemorque['u20'],
-                              onChanged: (bool value) {
-                                setState(() {
-                                  mapRemorque['u20'] = value;
-                                });
-                              },
-                            ),
-                            Flexible(
-                              child: Container(
-                                child: Text(
-                                  "Utilitaire 20 m3",
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: <Widget>[
-                            Checkbox(
-                              value: mapRemorque['u20pc'],
-                              onChanged: (bool value) {
-                                setState(() {
-                                  mapRemorque['u20pc'] = value;
-                                });
-                              },
-                            ),
-                            Flexible(
-                              child: Container(
-                                child: Text(
-                                  "Utilitaire 20 m3 avec plateau de chargement",
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: <Widget>[
-                            Checkbox(
-                              value: mapRemorque['vif'],
-                              onChanged: (bool value) {
-                                setState(() {
-                                  mapRemorque['vif'] = value;
-                                });
-                              },
-                            ),
-                            Flexible(
-                              child: Container(
-                                child: Text(
-                                  "Véhicule isotherme ou frigorifique",
+                                  "Véhicule Isotherme ou Frigorifique",
                                   overflow: TextOverflow.ellipsis,
                                 ),
                               ),

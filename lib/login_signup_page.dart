@@ -31,7 +31,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
   String _phone;
 
   //livreur
-  String _typeOfRemorque = 'Utilitaire 3m3';
+  String _typeOfRemorque = 'Véhicule particuliers';
   String _immatriculation;
   String _marque;
 
@@ -350,16 +350,11 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
               });
             },
             items: <String>[
-              'Citadine & Compact',
-              'Berline & break',
-              'Utilitaire 3m3',
-              'Utilitaire 6m3',
-              'Utilitaire 9m3',
-              'Utilitaire 12m3',
-              'Utilitaire 14m3',
-              'Utilitaire 20m3',
-              'Utilitaire 20m3 avec plateau de chargement',
-              'Véhicule isotherme ou frigorifique'
+              'Véhicule particuliers',
+              'Utilitaire petit',
+              'Utilitaire moyen',
+              'Utilitaire grand',
+              'Véhicule Isotherme ou Frigorifique',
             ].map<DropdownMenuItem<String>>((String value) {
               return DropdownMenuItem<String>(
                 value: value,
