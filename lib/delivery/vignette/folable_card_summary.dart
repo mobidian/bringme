@@ -3,16 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 
-import 'demo_data.dart';
 
 enum SummaryTheme { dark, light }
 
-class FlightSummary extends StatelessWidget {
+class FolableCardSummary extends StatelessWidget {
   final DocumentSnapshot demandData;
   final SummaryTheme theme;
   final bool isOpen;
 
-  const FlightSummary(
+  const FolableCardSummary(
       {Key key,
       this.demandData,
       this.theme = SummaryTheme.light,

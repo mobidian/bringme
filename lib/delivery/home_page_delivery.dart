@@ -9,7 +9,7 @@ import 'package:intl/intl.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expandable/expandable.dart';
-import 'vignette/demo.dart';
+import 'vignette/card_container.dart';
 
 class HomePageDelivery extends StatefulWidget {
   HomePageDelivery({Key key, this.auth, this.userId, this.logoutCallback})
@@ -306,7 +306,7 @@ class _HomePageState extends State<HomePageDelivery> {
                 }
                 var data = snapshot.data.documents;
 //                return pageConstruct(data, context);
-                return TicketFoldDemo(data: data, scaffoldInstance: _scaffoldKey);
+                return CardContainer(data: data, scaffoldInstance: _scaffoldKey);
               },
             ),
           ),

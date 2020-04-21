@@ -5,12 +5,12 @@ import 'package:intl/intl.dart';
 import 'package:bringme/authentification/auth.dart';
 
 
-class FlightBarcode extends StatefulWidget {
+class FoldableCardProposition extends StatefulWidget {
 
   final demandData;
   final GlobalKey<ScaffoldState> scaffoldInstance;
 
-  FlightBarcode({@required this.demandData, @required this.scaffoldInstance});
+  FoldableCardProposition({@required this.demandData, @required this.scaffoldInstance});
 
   @override
   State<StatefulWidget> createState() {
@@ -20,7 +20,7 @@ class FlightBarcode extends StatefulWidget {
 }
 
 
-class _FlightBarCodeState extends State<FlightBarcode>{
+class _FlightBarCodeState extends State<FoldableCardProposition>{
 
   CrudMethods crudObj = new CrudMethods();
   final _formKey = new GlobalKey<FormState>();

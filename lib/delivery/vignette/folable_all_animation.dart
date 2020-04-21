@@ -2,27 +2,27 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-class FoldingTicket extends StatefulWidget {
+class FolableAllAnimation extends StatefulWidget {
   static const double padding = 16.0;
   final bool isOpen;
   final List<FoldEntry> entries;
   final Function onClick;
   final Duration duration;
 
-  FoldingTicket({this.duration, @required this.entries, this.isOpen = false, this.onClick});
+  FolableAllAnimation({this.duration, @required this.entries, this.isOpen = false, this.onClick});
 
   @override
-  _FoldingTicketState createState() => _FoldingTicketState();
+  _FolableAllAnimationState createState() => _FolableAllAnimationState();
 }
 
-class _FoldingTicketState extends State<FoldingTicket> with SingleTickerProviderStateMixin {
+class _FolableAllAnimationState extends State<FolableAllAnimation> with SingleTickerProviderStateMixin {
   List<FoldEntry> _entries;
   double _ratio = 0.0;
   AnimationController _controller;
 
-  double get openHeight => _entries.fold(0.0, (val, o) => val + o.height) + FoldingTicket.padding * 2;
+  double get openHeight => _entries.fold(0.0, (val, o) => val + o.height) + FolableAllAnimation.padding * 2;
 
-  double get closedHeight => _entries[0].height + FoldingTicket.padding * 2;
+  double get closedHeight => _entries[0].height + FolableAllAnimation.padding * 2;
 
   bool get isOpen => widget.isOpen;
 
@@ -35,7 +35,7 @@ class _FoldingTicketState extends State<FoldingTicket> with SingleTickerProvider
   }
 
   @override
-  void didUpdateWidget(FoldingTicket oldWidget) {
+  void didUpdateWidget(FolableAllAnimation oldWidget) {
     // Opens or closes the ticked if the status changed
     _updateFromWidget();
     super.didUpdateWidget(oldWidget);
@@ -50,7 +50,7 @@ class _FoldingTicketState extends State<FoldingTicket> with SingleTickerProvider
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(FoldingTicket.padding),
+      padding: EdgeInsets.all(FolableAllAnimation.padding),
       height: closedHeight + (openHeight - closedHeight) * Curves.easeOut.transform(_ratio),
       child: Container(
           decoration: BoxDecoration(

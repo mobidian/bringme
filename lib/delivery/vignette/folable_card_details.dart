@@ -2,9 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import 'demo_data.dart';
+import 'card_container.dart';
 
-class FlightDetails extends StatelessWidget {
+class FolableCardDetails extends StatelessWidget {
   final DocumentSnapshot demandData;
   final TextStyle titleTextStyle = TextStyle(
       fontFamily: 'OpenSans',
@@ -27,7 +27,7 @@ class FlightDetails extends StatelessWidget {
       letterSpacing: .3,
       color: Color(0xff083e64));
 
-  FlightDetails({@required this.demandData});
+  FolableCardDetails({@required this.demandData});
 
   @override
   Widget build(BuildContext context){

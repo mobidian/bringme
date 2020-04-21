@@ -2,22 +2,19 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-import 'demo_data.dart';
-import 'ticket.dart';
+import 'folable_card.dart';
 
-class TicketFoldDemo extends StatefulWidget {
+class CardContainer extends StatefulWidget {
 
   final data;
   final GlobalKey scaffoldInstance;
-  TicketFoldDemo({@required this.data, @required this.scaffoldInstance});
+  CardContainer({@required this.data, @required this.scaffoldInstance});
 
   @override
-  _TicketFoldDemoState createState() => _TicketFoldDemoState();
+  _CardContainerState createState() => _CardContainerState();
 }
 
-class _TicketFoldDemoState extends State<TicketFoldDemo> {
-  final List<BoardingPassData> _boardingPasses = DemoData().boardingPasses;
-
+class _CardContainerState extends State<CardContainer> {
   final Color _backgroundColor = Color(0xFFf0f0f0);
 
   final ScrollController _scrollController = ScrollController();
@@ -34,7 +31,7 @@ class _TicketFoldDemoState extends State<TicketFoldDemo> {
               physics: BouncingScrollPhysics(),
               itemCount: widget.data.length,
               itemBuilder: (BuildContext context, int index) {
-                return Ticket(
+                return FolableCard(
                   demandData: widget.data.elementAt(index),
                   onClick: () => _handleClickedTicket(index),
                   scaffoldInstance: widget.scaffoldInstance,
@@ -52,10 +49,10 @@ class _TicketFoldDemoState extends State<TicketFoldDemo> {
     _openTickets.contains(clickedTicket) ? _openTickets.remove(clickedTicket) : _openTickets.add(clickedTicket);
 
     // Calculate heights of the open and closed elements before the clicked item
-    double openTicketsOffset = Ticket.nominalOpenHeight * _getOpenTicketsBefore(clickedTicket);
-    double closedTicketsOffset = Ticket.nominalClosedHeight * (clickedTicket - _getOpenTicketsBefore(clickedTicket));
+    double openTicketsOffset = FolableCard.nominalOpenHeight * _getOpenTicketsBefore(clickedTicket);
+    double closedTicketsOffset = FolableCard.nominalClosedHeight * (clickedTicket - _getOpenTicketsBefore(clickedTicket));
 
-    double offset = openTicketsOffset + closedTicketsOffset - (Ticket.nominalClosedHeight * .5);
+    double offset = openTicketsOffset + closedTicketsOffset - (FolableCard.nominalClosedHeight * .5);
 
     // Scroll to the clicked element
     _scrollController.animateTo(max(0, offset), duration: Duration(seconds: 1), curve: Interval(.25, 1, curve: Curves.easeOutQuad));
