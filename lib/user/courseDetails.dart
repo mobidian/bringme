@@ -73,6 +73,81 @@ class _CourseDetailsState extends State<CourseDetails> {
   }
 
 
+  String getDay0fWeek(dayDate){
+    switch(dayDate){
+      case 'Monday':
+        return "Lundi";
+        break;
+      case 'Tuesday':
+        return "Mardi";
+        break;
+      case 'Wednesday':
+        return "Mercredi";
+        break;
+      case 'Thursday':
+        return "Jeudi";
+        break;
+      case 'Friday':
+        return "Vendredi";
+        break;
+      case 'Saturday':
+        return "Samedi";
+        break;
+      case 'Sunday':
+        return 'Dimanche';
+        break;
+      default:
+        return "Unknown";
+        break;
+    }
+
+  }
+
+  String getMonth(date){
+    switch(date){
+      case '01':
+        return "Janvier";
+        break;
+      case '02':
+        return "Février";
+        break;
+      case '03':
+        return "Mars";
+        break;
+      case '04':
+        return "Avril";
+        break;
+      case '05':
+        return "Mai";
+        break;
+      case '06':
+        return "Juin";
+        break;
+      case '07':
+        return "Juillet";
+        break;
+      case '08':
+        return "Août";
+        break;
+      case '09':
+        return "Septembre";
+        break;
+      case '10':
+        return "Octobre";
+        break;
+      case '11':
+        return "Novembre";
+        break;
+      case '12':
+        return "Décembre";
+        break;
+      default:
+        return "Unknown";
+        break;
+    }
+  }
+
+
 
   Widget profilInfoDelivery() {
     return Container(
@@ -250,6 +325,17 @@ class _CourseDetailsState extends State<CourseDetails> {
           ),
           Card(
             child: ListTile(
+              title: Text("Date de retrait"),
+              subtitle: Text(getDay0fWeek(DateFormat('EEEE')
+                  .format(widget.coursedata['retraitDate'].toDate())) + ' ' + DateFormat('dd')
+                  .format(widget.coursedata['retraitDate'].toDate()) + ' ' + getMonth(DateFormat('MM')
+                  .format(widget.coursedata['retraitDate'].toDate())) + ' ' + DateFormat('yyyy')
+                  .format(widget.coursedata['retraitDate'].toDate())
+              )
+            ),
+          ),
+          Card(
+            child: ListTile(
               title: Text("Destination"),
               subtitle: Text(widget.coursedata['destination']),
               trailing: Icon(FontAwesomeIcons.mapMarkerAlt),
@@ -263,6 +349,17 @@ class _CourseDetailsState extends State<CourseDetails> {
               title: Text("Heure de livraison"),
               subtitle: Text(DateFormat('HH:mm')
                   .format(widget.coursedata['deliveryDate'].toDate())),
+            ),
+          ),
+          Card(
+            child: ListTile(
+                title: Text("Date de livraison"),
+                subtitle: Text(getDay0fWeek(DateFormat('EEEE')
+                    .format(widget.coursedata['deliveryDate'].toDate())) + ' ' + DateFormat('dd')
+                    .format(widget.coursedata['deliveryDate'].toDate()) + ' ' + getMonth(DateFormat('MM')
+                    .format(widget.coursedata['deliveryDate'].toDate())) + ' ' + DateFormat('yyyy')
+                    .format(widget.coursedata['deliveryDate'].toDate())
+                )
             ),
           ),
           Card(
