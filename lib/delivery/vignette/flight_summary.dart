@@ -190,7 +190,7 @@ class FlightSummary extends StatelessWidget {
               'Livraison',
               style: bodyTextStyle.copyWith(fontSize: 16.0),
             ),
-            Text(demandData['depart'],
+            Text(demandData['destination'],
                 style: bodyTextStyle.copyWith(color: secondaryTextColor)),
           ],
         ),
