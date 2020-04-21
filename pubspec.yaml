@@ -67,15 +67,9 @@ flutter:
   - assets/AWID1080.png
   - assets/AWID1080_trait.png
   - assets/awid_livreur500.png
-  - assets/airplane_blue.png
-  - assets/airplane_white.png
-  - assets/barcode.png
-  - assets/bg_blue.png
-  - assets/flutter-logo.png
-  - assets/logo_white.png
-  - assets/planeroute_blue.png
-  - assets/planeroute_white.png
   - assets/map.jpeg
+  - assets/mapmondecontour.jpg
+  - assets/mappoint.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

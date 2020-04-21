@@ -89,7 +89,7 @@ class FlightSummary extends StatelessWidget {
       return BoxDecoration(
         borderRadius: BorderRadius.circular(4.0),
         image: DecorationImage(
-            image: AssetImage('assets/map.jpeg'), fit: BoxFit.cover),
+            image: AssetImage('assets/mapmondecontour.jpg'), fit: BoxFit.cover),
       );
   }
 
