@@ -153,16 +153,18 @@ class FolableCardSummary extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text(
-              'Retrait',
-              style: bodyTextStyle.copyWith(fontSize: 16.0),
-            ),
-            Text(demandData['depart'],
-                style: bodyTextStyle.copyWith(color: secondaryTextColor)),
-          ],
+        Flexible(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                'Retrait',
+                style: bodyTextStyle.copyWith(fontSize: 16.0),
+              ),
+              Text(demandData['depart'],
+                  style: bodyTextStyle.copyWith(color: secondaryTextColor), overflow: TextOverflow.ellipsis,),
+            ],
+          ),
         ),
         Text(DateFormat('HH:mm')
             .format(demandData['retraitDate'].toDate()), style: headerStyle,),
@@ -182,16 +184,18 @@ class FolableCardSummary extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text(
-              'Livraison',
-              style: bodyTextStyle.copyWith(fontSize: 16.0),
-            ),
-            Text(demandData['destination'],
-                style: bodyTextStyle.copyWith(color: secondaryTextColor)),
-          ],
+        Flexible(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                'Livraison',
+                style: bodyTextStyle.copyWith(fontSize: 16.0),
+              ),
+              Text(demandData['destination'],
+                  style: bodyTextStyle.copyWith(color: secondaryTextColor), overflow: TextOverflow.ellipsis,),
+            ],
+          ),
         ),
         Text(DateFormat('HH:mm')
             .format(demandData['deliveryDate'].toDate()), style: headerStyle,),
