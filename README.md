@@ -2,6 +2,8 @@
 
 let&#x27;s bring me
 
+use of Gskinner boarding pass animation template for the main page of delivery man 
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
