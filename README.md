@@ -4,7 +4,22 @@ Bring Me is an app that helps you find available delivery man to deliver you big
 
 ### Screenshots
 
-<img src="assets/git_images/Screenshot_20200904-144317.jpg" width="500" height="500">
+delivery man's home page             |  delivery information
+:-------------------------:|:-------------------------:
+![](assets/git_images/Screenshot_20200904-144317.jpg)  |  ![](assets/git_images/Screenshot_20200904-144339.jpg)
+
+
+delivery man's historic            |  Client's booking page
+:-------------------------:|:-------------------------:
+![](assets/git_images/Screenshot_20200904-144415.jpg)  |  ![](assets/git_images/Screenshot_20200904-144509.jpg)
+
+
+Client's Drawer          |  Delivery man info (client side)
+:-------------------------:|:-------------------------:
+![](assets/git_images/Screenshot_20200904-144520.jpg)  |  ![](assets/git_images/Screenshot_20200904-144818.jpg)
+
+
+
 
 
 
@@ -31,7 +46,7 @@ samples, guidance on mobile development, and a full API reference.
 
 ## Acknowledgments
 
-* use of Gskinner boarding pass animation template for the main page of delivery man 
+* Use of Gskinner boarding pass animation template for the main page of delivery man 
 https://flutter.gskinner.com/
 
 
