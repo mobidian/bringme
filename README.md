@@ -1,8 +1,11 @@
-# bringme
-An app to find delivery man available to deviler you big packages such as furnitures
+# Bring Me - Awid
 
-use of Gskinner boarding pass animation template for the main page of delivery man 
-https://flutter.gskinner.com/
+Bring Me is an app that helps you find available delivery man to deliver you big packages such as furniture
+
+### Screenshots
+
+![Alt text](relative/path/to/img.jpg?raw=true "Title")
+
 
 ## Getting Started
 
@@ -16,3 +19,19 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter, view our
 [online documentation](https://flutter.dev/docs), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
+
+## Authors
+
+* Developed by **JeremySrgt**
+* Based on a idea from **Yanis Djebrani** and **Gregoire Day**
+
+
+
+## Acknowledgments
+
+* use of Gskinner boarding pass animation template for the main page of delivery man 
+https://flutter.gskinner.com/
+
+
+
