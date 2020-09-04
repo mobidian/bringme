@@ -1,6 +1,5 @@
 # bringme
-
-let&#x27;s bring me
+An app to find delivery man available to deviler you big packages such as furnitures
 
 use of Gskinner boarding pass animation template for the main page of delivery man 
 https://flutter.gskinner.com/
