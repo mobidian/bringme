@@ -40,7 +40,7 @@ samples, guidance on mobile development, and a full API reference.
 ## Authors
 
 * Developed by **JeremySrgt**
-* Based on a idea from **Yanis Djebrani** and **Gregoire Day**
+* Based on an idea from **Yanis Djebrani** and **Gregoire Day**
 
 
 
