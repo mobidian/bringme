@@ -4,7 +4,8 @@ Bring Me is an app that helps you find available delivery man to deliver you big
 
 ### Screenshots
 
-![Alt text](assets/git_images/Screenshot_20200904-144317.jpg?raw=true "Title")
+<img src="assets/git_images/Screenshot_20200904-144317.jpg" width="500" height="500">
+
 
 
 ## Getting Started
